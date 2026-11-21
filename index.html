@@ -11,8 +11,10 @@
   <meta name="application-name" content="Maestro Auditor" />
   <meta name="description" content="MAESTRO AUDITOR — All-in-One Audio Microscope & Strict Guru Judge (Volume 1 & Volume 2 Constitution)" />
   <title>MAESTRO AUDITOR — Audio Microscope &amp; Strict Guru Judge</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23111318'/%3E%3Cpath d='M26 76 V52 M42 90 V38 M58 98 V30 M74 84 V44 M90 94 V34 M102 74 V54' stroke='%23FFFFFF' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E" />
-  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23111318'/%3E%3Cpath d='M36 108 V72 M58 128 V52 M80 140 V40 M102 120 V60 M124 134 V46 M144 104 V76' stroke='%23FFFFFF' stroke-width='11' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png" />
   <style>
     :root {
       --bg: #F6F7F9;
@@ -1148,6 +1150,9 @@
       </div>
 
       <div class="header-actions">
+        <button class="icon-pill" id="btnInstallApp" type="button" style="display:none; background:#111318; color:#FFFFFF; border-color:#111318;" title="Full-Screen App Install करा">
+          <span>📲 Install</span>
+        </button>
         <button class="icon-pill" id="btnToggleBible" type="button" title="Volume 1 &amp; 2 नियम पहा">
           <span>📜 संहिता</span>
         </button>
@@ -3525,6 +3530,43 @@ MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
         downloadTextFile(`Maestro_Guru_Audit_${safeName}.md`, state.rawMarkdownReport);
         showToast('💾 गुरू अहवाल (.md) सेव्ह झाला!');
       });
+
+      // =========================================================================
+      // PWA FULL-SCREEN INSTALL & OFFLINE SERVICE WORKER REGISTRATION
+      // =========================================================================
+      let deferredInstallPrompt = null;
+      const btnInstallApp = $('btnInstallApp');
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (btnInstallApp) btnInstallApp.style.display = 'inline-flex';
+      });
+
+      if (btnInstallApp) {
+        btnInstallApp.addEventListener('click', async () => {
+          if (!deferredInstallPrompt) return;
+          deferredInstallPrompt.prompt();
+          const choice = await deferredInstallPrompt.userChoice.catch(() => null);
+          if (choice && choice.outcome === 'accepted') {
+            showToast('✅ Maestro Auditor अ‍ॅप फुल-स्क्रीन इन्स्टॉल होत आहे!');
+            btnInstallApp.style.display = 'none';
+          }
+          deferredInstallPrompt = null;
+        });
+      }
+
+      window.addEventListener('appinstalled', () => {
+        if (btnInstallApp) btnInstallApp.style.display = 'none';
+        deferredInstallPrompt = null;
+        showToast('🎉 Maestro Auditor यशस्वीरीत्या इन्स्टॉल झाले!');
+      });
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
 
       // Initialize app on load
       loadSettings();
