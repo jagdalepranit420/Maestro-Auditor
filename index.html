@@ -1,0 +1,3534 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Maestro Auditor" />
+  <meta name="application-name" content="Maestro Auditor" />
+  <meta name="description" content="MAESTRO AUDITOR — All-in-One Audio Microscope & Strict Guru Judge (Volume 1 & Volume 2 Constitution)" />
+  <title>MAESTRO AUDITOR — Audio Microscope &amp; Strict Guru Judge</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23111318'/%3E%3Cpath d='M26 76 V52 M42 90 V38 M58 98 V30 M74 84 V44 M90 94 V34 M102 74 V54' stroke='%23FFFFFF' stroke-width='8' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23111318'/%3E%3Cpath d='M36 108 V72 M58 128 V52 M80 140 V40 M102 120 V60 M124 134 V46 M144 104 V76' stroke='%23FFFFFF' stroke-width='11' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #F6F7F9;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F2F4F7;
+      --bg-hover: #ECEFF4;
+      --border: #E4E7EC;
+      --border-strong: #CBD2DC;
+      --text: #111318;
+      --text-muted: #525B6B;
+      --text-dim: #7A8496;
+      --accent: #111318;
+      --accent-soft: #F3F4F6;
+      --gold: #9A6700;
+      --gold-bg: #FFFBEB;
+      --gold-border: #FDE68A;
+      --blue: #1D4ED8;
+      --blue-bg: #EFF6FF;
+      --blue-border: #BFDBFE;
+      --green: #047857;
+      --green-bg: #ECFDF5;
+      --green-border: #A7F3D0;
+      --green-bar: #10B981;
+      --yellow: #B45309;
+      --yellow-bg: #FFFBEB;
+      --yellow-border: #FCD34D;
+      --yellow-bar: #F59E0B;
+      --red: #B91C1C;
+      --red-bg: #FEF2F2;
+      --red-border: #FECACA;
+      --red-bar: #EF4444;
+      --radius: 16px;
+      --radius-sm: 11px;
+      --shadow: 0 1px 3px rgba(16, 24, 40, 0.05), 0 4px 14px rgba(16, 24, 40, 0.03);
+      --shadow-lg: 0 12px 32px rgba(16, 24, 40, 0.12);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", "Kohinoor Devanagari", sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.58;
+      overflow-x: hidden;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Minimalist Sticky Header */
+    .studio-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: calc(10px + var(--safe-top)) 14px 10px;
+    }
+
+    .header-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #111318;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .icon-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+
+    .icon-pill:hover, .icon-pill:active {
+      border-color: var(--text);
+      background: var(--bg-subtle);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--yellow-bar);
+      flex-shrink: 0;
+    }
+    .dot.ok { background: var(--green-bar); }
+    .dot.err { background: var(--red-bar); }
+
+    /* Main Container */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 16px 12px calc(44px + var(--safe-bottom));
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Subtle Status Strip */
+    .mode-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+    }
+
+    .mode-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mode-meta {
+      color: var(--text-muted);
+      font-size: 0.76rem;
+    }
+
+    /* Clean White Card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 1.04rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.71rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      background: #111318;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .step-badge.cyan {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border: 1px solid var(--blue-border);
+    }
+
+    .step-badge.green {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+
+    /* Collapsible Settings Panel */
+    .settings-panel {
+      display: none;
+      border-color: var(--text);
+      background: #FFFFFF;
+    }
+    .settings-panel.open { display: block; animation: fadeIn 0.2s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Form Controls - Clean High Contrast Mobile-First */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select,
+    textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: #FFFFFF;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #111318;
+      box-shadow: 0 0 0 3px rgba(17, 19, 24, 0.08);
+    }
+
+    .helper-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .mission-hint-box {
+      padding: 9px 12px;
+      border-radius: 9px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.81rem;
+      line-height: 1.5;
+      margin: 2px 0 0;
+    }
+
+    /* Buttons - Tactile Minimalist */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-family: var(--font-sans);
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+      text-align: center;
+      user-select: none;
+    }
+
+    .btn:active { transform: scale(0.985); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    /* Primary Action: Pure Ink Black Button with Crisp White Text */
+    .btn-gold {
+      background: #111318;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(17, 19, 24, 0.16);
+    }
+    .btn-gold:hover:not(:disabled) {
+      background: #232732;
+    }
+
+    /* Secondary Action: Crisp Outlined White Button */
+    .btn-cyan {
+      background: #FFFFFF;
+      color: #111318;
+      border: 1.5px solid #111318;
+    }
+    .btn-cyan:hover:not(:disabled) {
+      background: var(--bg-subtle);
+    }
+
+    .btn-ghost {
+      background: var(--bg-subtle);
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-ghost:hover:not(:disabled) {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+
+    .btn-danger {
+      background: var(--red-bg);
+      color: var(--red);
+      border-color: var(--red-border);
+    }
+
+    .btn-sm {
+      min-height: 40px;
+      padding: 8px 13px;
+      font-size: 0.83rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn-full { width: 100%; }
+
+    /* Audio Dropzone */
+    .dropzone {
+      position: relative;
+      display: block;
+      border: 2px dashed var(--border-strong);
+      border-radius: var(--radius);
+      background: var(--bg-subtle);
+      padding: 28px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .dropzone:hover, .dropzone.dragover {
+      border-color: #111318;
+      background: #FFFFFF;
+    }
+
+    .dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .drop-icon {
+      font-size: 2.1rem;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .drop-title {
+      font-size: 1.04rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .drop-sub {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    /* File Info & Native Light Audio Player */
+    .file-bar {
+      display: none;
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      flex-direction: column;
+      gap: 10px;
+    }
+    .file-bar.show { display: flex; }
+
+    .file-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .file-name {
+      font-weight: 800;
+      font-size: 0.94rem;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .meta-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #FFFFFF;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      font-family: var(--font-mono);
+    }
+    .chip.warn { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow-border); }
+    .chip.ok { background: var(--green-bg); color: var(--green); border-color: var(--green-border); }
+    .chip.bad { background: var(--red-bg); color: var(--red); border-color: var(--red-border); }
+
+    audio {
+      width: 100%;
+      height: 42px;
+      border-radius: 10px;
+    }
+
+    /* Waveform Canvas (Crisp Light Studio) */
+    .wave-wrap {
+      position: relative;
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      margin-top: 2px;
+    }
+
+    .wave-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    #waveCanvas {
+      width: 100%;
+      height: 86px;
+      display: block;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    /* Progress Bar */
+    .progress-box {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+    }
+    .progress-box.show { display: block; }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #E4E7EC;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: #111318;
+      transition: width 0.25s ease;
+    }
+
+    /* NEW: Instant Brain 1 Technical Score Card (Out of 100) */
+    .score-hero {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-strong);
+      margin-bottom: 14px;
+    }
+
+    .score-hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .score-circle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .score-badge-big {
+      width: 78px;
+      height: 78px;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #111318;
+      background: #111318;
+      color: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .score-badge-big.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+    .score-badge-big.yellow { background: var(--yellow-bg); border-color: var(--yellow); color: var(--yellow); }
+    .score-badge-big.red { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+
+    .score-big-num {
+      font-size: 1.85rem;
+      font-weight: 900;
+      line-height: 1;
+      font-family: var(--font-mono);
+    }
+    .score-big-den {
+      font-size: 0.72rem;
+      font-weight: 700;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    .score-title-col h3 {
+      margin: 0 0 4px;
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .score-title-col p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .score-breakdown {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .sb-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: var(--bg-subtle);
+      font-size: 0.78rem;
+      gap: 6px;
+    }
+    .sb-name { color: var(--text-muted); font-weight: 600; }
+    .sb-pts { font-family: var(--font-mono); font-weight: 800; color: var(--text); white-space: nowrap; }
+
+    /* Traffic Light Summary Strip */
+    .health-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .health-pill {
+      padding: 10px 8px;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .health-pill.green { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+    .health-pill.yellow { background: var(--yellow-bg); border-color: var(--yellow-border); color: var(--yellow); }
+    .health-pill.red { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+
+    .health-num {
+      font-size: 1.35rem;
+      font-weight: 900;
+      line-height: 1.1;
+      font-family: var(--font-mono);
+    }
+    .health-txt {
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    /* Frequency Balance Bars */
+    .section-subhead {
+      margin: 14px 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .section-subhead strong {
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    .eq-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .eq-row {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .eq-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 7px;
+    }
+
+    .eq-name {
+      font-size: 0.87rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .eq-range {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      margin-left: 4px;
+    }
+
+    .eq-val {
+      font-family: var(--font-mono);
+      font-size: 0.83rem;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meter-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--bg-subtle);
+      overflow: hidden;
+      margin-bottom: 7px;
+    }
+
+    .meter-bar {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.45s ease;
+    }
+    .meter-bar.green { background: var(--green-bar); }
+    .meter-bar.yellow { background: var(--yellow-bar); }
+    .meter-bar.red { background: var(--red-bar); }
+
+    .eq-note {
+      font-size: 0.77rem;
+      color: var(--text-muted);
+    }
+
+    /* Metric Cards Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .metric-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-left: 4px solid var(--border-strong);
+    }
+    .metric-card.green { border-left-color: var(--green-bar); }
+    .metric-card.yellow { border-left-color: var(--yellow-bar); }
+    .metric-card.red { border-left-color: var(--red-bar); }
+
+    .metric-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .status-tag {
+      font-size: 0.71rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .status-tag.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .status-tag.yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+    .status-tag.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+    .metric-value {
+      font-size: 1.26rem;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .metric-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Offline Lexicon & Style Alert */
+    .lexicon-alert {
+      display: none;
+      margin-top: 8px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      font-size: 0.84rem;
+      color: var(--red);
+      line-height: 1.55;
+    }
+    .lexicon-alert.show { display: block; }
+    .lexicon-alert.ok {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      color: var(--green);
+    }
+
+    /* Audit Report Output */
+    .report-box {
+      display: none;
+      margin-top: 16px;
+      border-radius: var(--radius);
+      background: #FFFFFF;
+      border: 1.5px solid #111318;
+      overflow: hidden;
+    }
+    .report-box.show { display: block; animation: fadeIn 0.3s ease; }
+
+    .verdict-banner {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-subtle);
+    }
+    .verdict-banner.release { background: var(--green-bg); border-bottom-color: var(--green-border); }
+    .verdict-banner.polish { background: var(--yellow-bg); border-bottom-color: var(--yellow-border); }
+    .verdict-banner.cover { background: var(--blue-bg); border-bottom-color: var(--blue-border); }
+    .verdict-banner.regen { background: var(--red-bg); border-bottom-color: var(--red-border); }
+
+    .verdict-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+
+    .report-body {
+      padding: 18px 16px;
+      font-size: 0.94rem;
+      line-height: 1.72;
+      color: var(--text);
+      overflow-wrap: anywhere;
+    }
+
+    .report-body h1, .report-body h2, .report-body h3 {
+      color: var(--text);
+      margin-top: 22px;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .report-body h2 {
+      font-size: 1.12rem;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #111318;
+    }
+    .report-body h3 { font-size: 1rem; color: #334155; }
+    .report-body p { margin: 8px 0; }
+    .report-body ul, .report-body ol { padding-left: 20px; margin: 8px 0; }
+    .report-body li { margin-bottom: 6px; }
+    .report-body strong { color: #000000; }
+    .report-body blockquote {
+      margin: 12px 0;
+      padding: 10px 14px;
+      border-left: 3px solid #111318;
+      background: var(--bg-subtle);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .report-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.85rem;
+      display: block;
+      overflow-x: auto;
+    }
+    .report-body th, .report-body td {
+      border: 1px solid var(--border-strong);
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .report-body th {
+      background: var(--bg-subtle);
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .code-block-wrap {
+      position: relative;
+      margin: 10px 0;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 14px 12px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #111318;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .copy-mini {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 4px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: 6px;
+      background: #111318;
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+    }
+
+    .ts-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      margin: 0 2px;
+      border-radius: 6px;
+      background: #111318;
+      border: 1px solid #111318;
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      vertical-align: baseline;
+    }
+    .ts-pill:hover { background: #333A48; }
+
+    /* Error Box */
+    .error-banner {
+      display: none;
+      margin-top: 12px;
+      padding: 13px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: var(--red);
+      font-size: 0.87rem;
+      line-height: 1.5;
+    }
+    .error-banner.show { display: block; }
+
+    /* Bible Reference Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(17, 19, 24, 0.55);
+      backdrop-filter: blur(6px);
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .modal-backdrop.open { display: flex; justify-content: center; align-items: flex-start; }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 820px;
+      margin: 16px auto 40px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow-lg);
+      color: var(--text);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      white-space: nowrap;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: #111318;
+      border-color: #111318;
+      color: #FFFFFF;
+    }
+
+    .tab-pane { display: none; font-size: 0.89rem; line-height: 1.65; color: var(--text); }
+    .tab-pane.active { display: block; }
+
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 0.81rem;
+    }
+    .ref-table th, .ref-table td {
+      border: 1px solid var(--border-strong);
+      padding: 7px 9px;
+      text-align: left;
+    }
+    .ref-table th { background: var(--bg-subtle); color: var(--text); font-weight: 800; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: calc(20px + var(--safe-bottom));
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #111318;
+      color: #FFFFFF;
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.24s ease;
+      z-index: 200;
+      max-width: 92vw;
+      text-align: center;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .empty-state {
+      text-align: center;
+      padding: 28px 14px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      padding: 8px 4px;
+    }
+
+    /* iPad & Desktop Minimalist Studio Console Layout */
+    @media (min-width: 768px) {
+      .container { padding: 22px 24px 52px; gap: 20px; }
+      .card { padding: 22px 24px; }
+      .form-grid.cols-3 { grid-template-columns: 1.4fr 1fr 1fr; }
+      .eq-grid { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .score-breakdown { grid-template-columns: repeat(4, 1fr); }
+      .cta-grid {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 12px;
+      }
+    }
+
+    @media (min-width: 1040px) {
+      .eq-grid { grid-template-columns: repeat(3, 1fr); }
+      .metrics-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Top Bar -->
+  <header class="studio-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 15V9M8 18V6M12 20V4M16 17V7M20 14V10" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div style="min-width:0">
+          <div class="brand-title">MAESTRO AUDITOR</div>
+          <div class="brand-sub">Audio Microscope &amp; Strict Guru Judge</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="icon-pill" id="btnToggleBible" type="button" title="Volume 1 &amp; 2 नियम पहा">
+          <span>📜 संहिता</span>
+        </button>
+        <button class="icon-pill" id="btnToggleSettings" type="button" title="API Key Settings">
+          <span class="dot" id="apiStatusDot"></span>
+          <span>API Key</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Neon High Mode Strip -->
+    <div class="mode-strip">
+      <span class="mode-badge">⚡ NEON HIGH MODE कायम सक्रिय • Vol 1 + Vol 2 संविधान जोडलेले</span>
+      <span class="mode-meta">100% ऑफलाईन X-Ray + Gemini Files API (40–60 MB WAV सुरक्षित)</span>
+    </div>
+
+    <!-- Collapsible API Key & Model Settings -->
+    <section class="card settings-panel" id="settingsPanel" aria-label="API Key Settings">
+      <div class="card-header">
+        <h2 class="card-title">🔑 API Key व गुरू सेटिंग्ज (फक्त तुमच्या फोनवर सेव्ह)</h2>
+        <button class="btn btn-ghost btn-sm" id="btnCloseSettings" type="button">बंद करा ✕</button>
+      </div>
+
+      <div class="form-grid cols-3">
+        <div class="field">
+          <label for="apiKeyInput">Google AI Studio Gemini API Key</label>
+          <div class="input-wrap">
+            <input type="password" id="apiKeyInput" placeholder="AIzaSy... येथे पेस्ट करा" autocomplete="off" spellcheck="false" />
+            <button class="btn btn-ghost btn-sm" id="btnShowKey" type="button" style="min-width:46px" title="Key पहा/लपवा">👁️</button>
+          </div>
+          <p class="helper-text">🔒 ही किल्ली फक्त तुमच्या या ब्राउझरमध्ये (localStorage) राहते; कोणत्याही बाहेरील सर्व्हरवर पाठवली जात नाही.</p>
+        </div>
+
+        <div class="field">
+          <label for="modelSelect">Gemini मॉडेल निवडा</label>
+          <select id="modelSelect">
+            <option value="gemini-2.5-pro">Gemini 2.5 Pro (सर्वोत्तम कठोर गुरू)</option>
+            <option value="gemini-2.5-flash">Gemini 2.5 Flash (जलद / मोफत कोटा)</option>
+            <option value="custom">इतर / नवीन मॉडेल (Custom ID)</option>
+          </select>
+          <input type="text" id="customModelInput" placeholder="उदा. gemini-2.5-pro-preview" style="display:none; margin-top:6px;" />
+        </div>
+
+        <div class="field">
+          <label for="langSelect">ऑडिट रिपोर्टची भाषा</label>
+          <select id="langSelect">
+            <option value="mr">सोपे मराठी (Marathi + English Tech Tags)</option>
+            <option value="en">English (International Judge Mode)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-row" style="margin-top:14px;">
+        <button class="btn btn-gold btn-sm" id="btnSaveSettings" type="button">💾 सेटिंग्ज सेव्ह करा</button>
+        <button class="btn btn-cyan btn-sm" id="btnTestKey" type="button">🧪 API Key तपासा</button>
+        <button class="btn btn-danger btn-sm" id="btnClearKey" type="button">🗑️ Key हटवा</button>
+      </div>
+      <div id="keyTestResult" class="helper-text" style="margin-top:8px;"></div>
+    </section>
+
+    <!-- STEP 1: Audio Upload & Player -->
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="step-badge">भाग १</span>
+          गाण्याची फाईल निवडा (WAV किंवा MP3)
+        </h2>
+        <span class="step-badge green">100% ऑफलाईन स्कॅन</span>
+      </div>
+
+      <label class="dropzone" id="dropzone" for="audioFileInput">
+        <input type="file" id="audioFileInput" accept=".wav,.mp3,.m4a,.flac,audio/wav,audio/x-wav,audio/mpeg,audio/*" />
+        <span class="drop-icon">🎙️</span>
+        <div class="drop-title">येथे टच करून गाणे निवडा (WAV / MP3)</div>
+        <div class="drop-sub">Motorola Android आणि iPad Safari साठी सुरक्षित — 40 ते 60 MB WAV सुद्धा सहज स्कॅन होते.</div>
+      </label>
+
+      <!-- Selected File & Audio Player -->
+      <div class="file-bar" id="fileBar">
+        <div class="file-meta-row">
+          <div class="file-name" id="fileNameDisplay">—</div>
+          <div class="meta-chips" id="fileMetaChips"></div>
+        </div>
+
+        <audio id="audioPlayer" controls preload="metadata"></audio>
+
+        <div class="wave-wrap" id="waveWrap" style="display:none;">
+          <div class="wave-caption">
+            <span>🌊 गाण्याची ऊर्जा लाट (Energy Wave) — टच करून त्या सेकंदावर जा</span>
+            <span style="color:#111318; font-weight:700;">★ पिवळा पट्टा = Golden Ratio Peak (65%–75%)</span>
+          </div>
+          <canvas id="waveCanvas" width="900" height="176"></canvas>
+        </div>
+      </div>
+
+      <!-- Brain 1 Progress -->
+      <div class="progress-box" id="b1Progress">
+        <div class="progress-label">
+          <span id="b1ProgressText">ऑडिओ डिकोड होत आहे...</span>
+          <span id="b1ProgressPct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="b1ProgressFill"></div></div>
+      </div>
+    </section>
+
+    <!-- BRAIN 1: Web Audio Microscope Results -->
+    <section class="card" id="brain1Section">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="step-badge cyan">मेंदू १</span>
+          Web Audio Microscope (गणिती X-Ray)
+        </h2>
+        <div class="btn-row">
+          <button class="btn btn-ghost btn-sm" id="btnRescan" type="button" style="display:none;">🔄 पुन्हा स्कॅन</button>
+        </div>
+      </div>
+
+      <div id="brain1Empty" class="empty-state">
+        वर गाण्याची WAV किंवा MP3 फाईल निवडताच काही सेकंदांत तुमचा संपूर्ण स्टुडिओ X-Ray (फ्रिक्वेन्सी, बेस-गायक संतुलन, LUFS, True Peak, Phase व Wave Lift) येथे हिरव्या / पिवळ्या / लाल मीटरवर दिसेल.
+      </div>
+
+      <div id="brain1Results" style="display:none;">
+        <!-- Instant 100-Point Technical Audio Score Card (100% Offline) -->
+        <div class="score-hero" id="techScoreHero">
+          <div class="score-hero-top">
+            <div class="score-circle-wrap">
+              <div class="score-badge-big" id="techScoreBadge">
+                <span class="score-big-num" id="techScoreNum">0</span>
+                <span class="score-big-den">/ 100 गुण</span>
+              </div>
+              <div class="score-title-col">
+                <h3 id="techScoreHeadline">तांत्रिक ऑडिओ गुण (ऑफलाईन X-Ray स्कोअर)</h3>
+                <p id="techScoreVerdict">गाण्याचे फ्रिक्वेन्सी, बेस, डायनॅमिक्स, LUFS, Peak व Phase नुसार १०० पैकी तांत्रिक गुण.</p>
+              </div>
+            </div>
+            <span class="status-tag" id="techScoreTag">—</span>
+          </div>
+          <div class="score-breakdown" id="techScoreBreakdown"></div>
+        </div>
+
+        <!-- Traffic Light Summary -->
+        <div class="health-strip">
+          <div class="health-pill green">
+            <div class="health-num" id="countGreen">0</div>
+            <div class="health-txt">🟢 उत्तम (Pass)</div>
+          </div>
+          <div class="health-pill yellow">
+            <div class="health-num" id="countYellow">0</div>
+            <div class="health-txt">🟡 लक्ष द्या (Polish)</div>
+          </div>
+          <div class="health-pill red">
+            <div class="health-num" id="countRed">0</div>
+            <div class="health-txt">🔴 दोष (Fix Must)</div>
+          </div>
+        </div>
+
+        <!-- 6-Band Frequency Balance -->
+        <div style="margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+          <strong style="font-size:0.93rem; color:#111318;">📊 ६-बँड फ्रिक्वेन्सी बॅलन्स (Vocal Mids = 0 dB संदर्भ)</strong>
+          <span style="font-size:0.76rem; color:var(--text-muted);">4096-pt FFT स्पेक्ट्रम X-Ray</span>
+        </div>
+        <div class="eq-grid" id="eqGrid"></div>
+
+        <!-- Core Engineering Meters -->
+        <div style="margin:14px 0 10px;">
+          <strong style="font-size:0.93rem; color:#111318;">🎛️ स्टुडिओ मास्टरिंग व डायनॅमिक्स मीटर्स</strong>
+        </div>
+        <div class="metrics-grid" id="metricsGrid"></div>
+      </div>
+    </section>
+
+    <!-- MISSION MODE + SUNO AI STYLE & LYRICS PROMPT INPUTS (Volume 1 + Volume 2) -->
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="step-badge">Volume 1 + 2</span>
+          दुरुस्तीचा मोड (Mission) व Suno प्रॉम्प्ट्स
+        </h2>
+        <span class="step-badge cyan">Style + Lyrics दोन्ही बॉक्स</span>
+      </div>
+
+      <div class="form-grid">
+        <!-- Mission / Fix Mode Selector -->
+        <div class="field">
+          <label for="missionSelect">🎯 तुम्हाला या गाण्यात नेमके काय करायचे आहे? (Mission / Fix Mode)</label>
+          <select id="missionSelect">
+            <option value="auto">🎯 संपूर्ण तपासणी (Auto-Detect — गुरू स्वतः ठरवतील काय करायचे)</option>
+            <option value="cover">🧹 नॉईज, ग्लिचेस व फ्रिक्वेन्सी दुरुस्ती (Suno Cover — चाल तीच, आवाज स्वच्छ)</option>
+            <option value="remix">🎛️ नवीन रिमिक्स / संगीत सुधारणा (Suno Remix — मूळ हुक ठेवून नवीन मांडणी)</option>
+            <option value="replace">✂️ फक्त खराब भाग दुरुस्त करा (Replace Section — कोरस/शब्द/ग्लिच)</option>
+            <option value="extend">➕ क्लायमॅक्स किंवा शांत शेवट जोडा (Extend — Peak किंवा Outro)</option>
+            <option value="fresh">✨ पूर्ण नव्याने गाणे बनवा (Fresh Song — शून्यापासून १००% नवीन रेसिपी)</option>
+          </select>
+          <p class="mission-hint-box" id="missionHint">ℹ️ गुरू तुमचे गाणे ऐकून स्वतः सांगतील की Release Ready आहे, 5-Min Polish हवे, की Suno Cover/Remix करावे.</p>
+        </div>
+
+        <!-- Genre Selector -->
+        <div class="field">
+          <label for="genreSelect">🎵 गाण्याची शैली / भाषा-विश्व (Genre-Lexicon Firewall)</label>
+          <select id="genreSelect">
+            <option value="Marathi Abhang / Sant-Sahitya / Pauranik">मराठी अभंग / संत-साहित्य / पौराणिक (शुद्ध मराठी + संस्कृत)</option>
+            <option value="Hindi Pauranik / Sanatan / Stotra-Fusion">हिंदी पौराणिक / सनातन / स्तोत्र-फ्युजन</option>
+            <option value="Hindi Sufi / Ghazal / Modern Melody">हिंदी सुफी / गझल / आधुनिक मेलडी</option>
+            <option value="Conscious Hip-Hop / Modern Philosophy">कॉन्शस हिप-हॉप / आधुनिक तत्त्वज्ञान</option>
+            <option value="Classical Fusion / Other">भारतीय शास्त्रीय फ्युजन / इतर</option>
+          </select>
+        </div>
+
+        <!-- Suno Box 1: Original Style Prompt -->
+        <div class="field">
+          <label for="stylePromptInput">🎹 Suno Style Box (गाणे बनवताना तुम्ही Style Box मध्ये काय टाकले होते? — ऐच्छिक)</label>
+          <textarea id="stylePromptInput" style="min-height:88px;" placeholder="उदा. 88 BPM Marathi Abhang fusion, soulful male vocals, bansuri, pakhawaj, sitar, tight bass...&#10;(येथे पेस्ट केल्यास गुरू नेमके कोणते शब्द नॉईज किंवा ग्लिच आणत आहेत ते अचूक दाखवून सुधारून देतील)"></textarea>
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;">
+            <span class="helper-text" id="styleStats">अक्षरे: 0 / 1000</span>
+            <span class="helper-text">⚡ Negative Prompt Trap व विसंगत शब्द ऑफलाईन तपासले जातात</span>
+          </div>
+          <div class="lexicon-alert" id="styleAlert"></div>
+        </div>
+
+        <!-- Suno Optional Exclude Box -->
+        <div class="field">
+          <label for="excludePromptInput">🚫 Suno Exclude Box (तुम्ही Exclude Box मध्ये काय टाकले होते? — ऐच्छिक)</label>
+          <input type="text" id="excludePromptInput" placeholder="उदा. robotic voice, boomy bass, noisy chorus, harsh sibilance..." />
+        </div>
+
+        <!-- Suno Box 2: Original Lyrics Prompt -->
+        <div class="field">
+          <label for="lyricsInput">📝 Suno Lyrics Box (गाण्याचे लिरिक्स + [Meta-Tags] येथे पेस्ट करा — ऐच्छिक)</label>
+          <textarea id="lyricsInput" placeholder="उदा.&#10;[Verse 1: ONE Solo Male Lead Vocal Only, NO Choir]&#10;शब्दांपलीकडे नाद तुझा रे, श्वासांत वाहे शांत झरा...&#10;&#10;(लिरिक्स व Style Box नसले तरी गाण्याचा ऑडिओ X-Ray आणि गुरू ऑडिट १००% चालते)"></textarea>
+          <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;">
+            <span class="helper-text" id="lyricsStats">गाण्याच्या ओळी: 0 • एकूण शब्द: 0</span>
+            <span class="helper-text">⚡ Volume 1 भाषा-शुद्धता व [Bracket] लांबी ऑफलाईन तपासली जाते</span>
+          </div>
+          <div class="lexicon-alert" id="lexiconAlert"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAIN 2 & BRAIN 3: Strict Guru Judge + Zero-API Backup -->
+    <section class="card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span class="step-badge">मेंदू २ व ३</span>
+          Strict Guru Master Judge &amp; Zero-API Backup
+        </h2>
+      </div>
+
+      <p class="helper-text" style="margin-bottom:14px; font-size:0.86rem; color:var(--text-muted);">
+        <strong style="color:#111318; font-weight:700;">मेंदू २ (Auto-Pilot):</strong> तुमची मोठी WAV फाईल सुरक्षितपणे Gemini Files API वर पाठवून, मेंदू १ चा X-Ray + Volume 1 व 2 चे सर्व कठोर गुरू नियम वापरून ४ भागांत सखोल परीक्षण आणतो.<br/>
+        <strong style="color:#111318;">मेंदू ३ (किल्लीशिवाय Backup):</strong> API Key नसली किंवा कोटा संपला, तर खालील निळ्या बटणाने संपूर्ण फॉरेन्सिक रिपोर्ट कॉपी करून नेहमीच्या Gemini चॅटमध्ये पेस्ट करा!
+      </p>
+
+      <div class="cta-grid" style="display:grid; gap:12px;">
+        <button class="btn btn-gold btn-full" id="btnRunAudit" type="button" disabled>
+          🔥 Run Strict Guru Audit (Gemini API)
+        </button>
+        <button class="btn btn-cyan btn-full" id="btnCopyForensic" type="button" disabled>
+          📋 Copy Forensic Report for Gemini Chat
+        </button>
+      </div>
+
+      <div class="btn-row" style="margin-top:10px;">
+        <button class="btn btn-ghost btn-sm" id="btnDownloadForensic" type="button" disabled>⬇️ फॉरेन्सिक रिपोर्ट (.txt) सेव्ह करा</button>
+        <button class="btn btn-ghost btn-sm" id="btnQuickApiOpen" type="button">⚙️ API Key सेट करा / बदला</button>
+      </div>
+
+      <!-- Brain 2 Progress -->
+      <div class="progress-box" id="b2Progress">
+        <div class="progress-label">
+          <span id="b2ProgressText">सुरू होत आहे...</span>
+          <span id="b2ProgressPct">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="b2ProgressFill"></div></div>
+      </div>
+
+      <!-- Error Banner -->
+      <div class="error-banner" id="b2Error"></div>
+
+      <!-- Audit Output Box -->
+      <div class="report-box" id="reportBox">
+        <div class="verdict-banner" id="verdictBanner">
+          <div>
+            <div style="font-size:0.74rem; color:var(--text-muted); font-weight:700; letter-spacing:0.05em;">STRICT GURU FINAL VERDICT</div>
+            <div class="verdict-title" id="verdictText">ऑडिट अहवाल तयार</div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-ghost btn-sm" id="btnCopyReport" type="button">📋 रिपोर्ट कॉपी</button>
+            <button class="btn btn-ghost btn-sm" id="btnSaveReport" type="button">💾 सेव्ह (.md)</button>
+          </div>
+        </div>
+        <div class="report-body" id="reportBody"></div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      MAESTRO AUDITOR • Volume 1 (Immortal Lyricist Bible) + Volume 2 (Ultimate Audio Engineering Blueprint) • 100% Single-File Local Studio App
+    </div>
+  </main>
+
+  <!-- Volume 1 & Volume 2 Built-In Constitution Reference Modal -->
+  <div class="modal-backdrop" id="bibleModal" role="dialog" aria-modal="true" aria-label="Volume 1 and Volume 2 Constitution">
+    <div class="modal-sheet">
+      <div class="card-header">
+        <h2 class="card-title">📜 कायमस्वरूपी गुरु संहिता (Volume 1 + Volume 2)</h2>
+        <button class="btn btn-ghost btn-sm" id="btnCloseBible" type="button">बंद करा ✕</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab1" type="button">कठोर गुरू नियम</button>
+        <button class="tab-btn" data-tab="tab2" type="button">भाषा-शुद्धता व मात्रा</button>
+        <button class="tab-btn" data-tab="tab3" type="button">Suno स्लाइडर्स व Prompts</button>
+        <button class="tab-btn" data-tab="tab4" type="button">5-Min Diamond Polish</button>
+      </div>
+
+      <div class="tab-pane active" id="tab1">
+        <p><strong style="color:#111318; font-weight:700;">Strict Guru Covenant (Zero False Praise):</strong> खोटे कौतुक नाही. गाणे ९०/१०० पेक्षा कमी असेल तर थेट Hard Guru Veto! प्रत्येक टीका १० पट मजबूत पर्यायासह.</p>
+        <ul>
+          <li><strong>लांबीचा नियम:</strong> ३:१५ ते ३:५५ सर्वोत्तम (४:०० कमाल मर्यादा).</li>
+          <li><strong>70/30 MAYA Law:</strong> ७०% गोड साधेपणा व Progressive Wave Repetition + ३०% अनपेक्षित अद्भुत चमत्कार (Goosebumps).</li>
+          <li><strong>Golden Ratio Peak:</strong> गाण्याच्या ६५%–७५% भागात सर्वात मोठा भावनिक चढ-उतार आणि Frisson.</li>
+          <li><strong>0% AI Mandate:</strong> नाकातले/रोबोटिक आवाज, प्लॅस्टिक वाद्ये, अमानवीय वेगाने गाणे व बेसने गायकाला दाबणे याला झिरो टॉलरन्स.</li>
+          <li><strong>निवाडा पातळ्या:</strong> 90–100 = Release Ready • 80–89 = 5-Min Diamond Polish • 65–79 = Suno Cover / Replace • &lt;65 = Regenerate Fresh.</li>
+        </ul>
+      </div>
+
+      <div class="tab-pane" id="tab2">
+        <p><strong style="color:#111318; font-weight:700;">Genre-Lexicon Firewall (अभंग / पौराणिक मध्ये निषिद्ध शब्द व शुद्ध पर्याय):</strong></p>
+        <table class="ref-table">
+          <thead>
+            <tr><th>निषिद्ध (Ban)</th><th>2–3 मात्रा</th><th>4 मात्रा (Buttery)</th><th>5+ मात्रा (भव्य)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>नूर</td><td>तेज, प्रभा, ज्योत</td><td>आभा, दीप्ती, उजाळा</td><td>तेजोमय, दिव्य-प्रभा</td></tr>
+            <tr><td>दीदार</td><td>भेट, दृष्टी</td><td>दर्शन, रूप-ध्यान</td><td>दर्शन-सुख, दिव्य-भेट</td></tr>
+            <tr><td>महफिल</td><td>मेळा, रंग</td><td>सोहळा, कीर्तन, सत्संग</td><td>आनंद-सोहळा, नाम-जागर</td></tr>
+            <tr><td>रूह</td><td>मन, उर, प्राण</td><td>आत्मा, हृदय, अंतर</td><td>चैतन्य, अंतरंग</td></tr>
+            <tr><td>ज़िक्र</td><td>जप, नाम, ध्यास</td><td>स्मरण, चिंतन</td><td>नामस्मरण, अखंड-ध्यास</td></tr>
+            <tr><td>इश्क़ / जुनून</td><td>भाव, प्रीत, ओढ</td><td>भक्ती, अनुराग, लळा</td><td>पराभक्ती, निस्सीम-ओढ</td></tr>
+            <tr><td>सुकून</td><td>शांत, तृप्ती</td><td>विश्रांती, समाधान</td><td>परमशांती, शांत-विसावा</td></tr>
+          </tbody>
+        </table>
+        <p><strong style="color:#111318; font-weight:700;">पिंगल छंद BPM मात्रा बजेट:</strong> 65–80 BPM = 6–10 मात्रा • 82–95 BPM = 8–12 मात्रा • 96–115 BPM = 10–14 मात्रा. उंच सुरांवर नेहमी <strong>आ, ओ, ए</strong> असे मोकळे स्वर ठेवा.</p>
+      </div>
+
+      <div class="tab-pane" id="tab3">
+        <p><strong style="color:#111318; font-weight:700;">Suno AI गोल्डन स्लाइडर्स:</strong></p>
+        <ul>
+          <li><strong>Fresh Song:</strong> Weirdness 25–35% • Style 70–80% • Variety 0%</li>
+          <li><strong>Noise-Fix Cover (Anti Tug-of-War):</strong> Audio 75–80% • Style 45–55% • Weirdness 15–25% • Variety 0%</li>
+          <li><strong>Creative Remix:</strong> Audio 40–55% • Style 65–75% • Weirdness 35–45%</li>
+        </ul>
+        <p style="margin-bottom:4px;"><strong>Master 0% AI Organic Style Box:</strong></p>
+        <div class="code-block-wrap" id="refStyleBox">100% organic live studio recording, crystal-clear audiophile mix, soulful native language-scholar male vocals, warm chest resonance, dry bright upfront voice, close-mic intimate warmth to open projection, buttery smooth legato phrasing, full-breath sustained line endings, effortless 105% human virtuosity, warm wooden acoustic instruments, crisp articulate transients, tight punchy controlled bass pitch-locked to tonic, wide stereo instrument separation, silky fatigue-free highs, wavy dynamic range, cohesive shared room air, uplifting prasanna radiance<button class="copy-mini" data-copy="refStyleBox" type="button">कॉपी</button></div>
+
+        <p style="margin-bottom:4px;"><strong>Master Anti-Robot &amp; Anti-Bass Exclude Box:</strong></p>
+        <div class="code-block-wrap" id="refExcludeBox">robotic voice, nasal vocals, foreign accent, metallic tone, AI shimmer, autotune, vocoder, synthetic plastic instruments, superhuman vocal runs, impossible shredding, syllable cramming, boomy overpowering bass, muddy low-mids, bass-tabla collision, compressed buried vocals, wall of sound, noisy chorus, harsh sibilance, ear fatigue, heavy vocal reverb, line-end volume drop, flat energy, loud choir clash, clipping<button class="copy-mini" data-copy="refExcludeBox" type="button">कॉपी</button></div>
+      </div>
+
+      <div class="tab-pane" id="tab4">
+        <p><strong style="color:#111318; font-weight:700;">5-Minute Diamond Polish (Audacity / OBRA / BandLab):</strong></p>
+        <ol>
+          <li><strong>फक्त WAV फाईल वापरा:</strong> कधीही MP3 मास्टर करू नका. 90%+ स्वच्छ असेल तर Stems फोडू नका.</li>
+          <li><strong>Clean Start &amp; Tail:</strong> सुरुवातीला 0.3–0.5s शांतता व शेवटी नैसर्गिक 2–5s शांत विलय (Tonic Afterglow).</li>
+          <li><strong>Gentle EQ (±1.5 ते ±2 dB):</strong> HPF @ 30 Hz • Mud कट -1.5 dB @ 250–300 Hz • (बेस जड असल्यास -1.5 dB @ 60–90 Hz) • Air शेल्फ +1.5 dB @ 10–12 kHz.</li>
+          <li><strong>Sibilance Silk:</strong> स, श, ष टोचत असल्यास -1.5 ते -2 dB @ 6–7.5 kHz.</li>
+          <li><strong>Loudness व Ceiling:</strong> Chorus Short-Term -10 ते -12 LUFS, Integrated -14 LUFS (Streaming) / -11 LUFS (Competition), Soft Limiter <strong>-1.0 dBTP</strong>. BandLab मध्ये "Fire" प्रीसेट टाळा ("Clarity" / "Universal" / "Tape" वापरा).</li>
+          <li><strong>Export:</strong> DistroKid/Spotify = 24-bit / 44.1 kHz WAV • YouTube/Reels = 24-bit / 48 kHz WAV.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      // =========================================================================
+      // PERMANENTLY EMBEDDED VOLUME 1 + VOLUME 2 STRICT GURU MASTER CONSTITUTION
+      // =========================================================================
+      const STRICT_GURU_CONSTITUTION = `
+YOU ARE "MAESTRO AUDITOR" — OPERATING PERMANENTLY IN NEON HIGH MODE (ZERO COMPROMISE, BEYOND WORLD-CLASS INTERNATIONAL COMPETITION STANDARD).
+You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Roles:
+(1) Strict International Chief Judge, (2) World's Greatest Music Director, (3) Virtuoso Composer/Arranger, (4) Audiophile Mix & Mastering Engineer, (5) Native Language Scholar Lyricist, and (6) Lead AI Audio Engine Architect.
+
+=== SUPREME CONSTITUTION (VOLUME 1: LYRICS, COMPOSITION & GLOBAL ORCHESTRATOR BIBLE) ===
+1. STRICT GURU COVENANT (ZERO FALSE PRAISE): Never flatter or soften flaws to protect feelings. Confront flat lines, clichés, syllable cramming, cultural/language contamination, robotic vocals, or bass masking directly and honestly. Pair every hard critique with compassionate mastery by providing a 10x stronger concrete fix.
+2. GURU'S VETO & LENGTH LAW: Song always outranks ego. Under 4:00 MAX (3:15–3:55 ideal). Score < 90/100 cannot pass for official release/competition.
+3. 70/30 MAYA LAW: 70% sweet simplicity & Progressive Wave Repetition (each return lifts higher, never mechanical loops) + 30% shocking, unexpected wonder (Goosebumps / Frisson).
+4. HEART-TOUCH & LITERATURE LAWS: Transparent Depth (clear on 1st listen, 20ft deep upon reflection), Pronoun Psychology (intimate Me/You, zero preaching), 7-Second Opening Hook, 3-Second Tattoo Line + 2-4s absorption window, Zero-Filler & Prasanna Bliss Lexicon. Enforce Rasa Architecture (Bharata Muni), Dhvani (suggestive image, not preaching), Vakrokti (fresh paradox, zero clichés), Auchitya (100% cultural propriety), Stability Law (unstable pre-chorus -> stable chorus), Title-Hook Lock, and ITPRA Frisson (expectation -> 0.5-beat pause -> transcendent release).
+5. BUTTERY LEGATO PHONETICS & PINGALA CHHANDA MATRA BUDGET:
+   - High sonority glides (आ, ए, ओ, ऊ, य, व, ल, र, म, न); avoid tangled conjunct clusters on lyrical lines.
+   - Open vowels (आ, ओ, ए) MUST anchor high climactic notes (never pinched इ, ई, उ).
+   - Strict BPM Matra Budget per 4-beat bar: 65–80 BPM = 6–10 matras (1 beat breath); 82–95 BPM = 8–12 matras (0.5–0.75 beat breath); 96–115 BPM = 10–14 matras (0.5 beat breath).
+   - Must pass Acapella Clap Test (natural spoken prosody snaps onto downbeats).
+6. GENRE-LEXICON FIREWALL (ZERO CONTAMINATION):
+   - Marathi Abhang / Sant-Sahitya / Pauranik: Pure Marathi Tadbhava (65%) + soft Sanskrit Tatsama (25%) + Sant Deshaj (10%). STRICT BAN: दीदार, नूर, महफिल, रूह, इश्क़, ज़िक्र, जुनून, फ़रियाद, क़यामत, दास्ताँ, सनम.
+   - Hindi Pauranik / Sanatan / Stotra-Fusion: Pure Hindi Tadbhava + luminous Sanskrit + Braj/Awadhi. STRICT BAN: नूर, दीदार, महफिल, ख़ुदा, इबादत, रूह, रहमत, इश्क़, सजदा.
+   - Hindi Sufi / Ghazal: Velvety Hindustani + refined Urdu/Persian; avoid rigid stiff Sanskrit compounds.
+   - Scholar Dynamic Substitutions: नूर->तेज/आभा/तेजोमय; दीदार->भेट/दर्शन/दर्शन-सुख; महफिल->मेळा/सोहळा/कीर्तन; रूह->मन/आत्मा/चैतन्य; ज़िक्र->नाम/स्मरण/नामस्मरण; इश्क़->भाव/भक्ती/अनुराग; सुकून->शांत/विश्रांती/परमशांती.
+7. ARCHITECTURE, 8 GOOSEBUMP INVENTIONS & 1000% INSTRUMENT SYNC:
+   - 8-Bar Evolution Rule (fresh subtle element every 15-20s).
+   - 8 Inventions (use 2-3): Vacuum Drop (0.5-1 beat silence), Tihai-to-Sam Crash, Meaning-Flip Hook, Half-Time Ecstasy Pivot, Acapella Soul Strip, Sargam/Alaap-to-Lyric Morph, Whisper-to-Soar, Internal Rhyme Wave Switch.
+   - 3–5 World Instrument Actors max (Rule of 3 / Relay-Race Choreography), 105% Human Virtuoso DNA, Vocal-Gap Call & Response, Word Painting, Emotional Shadowing, Contrary Motion (vocal climbs, bass/cello descends), Syllabic-Percussion Lock.
+   - AI Syntax & Vocalist Lock: 2–5 word [Square Brackets], (Parentheses) ONLY for backing/echoes, explicit [Verse X: Same Solo Lead Vocal Only, NO Choir], Anti-Voice-Swap stability.
+
+=== SUPREME BLUEPRINT (VOLUME 2: AUDIO ENGINEERING, MASTERING & AI ENGINE) ===
+1. 0% AI MANDATE: Zero robotic/nasal vocals (kill 1.0–1.8 kHz honk; lock warm chest 120–250 Hz & male sweet-spot key C#, D, D#, E), native scholar diction (clear ळ, ण, ष, zero foreign accent or schwa error), 105% human virtuosity (reject impossible breathless runs), 1% human imperfection (natural breaths, meend, delayed vibrato), dynamic mic-proximity illusion, living wood/skin/air transients, shared studio room acoustic glue.
+2. HIGH-EQ VOCAL ACTING & LIFTED CHORUS: Coherent emotional arc (Anti-Whiplash), behind-the-beat pocket, ZERO line-end volume drops, +2 dB Lifted Chorus bloom, backing harmonies 8–12 dB quieter panned wide singing dark vowels only, 20–45 ms Pre-Delay + Abbey Road Reverb (500 Hz–7 kHz).
+3. GOLDEN RATIO (65%–75%) & 100-LOOP PRASANNA STANDARD: Wavy ocean energy, Leitmotif + hidden counter-melody, 3–5s serene Tonic Afterglow for seamless infinite looping with zero ear fatigue.
+4. FREQUENCY ENGINEERING & BASS CONTROL (4 LAWS):
+   - Rule of 3 (Groove + Bed + Single Lead).
+   - Stop Upward Masking & Limiter Pumping (tight controlled bass, fast decay).
+   - Indian Low-End Collision Law: Kick/808 strictly 40–80 Hz vs Tabla/Pakhawaj Dagga 110–180 Hz.
+   - Shruti-to-Bass Pitch Lock (Sa/Pa) + Missing Fundamental warmth (120–250 Hz) for phone speakers.
+   - 6-Band Targets: Sub/Lows 20–250 Hz (<120 Hz strictly Mono, HPF 30 Hz); Mud 250–500 Hz (-1.5 to -2.5 dB @ 250–300 Hz); Nasal 1.0–1.8 kHz (-1.5 dB narrow notch if honky); Vocal Throne 2.0–4.5 kHz (-2 dB pocket @ 2.5 kHz on backing); Sibilance 5–8 kHz (-1.5 to -2 dB @ 6–7.5 kHz); Air 10–20 kHz (+1.5 dB shelf @ 10–12 kHz).
+   - Stereo Phase > 0 (Mono Safe), Crest Factor 8–12 dB, Fletcher-Munson 20% Low-Volume Clarity.
+5. NEURAL AI PHYSICS & SUNO CONTROL MATRIX:
+   - Never use negative words in Style Box (use Exclude Box). Front-load first 5–8 words. Respect Latent Bandwidth (avoid 7+ loud elements). Watch Context/Pitch Drift after 2:30.
+   - Fresh: Weirdness 25–35%, Style 70–80%, Variety 0%.
+   - Noise-Fix Cover (ANTI TUG-OF-WAR RULE: NEVER max both Audio & Style): Audio 75–80%, Style 45–55%, Weirdness 15–25%, Variety 0%.
+   - Remix: Audio 40–55%, Style 65–75%, Weirdness 35–45%.
+   - Replace Section: Exact 4/8-bar boundaries, Weirdness 20–30%, Variety 0%.
+6. 5-MINUTE DIAMOND POLISH (FREE TOOLS):
+   - Lossless WAV only. If 90%+ clean, polish stereo directly (avoid stem-split phase warble).
+   - Tools: Audacity (manual EQ/Loudness/Soft Limiter), OBRA Audio (obra.art — mobile Bass/Warmth/Brightness/LUFS), BandLab Mastering (Universal/Clarity/Tape; AVOID "Fire" if bass threatens vocals).
+   - Specs: 0.3–0.5s clean start silence, smooth 2–5s tail fade, Short-Term Chorus -10 to -12 LUFS, Integrated -14 LUFS (Streaming) / -11 LUFS (Competition), Soft Limiter -1.0 dBTP True Peak Ceiling. Export 24-bit/44.1 kHz (DistroKid/Spotify) or 24-bit/48 kHz (YouTube/Reels).
+
+=== COMBINED 100-POINT MASTER RUBRIC & VERDICT THRESHOLDS ===
+When evaluating the track (audio + Brain 1 X-Ray + optional lyrics), score ruthlessly out of 100 across Volume 1 + Volume 2 pillars:
+- Pillar 1 (20 pts): 0% AI Purity, Organic Acoustics & 105% Human Virtuosity (Vol 2)
+- Pillar 2 (20 pts): High-EQ Vocal Acting, Native Scholar Diction, Buttery Legato & Vocalist Lock (Vol 1 + Vol 2)
+- Pillar 3 (20 pts): Crystal Separation, Bass-to-Vocal Balance, Zero Noise/Sibilance & Stereo/Mono Safety (Vol 2 + Brain 1 Math)
+- Pillar 4 (20 pts): Lyrics/Poetry Depth, Genre-Lexicon Purity, 70/30 MAYA & Wavy Architecture / Goosebump Peak (Vol 1 + Vol 2; if no lyrics text provided, judge audible lyrics/composition/wavy architecture & note lyrics text was not pasted)
+- Pillar 5 (20 pts): Under-4:00 Pacing, Prasanna 100-Loop Polish, Dynamics/LUFS/True Peak & Clean Start/Tail (Vol 1 + Vol 2 + Brain 1 Math)
+
+STRICT VERDICT THRESHOLDS:
+- 90–100 pts => Release Ready (आंतरराष्ट्रीय स्पर्धा व अधिकृत रिलीझसाठी सज्ज!)
+- 80–89 pts  => 5-Min Polish (५-मिनिटांचा Diamond Polish करून पुन्हा तपासा)
+- 65–79 pts  => Suno Cover (Anti Tug-of-War Suno Cover किंवा Replace Section करा)
+- Below 65   => Regenerate (Hard Guru Veto — लिरिक्स/मात्रा/Key/Style दुरुस्त करून नव्याने तयार करा)
+`;
+
+      // =========================================================================
+      // OFFLINE GENRE-LEXICON FIREWALL DICTIONARY (Volume 1 Chapter 5)
+      // =========================================================================
+      const LEXICON_RULES = {
+        'Marathi Abhang / Sant-Sahitya / Pauranik': [
+          { word: 'दीदार', alt: 'भेट / दर्शन / दर्शन-सुख' },
+          { word: 'नूर', alt: 'तेज / आभा / दीप्ती / तेजोमय' },
+          { word: 'महफिल', alt: 'मेळा / सोहळा / कीर्तन / सत्संग' },
+          { word: 'महफ़िल', alt: 'मेळा / सोहळा / कीर्तन' },
+          { word: 'रूह', alt: 'मन / प्राण / आत्मा / चैतन्य' },
+          { word: 'इश्क़', alt: 'भाव / प्रीत / भक्ती / अनुराग' },
+          { word: 'इश्क', alt: 'भाव / प्रीत / भक्ती / अनुराग' },
+          { word: 'ज़िक्र', alt: 'जप / नाम / स्मरण / नामस्मरण' },
+          { word: 'जिक्र', alt: 'जप / नाम / स्मरण / नामस्मरण' },
+          { word: 'जुनून', alt: 'ओढ / ध्यास / लळा / पराभक्ती' },
+          { word: 'फ़रियाद', alt: 'आर्तता / साद / करुणा' },
+          { word: 'फरियाद', alt: 'आर्तता / साद / करुणा' },
+          { word: 'क़यामत', alt: 'प्रलय / महाकाळ' },
+          { word: 'दास्ताँ', alt: 'गाथा / कथा / चरित्र' },
+          { word: 'सनम', alt: 'सखा / विठुराया / प्रभू' },
+          { word: 'सुकून', alt: 'शांत / विश्रांती / समाधान / परमशांती' },
+          { word: 'ख़ुदा', alt: 'देव / हरी / परमात्मा' },
+          { word: 'खुदा', alt: 'देव / हरी / परमात्मा' }
+        ],
+        'Hindi Pauranik / Sanatan / Stotra-Fusion': [
+          { word: 'नूर', alt: 'तेज / आभा / ज्योति / तेजोमय' },
+          { word: 'दीदार', alt: 'दर्शन / दिव्य-भेट' },
+          { word: 'महफिल', alt: 'उत्सव / उत्सव-सभा / सत्संग' },
+          { word: 'महफ़िल', alt: 'उत्सव / सत्संग' },
+          { word: 'ख़ुदा', alt: 'प्रभु / ईश्वर / परमात्मा' },
+          { word: 'खुदा', alt: 'प्रभु / ईश्वर / परमात्मा' },
+          { word: 'इबादत', alt: 'आराधना / भक्ति / अर्चना' },
+          { word: 'रूह', alt: 'प्राण / आत्मा / अंतरात्मा' },
+          { word: 'रहमत', alt: 'कृपा / करुणा / अनुग्रह' },
+          { word: 'इश्क़', alt: 'भक्ति / अनुराग / प्रेम' },
+          { word: 'इश्क', alt: 'भक्ति / अनुराग / प्रेम' },
+          { word: 'सजदा', alt: 'प्रणाम / वंदन / नमन' },
+          { word: 'सुकून', alt: 'शांति / विश्रांति / समाधि' }
+        ]
+      };
+
+      // =========================================================================
+      // APP STATE
+      // =========================================================================
+      const state = {
+        file: null,
+        objectUrl: null,
+        analysis: null,
+        rawMarkdownReport: '',
+        isScanning: false,
+        isAuditing: false
+      };
+
+      // DOM References
+      const $ = (id) => document.getElementById(id);
+      const els = {
+        settingsPanel: $('settingsPanel'),
+        btnToggleSettings: $('btnToggleSettings'),
+        btnCloseSettings: $('btnCloseSettings'),
+        btnQuickApiOpen: $('btnQuickApiOpen'),
+        apiStatusDot: $('apiStatusDot'),
+        apiKeyInput: $('apiKeyInput'),
+        btnShowKey: $('btnShowKey'),
+        modelSelect: $('modelSelect'),
+        customModelInput: $('customModelInput'),
+        langSelect: $('langSelect'),
+        btnSaveSettings: $('btnSaveSettings'),
+        btnTestKey: $('btnTestKey'),
+        btnClearKey: $('btnClearKey'),
+        keyTestResult: $('keyTestResult'),
+
+        dropzone: $('dropzone'),
+        audioFileInput: $('audioFileInput'),
+        fileBar: $('fileBar'),
+        fileNameDisplay: $('fileNameDisplay'),
+        fileMetaChips: $('fileMetaChips'),
+        audioPlayer: $('audioPlayer'),
+        waveWrap: $('waveWrap'),
+        waveCanvas: $('waveCanvas'),
+        b1Progress: $('b1Progress'),
+        b1ProgressText: $('b1ProgressText'),
+        b1ProgressPct: $('b1ProgressPct'),
+        b1ProgressFill: $('b1ProgressFill'),
+
+        brain1Empty: $('brain1Empty'),
+        brain1Results: $('brain1Results'),
+        btnRescan: $('btnRescan'),
+        techScoreBadge: $('techScoreBadge'),
+        techScoreNum: $('techScoreNum'),
+        techScoreHeadline: $('techScoreHeadline'),
+        techScoreVerdict: $('techScoreVerdict'),
+        techScoreTag: $('techScoreTag'),
+        techScoreBreakdown: $('techScoreBreakdown'),
+        countGreen: $('countGreen'),
+        countYellow: $('countYellow'),
+        countRed: $('countRed'),
+        eqGrid: $('eqGrid'),
+        metricsGrid: $('metricsGrid'),
+
+        missionSelect: $('missionSelect'),
+        missionHint: $('missionHint'),
+        genreSelect: $('genreSelect'),
+        stylePromptInput: $('stylePromptInput'),
+        styleStats: $('styleStats'),
+        styleAlert: $('styleAlert'),
+        excludePromptInput: $('excludePromptInput'),
+        lyricsInput: $('lyricsInput'),
+        lyricsStats: $('lyricsStats'),
+        lexiconAlert: $('lexiconAlert'),
+
+        btnRunAudit: $('btnRunAudit'),
+        btnCopyForensic: $('btnCopyForensic'),
+        btnDownloadForensic: $('btnDownloadForensic'),
+        b2Progress: $('b2Progress'),
+        b2ProgressText: $('b2ProgressText'),
+        b2ProgressPct: $('b2ProgressPct'),
+        b2ProgressFill: $('b2ProgressFill'),
+        b2Error: $('b2Error'),
+
+        reportBox: $('reportBox'),
+        verdictBanner: $('verdictBanner'),
+        verdictText: $('verdictText'),
+        reportBody: $('reportBody'),
+        btnCopyReport: $('btnCopyReport'),
+        btnSaveReport: $('btnSaveReport'),
+
+        bibleModal: $('bibleModal'),
+        btnToggleBible: $('btnToggleBible'),
+        btnCloseBible: $('btnCloseBible'),
+        toast: $('toast')
+      };
+
+      // =========================================================================
+      // UTILITIES
+      // =========================================================================
+      let toastTimer = null;
+      function showToast(msg, duration = 3000) {
+        els.toast.textContent = msg;
+        els.toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => els.toast.classList.remove('show'), duration);
+      }
+
+      const yieldUI = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+      function formatTime(sec) {
+        if (!isFinite(sec) || sec < 0) return '0:00';
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m}:${String(s).padStart(2, '0')}`;
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      async function copyTextSafe(text) {
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+            return true;
+          }
+        } catch (_) {}
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          const ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          return ok;
+        } catch (_) {
+          return false;
+        }
+      }
+
+      function downloadTextFile(filename, text) {
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      }
+
+      // =========================================================================
+      // SETTINGS MANAGEMENT (localStorage ONLY)
+      // =========================================================================
+      const LS_KEYS = {
+        apiKey: 'maestro_auditor_api_key',
+        model: 'maestro_auditor_model',
+        customModel: 'maestro_auditor_custom_model',
+        lang: 'maestro_auditor_lang'
+      };
+
+      function loadSettings() {
+        const savedKey = localStorage.getItem(LS_KEYS.apiKey) || '';
+        const savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-2.5-pro';
+        const savedCustom = localStorage.getItem(LS_KEYS.customModel) || '';
+        const savedLang = localStorage.getItem(LS_KEYS.lang) || 'mr';
+
+        els.apiKeyInput.value = savedKey;
+        els.modelSelect.value = savedModel;
+        els.customModelInput.value = savedCustom;
+        els.customModelInput.style.display = savedModel === 'custom' ? 'block' : 'none';
+        els.langSelect.value = savedLang;
+
+        updateApiDot();
+      }
+
+      function getActiveApiKey() {
+        return (els.apiKeyInput.value || localStorage.getItem(LS_KEYS.apiKey) || '').trim();
+      }
+
+      function getActiveModel() {
+        if (els.modelSelect.value === 'custom') {
+          return (els.customModelInput.value || '').trim() || 'gemini-2.5-pro';
+        }
+        return els.modelSelect.value || 'gemini-2.5-pro';
+      }
+
+      function updateApiDot() {
+        const key = getActiveApiKey();
+        els.apiStatusDot.classList.remove('ok', 'err');
+        if (key && key.length > 20) {
+          els.apiStatusDot.classList.add('ok');
+        }
+      }
+
+      function saveSettings() {
+        const key = els.apiKeyInput.value.trim();
+        localStorage.setItem(LS_KEYS.apiKey, key);
+        localStorage.setItem(LS_KEYS.model, els.modelSelect.value);
+        localStorage.setItem(LS_KEYS.customModel, els.customModelInput.value.trim());
+        localStorage.setItem(LS_KEYS.lang, els.langSelect.value);
+        updateApiDot();
+        showToast('✅ सेटिंग्ज सुरक्षितपणे तुमच्या ब्राउझरमध्ये सेव्ह झाल्या!');
+      }
+
+      els.btnToggleSettings.addEventListener('click', () => els.settingsPanel.classList.toggle('open'));
+      els.btnCloseSettings.addEventListener('click', () => els.settingsPanel.classList.remove('open'));
+      els.btnQuickApiOpen.addEventListener('click', () => {
+        els.settingsPanel.classList.add('open');
+        els.settingsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+      els.btnShowKey.addEventListener('click', () => {
+        const isPwd = els.apiKeyInput.type === 'password';
+        els.apiKeyInput.type = isPwd ? 'text' : 'password';
+        els.btnShowKey.textContent = isPwd ? '🙈' : '👁️';
+      });
+
+      els.modelSelect.addEventListener('change', () => {
+        els.customModelInput.style.display = els.modelSelect.value === 'custom' ? 'block' : 'none';
+      });
+
+      els.btnSaveSettings.addEventListener('click', saveSettings);
+
+      els.btnClearKey.addEventListener('click', () => {
+        localStorage.removeItem(LS_KEYS.apiKey);
+        els.apiKeyInput.value = '';
+        els.keyTestResult.textContent = 'API Key तुमच्या ब्राउझरमधून हटवली गेली आहे.';
+        updateApiDot();
+        showToast('🗑️ API Key हटवली गेली.');
+      });
+
+      els.btnTestKey.addEventListener('click', async () => {
+        const key = getActiveApiKey();
+        if (!key) {
+          els.keyTestResult.innerHTML = '<span style="color:#B91C1C; font-weight:600;">कृपया आधी Gemini API Key पेस्ट करा.</span>';
+          return;
+        }
+        els.keyTestResult.innerHTML = '<span style="color:#1D4ED8; font-weight:600;">किल्ली तपासत आहे...</span>';
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(key)}`);
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err?.error?.message || `HTTP ${res.status}`);
+          }
+          saveSettings();
+          els.keyTestResult.innerHTML = '<span style="color:#047857; font-weight:700;">✅ अभिनंदन! तुमची Gemini API Key १००% वैध आणि सक्रिय आहे.</span>';
+        } catch (e) {
+          els.apiStatusDot.classList.remove('ok');
+          els.apiStatusDot.classList.add('err');
+          els.keyTestResult.innerHTML = `<span style="color:#B91C1C; font-weight:600;">❌ API Key अवैध किंवा नेटवर्क त्रुटी: ${escapeHtml(e.message)}</span>`;
+        }
+      });
+
+      // =========================================================================
+      // BIBLE REFERENCE MODAL & TABS
+      // =========================================================================
+      els.btnToggleBible.addEventListener('click', () => els.bibleModal.classList.add('open'));
+      els.btnCloseBible.addEventListener('click', () => els.bibleModal.classList.remove('open'));
+      els.bibleModal.addEventListener('click', (e) => {
+        if (e.target === els.bibleModal) els.bibleModal.classList.remove('open');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+          document.querySelectorAll('.tab-pane').forEach((p) => p.classList.remove('active'));
+          btn.classList.add('active');
+          $(btn.dataset.tab).classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('[data-copy]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const target = $(btn.dataset.copy);
+          const raw = target.textContent.replace(/कॉपी$/, '').trim();
+          const ok = await copyTextSafe(raw);
+          showToast(ok ? '📋 Master Prompt कॉपी झाला!' : 'कॉपी करता आले नाही.');
+        });
+      });
+
+      // =========================================================================
+      // MISSION MODE HINTS + OFFLINE STYLE & LYRICS FIREWALL CHECKERS
+      // =========================================================================
+      const MISSION_META = {
+        auto: {
+          label: 'AUTO-DETECT FULL AUDIT',
+          hint: 'ℹ️ गुरू तुमचे गाणे ऐकून स्वतः सांगतील की Release Ready आहे, 5-Min Polish हवे, की Suno Cover/Remix करावे.'
+        },
+        cover: {
+          label: 'SUNO COVER — NOISE, GLITCH & FREQUENCY CLEANUP (KEEP SAME MELODY)',
+          hint: '🧹 Cover मोड: गाण्याची मूळ चाल तीच ठेवून नॉईज, AI Shimmer, बेसचा गोंधळ व ग्लिचेस काढण्यासाठी अचूक Anti Tug-of-War रेसिपी (Audio 75–80%, Style 45–55%, Weirdness 15–25%, Variety 0%).'
+        },
+        remix: {
+          label: 'SUNO REMIX — REIMAGINE GROOVE, INSTRUMENTS & FIX MIX FLAWS',
+          hint: '🎛️ Remix मोड: मूळ हुक/चाल टिकवून नवीन स्वच्छ वाद्ये, Rule-of-3 सेपरेशन व डॅशिंग ग्रूव्ह देण्यासाठी अचूक Remix रेसिपी (Audio 40–55%, Style 65–75%, Weirdness 35–45%).'
+        },
+        replace: {
+          label: 'SUNO REPLACE SECTION — SURGICAL FIX FOR SPECIFIC GLITCHY PART',
+          hint: '✂️ Replace मोड: संपूर्ण गाणे न बदलता फक्त खराब कोरस, ग्लिच, किंवा उच्चाराचा भाग अचूक 4/8-Bar वेळेत दुरुस्त करण्यासाठी (Weirdness 20–30%, Variety 0%).'
+        },
+        extend: {
+          label: 'SUNO EXTEND — BUILD CLIMAX OR SERENE TONIC OUTRO',
+          hint: '➕ Extend मोड: गाण्याचा 65–75% Golden Ratio क्लायमॅक्स किंवा 3–5 सेकंदाचा शांत Tonic Afterglow जोडण्यासाठी (Style 90% समान, Variety 0%).'
+        },
+        fresh: {
+          label: 'FRESH REGENERATE — REBUILD 100% CLEAN MASTERPIECE FROM SCRATCH',
+          hint: '✨ Fresh मोड: जर गाण्यात मूळ दोष जास्त असतील, तर शून्यापासून नवीन Style Box, Exclude Box, Lyrics आणि Sliders (Weirdness 25–35%, Style 70–80%, Variety 0%).'
+        }
+      };
+
+      function updateMissionHint() {
+        const m = MISSION_META[els.missionSelect.value] || MISSION_META.auto;
+        els.missionHint.textContent = m.hint;
+      }
+      els.missionSelect.addEventListener('change', updateMissionHint);
+
+      function checkStyleFirewall() {
+        const text = els.stylePromptInput.value || '';
+        const len = text.trim().length;
+        els.styleStats.textContent = `अक्षरे: ${len} / 1000`;
+        if (!text.trim()) {
+          els.styleAlert.className = 'lexicon-alert';
+          els.styleAlert.innerHTML = '';
+          return;
+        }
+
+        const warnings = [];
+        // 1. Volume 2 Law 1: Negative Prompt Trap inside Style Box
+        const negMatches = text.match(/\b(no|without|avoid|don't|dont|never|zero)\s+[a-z0-9-]+(\s+[a-z0-9-]+)?/gi);
+        if (negMatches && negMatches.length) {
+          warnings.push(`• <strong>Negative Prompt Trap सापडला:</strong> ${negMatches.slice(0, 4).map((x) => '"' + escapeHtml(x) + '"').join(', ')} — Suno मध्ये "no/without" लिहिल्यास तोच दोष उलट वाढतो! हे शब्द Style Box मधून काढून <strong>Exclude Box</strong> मध्ये टाका.`);
+        }
+        // 2. Volume 2 Law 4: Prompt Contradiction Firewall
+        const hasAcoustic = /\b(intimate|acoustic|baithak|unplugged|soft|meditative|calm|minimal)\b/i.test(text);
+        const hasAggressive = /\b(edm|dubstep|heavy metal|stadium|distortion|distorted|wall of sound|aggressive|screaming)\b/i.test(text);
+        if (hasAcoustic && hasAggressive) {
+          warnings.push('• <strong>परस्परविरोधी शब्द (Prompt Contradiction):</strong> एकाच Style Box मध्ये शांत/अ‍ॅकॉस्टिक आणि जोरात EDM/Heavy शब्द एकत्र आहेत — यामुळेच Suno मध्ये नॉईज आणि फेज स्मिअर येतो!');
+        }
+        // 3. Volume 2 Law 3: Latent Bandwidth Overload (too many comma-separated tags)
+        const tagCount = text.split(',').filter((x) => x.trim()).length;
+        if (tagCount > 18) {
+          warnings.push(`• <strong>अति-गर्दी (Latent Bandwidth):</strong> Style Box मध्ये ${tagCount} वेगवेगळे टॅग्स आहेत — गर्दीमुळे आवाज नाकातला/रोबोटिक होऊ शकतो. फक्त मुख्य ३–५ वाद्ये ठेवा.`);
+        }
+
+        if (warnings.length > 0) {
+          els.styleAlert.className = 'lexicon-alert show';
+          els.styleAlert.innerHTML = `<strong>🚨 Volume 2 Style Prompt इशारा:</strong><br/>${warnings.join('<br/>')}`;
+        } else {
+          els.styleAlert.className = 'lexicon-alert show ok';
+          els.styleAlert.innerHTML = `✅ <strong>Style Box रचना स्वच्छ आहे!</strong> Negative Prompt Trap किंवा परस्परविरोधी शब्द आढळले नाहीत.`;
+        }
+      }
+      els.stylePromptInput.addEventListener('input', checkStyleFirewall);
+
+      function checkLyricsFirewall() {
+        const text = els.lyricsInput.value || '';
+        const lines = text.trim() ? text.trim().split(/\r?\n/).filter((l) => l.trim() && !/^\[.*\]$/.test(l.trim())).length : 0;
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        els.lyricsStats.textContent = `गाण्याच्या ओळी: ${lines} • एकूण शब्द: ${words}`;
+
+        if (!text.trim()) {
+          els.lexiconAlert.className = 'lexicon-alert';
+          els.lexiconAlert.innerHTML = '';
+          return;
+        }
+
+        const issues = [];
+        const genre = els.genreSelect.value;
+        const rules = LEXICON_RULES[genre];
+        if (rules) {
+          for (const r of rules) {
+            if (text.includes(r.word)) {
+              issues.push(`• निषिद्ध शब्द <strong>"${r.word}"</strong> ❌ → शुद्ध पर्याय: <strong style="color:#111318;">${r.alt}</strong>`);
+            }
+          }
+        }
+
+        // Check Volume 1 & 2 Bracket Metatag Discipline (keep [brackets] concise, avoid 10+ word paragraphs)
+        const brackets = text.match(/\[[^\]]+\]/g) || [];
+        const longBrackets = brackets.filter((b) => b.trim().split(/\s+/).length > 9);
+        if (longBrackets.length > 0) {
+          issues.push(`• <strong>लांबलचक [Bracket Tag] इशारा:</strong> ${escapeHtml(longBrackets[0].slice(0, 55))}... — कंसातील सूचना खूप लांब असल्यास Suno त्या गाऊन टाकतो किंवा दुर्लक्ष करतो (फक्त २–६ शब्द ठेवा).`);
+        }
+
+        if (issues.length > 0) {
+          els.lexiconAlert.className = 'lexicon-alert show';
+          els.lexiconAlert.innerHTML = `<strong>🚨 Volume 1 लिरिक्स व भाषा-शुद्धता इशारा:</strong><br/>${issues.join('<br/>')}`;
+        } else {
+          els.lexiconAlert.className = 'lexicon-alert show ok';
+          els.lexiconAlert.innerHTML = `✅ <strong>भाषा-शुद्धता व टॅग्स उत्तम!</strong> "${genre}" शैलीच्या विरुद्ध एकही निषिद्ध शब्द सापडला नाही.`;
+        }
+      }
+
+      els.lyricsInput.addEventListener('input', checkLyricsFirewall);
+      els.genreSelect.addEventListener('change', checkLyricsFirewall);
+
+      // =========================================================================
+      // BRAIN 1: PURE JS STUDIO DSP ENGINE (100% OFFLINE & MEMORY-SAFE)
+      // =========================================================================
+      function setB1Progress(pct, text) {
+        els.b1Progress.classList.add('show');
+        els.b1ProgressPct.textContent = `${Math.round(pct)}%`;
+        els.b1ProgressFill.style.width = `${pct}%`;
+        els.b1ProgressText.textContent = text;
+      }
+
+      // Compute ITU-R BS.1770-4 K-Weighting Biquad Coefficients for any Sample Rate
+      function getKWeightingCoeffs(fs) {
+        // Stage 1: Pre-filter High-Shelf (+4 dB @ 1681.97 Hz)
+        const f0 = 1681.974450955533;
+        const G = 3.999843853973347;
+        const Q = 0.7071752369554196;
+        const K = Math.tan(Math.PI * f0 / fs);
+        const Vh = Math.pow(10, G / 20);
+        const Vb = Math.pow(Vh, 0.4996667741545416);
+        const a0 = 1 + K / Q + K * K;
+        const s1 = {
+          b0: (Vh + (Vb * K) / Q + K * K) / a0,
+          b1: (2 * (K * K - Vh)) / a0,
+          b2: (Vh - (Vb * K) / Q + K * K) / a0,
+          a1: (2 * (K * K - 1)) / a0,
+          a2: (1 - K / Q + K * K) / a0
+        };
+
+        // Stage 2: RLB High-Pass (38.135 Hz)
+        const f0hp = 38.13547087602444;
+        const Qhp = 0.5003270373238773;
+        const K2 = Math.tan(Math.PI * f0hp / fs);
+        const a02 = 1 + K2 / Qhp + K2 * K2;
+        const s2 = {
+          b0: 1 / a02,
+          b1: -2 / a02,
+          b2: 1 / a02,
+          a1: (2 * (K2 * K2 - 1)) / a02,
+          a2: (1 - K2 / Qhp + K2 * K2) / a02
+        };
+        return { s1, s2 };
+      }
+
+      // In-place Iterative Cooley-Tukey Radix-2 FFT
+      function fftRadix2(re, im) {
+        const n = re.length;
+        // Bit-reversal permutation
+        for (let i = 1, j = 0; i < n; i++) {
+          let bit = n >> 1;
+          for (; j & bit; bit >>= 1) j ^= bit;
+          j ^= bit;
+          if (i < j) {
+            let tmp = re[i]; re[i] = re[j]; re[j] = tmp;
+            tmp = im[i]; im[i] = im[j]; im[j] = tmp;
+          }
+        }
+        // Butterfly stages
+        for (let len = 2; len <= n; len <<= 1) {
+          const half = len >> 1;
+          const ang = (-2 * Math.PI) / len;
+          const wStepRe = Math.cos(ang);
+          const wStepIm = Math.sin(ang);
+          for (let i = 0; i < n; i += len) {
+            let wRe = 1.0, wIm = 0.0;
+            for (let j = 0; j < half; j++) {
+              const uRe = re[i + j];
+              const uIm = im[i + j];
+              const vRe = re[i + j + half] * wRe - im[i + j + half] * wIm;
+              const vIm = re[i + j + half] * wIm + im[i + j + half] * wRe;
+              re[i + j] = uRe + vRe;
+              im[i + j] = uIm + vIm;
+              re[i + j + half] = uRe - vRe;
+              im[i + j + half] = uIm - vIm;
+              const nextWRe = wRe * wStepRe - wIm * wStepIm;
+              wIm = wRe * wStepIm + wIm * wStepRe;
+              wRe = nextWRe;
+            }
+          }
+        }
+      }
+
+      // Cubic Catmull-Rom interpolation for 4x True Peak check
+      function cubicPeak4x(ym1, y0, y1, y2) {
+        let peak = Math.max(Math.abs(y0), Math.abs(y1));
+        const a0 = -0.5 * ym1 + 1.5 * y0 - 1.5 * y1 + 0.5 * y2;
+        const a1 = ym1 - 2.5 * y0 + 2.0 * y1 - 0.5 * y2;
+        const a2 = -0.5 * ym1 + 0.5 * y1;
+        const a3 = y0;
+        for (let t = 0.25; t <= 0.75; t += 0.25) {
+          const val = Math.abs(((a0 * t + a1) * t + a2) * t + a3);
+          if (val > peak) peak = val;
+        }
+        return peak;
+      }
+
+      function percentile(sortedArr, p) {
+        if (!sortedArr.length) return -60;
+        const idx = Math.min(sortedArr.length - 1, Math.max(0, Math.floor((sortedArr.length - 1) * p)));
+        return sortedArr[idx];
+      }
+
+      async function analyzeAudioFile(file) {
+        if (state.isScanning) return;
+        state.isScanning = true;
+        els.b2Error.classList.remove('show');
+        els.reportBox.classList.remove('show');
+        els.btnRunAudit.disabled = true;
+        els.btnCopyForensic.disabled = true;
+        els.btnDownloadForensic.disabled = true;
+
+        let audioCtx = null;
+        let audioBuffer = null;
+
+        try {
+          setB1Progress(10, '1/4 फाईल वाचून सुरक्षितपणे डिकोड होत आहे...');
+          await yieldUI();
+
+          let arrayBuffer = await file.arrayBuffer();
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          audioCtx = new AudioCtx();
+
+          setB1Progress(28, '1/4 ऑडिओ वेव्हफॉर्म तयार होत आहे...');
+          await yieldUI();
+
+          audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+          // Immediately free raw ArrayBuffer to keep RAM minimal on mobile/iPad!
+          arrayBuffer = null;
+
+          const fs = audioBuffer.sampleRate;
+          const numCh = audioBuffer.numberOfChannels;
+          const totalSamples = audioBuffer.length;
+          const duration = audioBuffer.duration;
+          const ch0 = audioBuffer.getChannelData(0);
+          const ch1 = numCh > 1 ? audioBuffer.getChannelData(1) : null;
+
+          // Update file metadata chips
+          const ext = (file.name.split('.').pop() || '').toLowerCase();
+          const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+          const isLossless = ext === 'wav' || ext === 'flac';
+          els.fileMetaChips.innerHTML = `
+            <span class="chip">${sizeMB} MB</span>
+            <span class="chip">${(fs / 1000).toFixed(1)} kHz</span>
+            <span class="chip">${numCh > 1 ? 'Stereo' : 'Mono'}</span>
+            <span class="chip">${formatTime(duration)}</span>
+            <span class="chip ${isLossless ? 'ok' : 'warn'}">${isLossless ? 'Lossless WAV ✓' : 'MP3 (WAV उत्तम!)'}</span>
+          `;
+
+          // -------------------------------------------------------------------
+          // PASS 1: ITU-R BS.1770-4 K-Weighted LUFS, True Peak, Clipping,
+          //         RMS/Crest Factor, Stereo Phase (<120Hz + Full), Start/Tail
+          // -------------------------------------------------------------------
+          setB1Progress(45, '2/4 LUFS, True Peak, Crest Factor व Stereo Phase मोजत आहे...');
+          await yieldUI();
+
+          const { s1, s2 } = getKWeightingCoeffs(fs);
+          const block100 = Math.max(1, Math.round(fs * 0.1));
+          const numBlocks100 = Math.floor(totalSamples / block100);
+          const kwPower100 = new Float64Array(numBlocks100);
+          const rawRms100 = new Float64Array(numBlocks100);
+
+          // K-weighting filter states (L and R)
+          let l1x1 = 0, l1x2 = 0, l1y1 = 0, l1y2 = 0;
+          let l2x1 = 0, l2x2 = 0, l2y1 = 0, l2y2 = 0;
+          let r1x1 = 0, r1x2 = 0, r1y1 = 0, r1y2 = 0;
+          let r2x1 = 0, r2x2 = 0, r2y1 = 0, r2y2 = 0;
+
+          // Simple 1-pole LPF @ 120 Hz for Low-End Mono Safety check
+          const lpAlpha = 1 - Math.exp((-2 * Math.PI * 120) / fs);
+          let lpL = 0, lpR = 0;
+
+          let samplePeak = 0;
+          let clippedCount = 0;
+          let sumLR = 0, sumL2 = 0, sumR2 = 0;
+          let sumLowLR = 0, sumLowL2 = 0, sumLowR2 = 0;
+          let activeRmsSumSq = 0;
+          let activeSampleCount = 0;
+
+          // Waveform envelope for visual canvas (180 bars)
+          const waveBars = 180;
+          const waveData = new Float32Array(waveBars);
+          const samplesPerBar = Math.max(1, Math.floor(totalSamples / waveBars));
+
+          // Process in chunks of 100ms blocks, yielding periodically for buttery mobile UI
+          const yieldStride = Math.max(20, Math.floor(numBlocks100 / 12));
+          for (let b = 0; b < numBlocks100; b++) {
+            const start = b * block100;
+            const end = start + block100;
+            let kwSumL = 0, kwSumR = 0;
+            let rawSumSq = 0;
+
+            for (let i = start; i < end; i++) {
+              const xL = ch0[i];
+              const xR = ch1 ? ch1[i] : xL;
+
+              const aL = Math.abs(xL);
+              const aR = Math.abs(xR);
+              if (aL > samplePeak) samplePeak = aL;
+              if (aR > samplePeak) samplePeak = aR;
+              if (aL >= 0.999 || aR >= 0.999) clippedCount++;
+
+              const sq = 0.5 * (xL * xL + xR * xR);
+              rawSumSq += sq;
+
+              // Waveform bar peak
+              const barIdx = Math.min(waveBars - 1, Math.floor(i / samplesPerBar));
+              const peakHere = aL > aR ? aL : aR;
+              if (peakHere > waveData[barIdx]) waveData[barIdx] = peakHere;
+
+              // Stereo Phase Correlation (full band & <120Hz low end)
+              if (ch1) {
+                sumLR += xL * xR;
+                sumL2 += xL * xL;
+                sumR2 += xR * xR;
+                lpL += lpAlpha * (xL - lpL);
+                lpR += lpAlpha * (xR - lpR);
+                sumLowLR += lpL * lpR;
+                sumLowL2 += lpL * lpL;
+                sumLowR2 += lpR * lpR;
+              }
+
+              // K-Weighting Channel L
+              const ly1 = s1.b0 * xL + s1.b1 * l1x1 + s1.b2 * l1x2 - s1.a1 * l1y1 - s1.a2 * l1y2;
+              l1x2 = l1x1; l1x1 = xL; l1y2 = l1y1; l1y1 = ly1;
+              const ly2 = s2.b0 * ly1 + s2.b1 * l2x1 + s2.b2 * l2x2 - s2.a1 * l2y1 - s2.a2 * l2y2;
+              l2x2 = l2x1; l2x1 = ly1; l2y2 = l2y1; l2y1 = ly2;
+              kwSumL += ly2 * ly2;
+
+              // K-Weighting Channel R
+              if (ch1) {
+                const ry1 = s1.b0 * xR + s1.b1 * r1x1 + s1.b2 * r1x2 - s1.a1 * r1y1 - s1.a2 * r1y2;
+                r1x2 = r1x1; r1x1 = xR; r1y2 = r1y1; r1y1 = ry1;
+                const ry2 = s2.b0 * ry1 + s2.b1 * r2x1 + s2.b2 * r2x2 - s2.a1 * r2y1 - s2.a2 * r2y2;
+                r2x2 = r2x1; r2x1 = ry1; r2y2 = r2y1; r2y1 = ry2;
+                kwSumR += ry2 * ry2;
+              } else {
+                kwSumR = kwSumL;
+              }
+            }
+
+            const meanRaw = rawSumSq / block100;
+            rawRms100[b] = Math.sqrt(meanRaw);
+            if (meanRaw > 1e-5) { // active > -50 dBFS
+              activeRmsSumSq += rawSumSq;
+              activeSampleCount += block100;
+            }
+            // BS.1770 Stereo sum of channel mean-squares
+            kwPower100[b] = (kwSumL + kwSumR) / block100;
+
+            if (b % yieldStride === 0) {
+              setB1Progress(45 + (b / Math.max(1, numBlocks100)) * 27, '2/4 LUFS, Peak व Stereo Phase तपासत आहे...');
+              await yieldUI();
+            }
+          }
+
+          // 4x Oversampled True Peak scan on top peak neighborhoods (fast & exact)
+          let truePeak = samplePeak;
+          const peakThreshold = samplePeak * 0.65;
+          if (peakThreshold > 0.01) {
+            for (let i = 1; i < totalSamples - 2; i++) {
+              if (Math.abs(ch0[i]) >= peakThreshold) {
+                const tp = cubicPeak4x(ch0[i - 1], ch0[i], ch0[i + 1], ch0[i + 2]);
+                if (tp > truePeak) truePeak = tp;
+              }
+              if (ch1 && Math.abs(ch1[i]) >= peakThreshold) {
+                const tpR = cubicPeak4x(ch1[i - 1], ch1[i], ch1[i + 1], ch1[i + 2]);
+                if (tpR > truePeak) truePeak = tpR;
+              }
+            }
+          }
+          const truePeakDBTP = 20 * Math.log10(Math.max(truePeak, 1e-10));
+          const samplePeakDBFS = 20 * Math.log10(Math.max(samplePeak, 1e-10));
+
+          // Integrated LUFS (400ms gated blocks, 75% overlap = 100ms hop)
+          const blocks400 = [];
+          for (let b = 0; b <= numBlocks100 - 4; b++) {
+            const z = (kwPower100[b] + kwPower100[b + 1] + kwPower100[b + 2] + kwPower100[b + 3]) / 4;
+            if (z > 0) {
+              const l = -0.691 + 10 * Math.log10(z);
+              if (l > -70) blocks400.push({ z, l });
+            }
+          }
+          let integratedLUFS = -60;
+          if (blocks400.length > 0) {
+            let sumZ = 0;
+            for (const blk of blocks400) sumZ += blk.z;
+            const ungatedL = -0.691 + 10 * Math.log10(sumZ / blocks400.length);
+            const relGate = ungatedL - 10;
+            let relSum = 0, relCount = 0;
+            for (const blk of blocks400) {
+              if (blk.l > relGate) {
+                relSum += blk.z;
+                relCount++;
+              }
+            }
+            if (relCount > 0) {
+              integratedLUFS = -0.691 + 10 * Math.log10(relSum / relCount);
+            }
+          }
+
+          // Short-Term LUFS (3-second sliding window = 30 x 100ms) + Verse vs Chorus Lift
+          let maxShortTermLUFS = -60;
+          let maxShortTermTime = 0;
+          const activeShortTerm = [];
+          let goldenPeakLUFS = -60;
+          const stWindow = Math.min(30, numBlocks100);
+          if (stWindow >= 5) {
+            let running = 0;
+            for (let b = 0; b < numBlocks100; b++) {
+              running += kwPower100[b];
+              if (b >= stWindow) running -= kwPower100[b - stWindow];
+              if (b >= stWindow - 1) {
+                const avgZ = running / stWindow;
+                if (avgZ > 0) {
+                  const stL = -0.691 + 10 * Math.log10(avgZ);
+                  const posFrac = b / numBlocks100;
+                  if (stL > maxShortTermLUFS) {
+                    maxShortTermLUFS = stL;
+                    maxShortTermTime = (b - stWindow / 2) * 0.1;
+                  }
+                  if (posFrac >= 0.62 && posFrac <= 0.78 && stL > goldenPeakLUFS) {
+                    goldenPeakLUFS = stL;
+                  }
+                  if (stL > -42) activeShortTerm.push(stL);
+                }
+              }
+            }
+          }
+          activeShortTerm.sort((a, b) => a - b);
+          const verseBaseLUFS = percentile(activeShortTerm, 0.25);
+          const chorusPeakLUFS = percentile(activeShortTerm, 0.90);
+          const chorusLiftDB = activeShortTerm.length >= 6 ? Math.max(0, chorusPeakLUFS - verseBaseLUFS) : 0;
+
+          // Active RMS & Crest Factor
+          const activeRms = activeSampleCount > 0 ? Math.sqrt(activeRmsSumSq / activeSampleCount) : 1e-5;
+          const activeRmsDBFS = 20 * Math.log10(Math.max(activeRms, 1e-10));
+          const crestFactorDB = Math.max(0, samplePeakDBFS - activeRmsDBFS);
+
+          // Stereo Phase Correlation
+          const phaseCorr = ch1
+            ? sumLR / Math.max(1e-12, Math.sqrt(sumL2 * sumR2))
+            : 1.0;
+          const lowPhaseCorr = ch1
+            ? sumLowLR / Math.max(1e-12, Math.sqrt(sumLowL2 * sumLowR2))
+            : 1.0;
+
+          // Clean Start & Tail Hygiene
+          let startSilenceSec = 0;
+          const threshStart = 0.0056; // ~ -45 dBFS
+          for (let i = 0; i < Math.min(totalSamples, fs * 5); i += 16) {
+            const amp = ch1 ? Math.max(Math.abs(ch0[i]), Math.abs(ch1[i])) : Math.abs(ch0[i]);
+            if (amp >= threshStart) {
+              startSilenceSec = i / fs;
+              break;
+            }
+          }
+          // Immediate 5ms click check at 0:00
+          let startClickAmp = 0;
+          for (let i = 0; i < Math.min(totalSamples, Math.round(fs * 0.005)); i++) {
+            startClickAmp = Math.max(startClickAmp, Math.abs(ch0[i]), ch1 ? Math.abs(ch1[i]) : 0);
+          }
+          // Ending tail decay check (last 50ms RMS + silence at very end)
+          const tail50 = Math.min(totalSamples, Math.round(fs * 0.05));
+          let tailSq = 0;
+          for (let i = totalSamples - tail50; i < totalSamples; i++) {
+            const x = ch1 ? 0.5 * (ch0[i] + ch1[i]) : ch0[i];
+            tailSq += x * x;
+          }
+          const end50msDBFS = 20 * Math.log10(Math.max(Math.sqrt(tailSq / Math.max(1, tail50)), 1e-10));
+          let endSilenceSec = 0;
+          for (let i = totalSamples - 1; i >= Math.max(0, totalSamples - fs * 5); i -= 16) {
+            const amp = ch1 ? Math.max(Math.abs(ch0[i]), Math.abs(ch1[i])) : Math.abs(ch0[i]);
+            if (amp >= threshStart) {
+              endSilenceSec = (totalSamples - 1 - i) / fs;
+              break;
+            }
+          }
+
+          // -------------------------------------------------------------------
+          // PASS 2: 4096-pt Hann-Windowed FFT 6-Band Frequency Balance X-Ray
+          // -------------------------------------------------------------------
+          setB1Progress(76, '3/4 6-Band फ्रिक्वेन्सी स्पेक्ट्रम (FFT X-Ray) मोजत आहे...');
+          await yieldUI();
+
+          const fftSize = 4096;
+          const halfFFT = fftSize >> 1;
+          const re = new Float64Array(fftSize);
+          const im = new Float64Array(fftSize);
+          const hann = new Float64Array(fftSize);
+          for (let i = 0; i < fftSize; i++) {
+            hann[i] = 0.5 * (1 - Math.cos((2 * Math.PI * i) / (fftSize - 1)));
+          }
+
+          const specAccum = new Float64Array(halfFFT);
+          const numFrames = Math.min(160, Math.max(20, Math.floor((totalSamples - fftSize) / fftSize)));
+          const frameStride = Math.max(fftSize, Math.floor((totalSamples - fftSize) / Math.max(1, numFrames)));
+          let activeFrames = 0;
+
+          for (let f = 0; f < numFrames; f++) {
+            const offset = f * frameStride;
+            if (offset + fftSize > totalSamples) break;
+
+            let frameEnergy = 0;
+            for (let i = 0; i < fftSize; i++) {
+              const s = ch1 ? 0.5 * (ch0[offset + i] + ch1[offset + i]) : ch0[offset + i];
+              frameEnergy += s * s;
+              re[i] = s * hann[i];
+              im[i] = 0;
+            }
+            // Skip silent frames (< -52 dBFS)
+            if (frameEnergy / fftSize < 6e-6) continue;
+
+            fftRadix2(re, im);
+            for (let k = 1; k < halfFFT; k++) {
+              specAccum[k] += re[k] * re[k] + im[k] * im[k];
+            }
+            activeFrames++;
+            if (f % 35 === 0) await yieldUI();
+          }
+
+          const binHz = fs / fftSize;
+          function bandPower(fMin, fMax) {
+            const k1 = Math.max(1, Math.floor(fMin / binHz));
+            const k2 = Math.min(halfFFT - 1, Math.ceil(fMax / binHz));
+            let sum = 0;
+            for (let k = k1; k <= k2; k++) sum += specAccum[k];
+            return Math.max(sum / Math.max(1, activeFrames), 1e-15);
+          }
+
+          const pSub = bandPower(20, 60);
+          const pBass = bandPower(60, 120);
+          const pWarmth = bandPower(120, 250);
+          const pMud = bandPower(250, 500);
+          const pVocal = bandPower(500, 4000);
+          const pNasal = bandPower(1000, 1800);
+          const pPresence = bandPower(2000, 4500);
+          const pSibilance = bandPower(5000, 8000);
+          const pAir = bandPower(10000, Math.min(20000, fs * 0.48));
+          const pTotal = bandPower(20, Math.min(20000, fs * 0.48));
+
+          const relDB = (p) => 10 * Math.log10(p / pVocal);
+          const pctOfTotal = (p) => (p / pTotal) * 100;
+
+          const subDB = relDB(pSub);
+          const bassDB = relDB(pBass);
+          const warmthDB = relDB(pWarmth);
+          const mudDB = relDB(pMud);
+          const vocalPct = pctOfTotal(pVocal);
+          const nasalDB = relDB(pNasal);
+          const presenceDB = relDB(pPresence);
+          const sibilanceDB = relDB(pSibilance);
+          const airDB = relDB(pAir);
+          const bassToVocalDB = 10 * Math.log10((pSub + pBass) / pVocal);
+
+          setB1Progress(95, '4/4 डॅशबोर्ड व वेव्हफॉर्म तयार होत आहे...');
+          await yieldUI();
+
+          // Release heavy AudioBuffer & AudioContext immediately to free phone RAM!
+          audioBuffer = null;
+          if (audioCtx && audioCtx.state !== 'closed') {
+            await audioCtx.close().catch(() => {});
+          }
+          audioCtx = null;
+
+          // Build Structured Analysis Object with Traffic-Light Evaluations
+          const analysis = buildEvaluatedReport({
+            fileName: file.name,
+            fileSizeMB: Number(sizeMB),
+            formatExt: ext.toUpperCase(),
+            isLossless,
+            sampleRate: fs,
+            channels: numCh,
+            duration,
+            waveData,
+            bands: {
+              sub: { db: subDB, pct: pctOfTotal(pSub) },
+              bass: { db: bassDB, pct: pctOfTotal(pBass) },
+              warmth: { db: warmthDB, pct: pctOfTotal(pWarmth) },
+              mud: { db: mudDB, pct: pctOfTotal(pMud) },
+              vocal: { db: 0, pct: vocalPct, nasalDB, presenceDB },
+              sibilance: { db: sibilanceDB, pct: pctOfTotal(pSibilance) },
+              air: { db: airDB, pct: pctOfTotal(pAir) }
+            },
+            bassToVocalDB,
+            crestFactorDB,
+            chorusLiftDB,
+            verseBaseLUFS,
+            chorusPeakLUFS,
+            integratedLUFS,
+            maxShortTermLUFS,
+            maxShortTermTime,
+            goldenPeakLUFS,
+            truePeakDBTP,
+            samplePeakDBFS,
+            clippedCount,
+            phaseCorr,
+            lowPhaseCorr,
+            startSilenceSec,
+            startClickAmp,
+            end50msDBFS,
+            endSilenceSec
+          });
+
+          state.analysis = analysis;
+          renderBrain1Dashboard(analysis);
+          drawWaveCanvas(analysis.waveData, 0);
+
+          setB1Progress(100, '✅ मेंदू १ गणिती X-Ray १००% पूर्ण!');
+          setTimeout(() => els.b1Progress.classList.remove('show'), 1400);
+
+          els.btnRunAudit.disabled = false;
+          els.btnCopyForensic.disabled = false;
+          els.btnDownloadForensic.disabled = false;
+          els.btnRescan.style.display = 'inline-flex';
+          showToast('✅ ऑडिओ X-Ray पूर्ण! हिरवा/पिवळा/लाल रिपोर्ट पहा.');
+        } catch (err) {
+          console.error(err);
+          els.b1Progress.classList.remove('show');
+          showToast('❌ ऑडिओ स्कॅन करताना त्रुटी: ' + err.message, 4500);
+          if (audioCtx && audioCtx.state !== 'closed') {
+            audioCtx.close().catch(() => {});
+          }
+        } finally {
+          state.isScanning = false;
+        }
+      }
+
+      // Evaluate Every Metric Against Volume 1 & Volume 2 Studio Thresholds
+      function buildEvaluatedReport(m) {
+        const statusText = { green: 'उत्तम', yellow: 'लक्ष द्या', red: 'दोष' };
+
+        // 6 Frequency Bands
+        const eqItems = [
+          {
+            key: 'sub',
+            name: 'Sub (सब-बेस)',
+            range: '20–60 Hz',
+            value: `${m.bands.sub.db >= 0 ? '+' : ''}${m.bands.sub.db.toFixed(1)} dB`,
+            barPct: Math.min(100, Math.max(8, ((m.bands.sub.db + 24) / 30) * 100)),
+            status: m.bands.sub.db > 4.0 ? 'red' : (m.bands.sub.db > 1.0 || m.bands.sub.db < -13.0 ? 'yellow' : 'green'),
+            note: m.bands.sub.db > 4.0
+              ? 'अतिरिक्त सब-बेस गडगडाट! Audacity मध्ये HPF @ 30 Hz लावा.'
+              : m.bands.sub.db > 1.0
+                ? 'सब थोडा जड आहे — 30 Hz High-Pass फिल्टरने स्वच्छ होईल.'
+                : m.bands.sub.db < -13.0
+                  ? 'सब-बेस हलका आहे (शास्त्रीय/भजनासाठी सामान्य).'
+                  : 'स्वच्छ, नियंत्रित सब-बेस फाउंडेशन.'
+          },
+          {
+            key: 'bass',
+            name: 'Bass (बेस व किक)',
+            range: '60–120 Hz',
+            value: `${m.bands.bass.db >= 0 ? '+' : ''}${m.bands.bass.db.toFixed(1)} dB`,
+            barPct: Math.min(100, Math.max(8, ((m.bands.bass.db + 20) / 28) * 100)),
+            status: m.bands.bass.db > 4.5 ? 'red' : (m.bands.bass.db > 1.5 || m.bands.bass.db < -10.0 ? 'yellow' : 'green'),
+            note: m.bands.bass.db > 4.5
+              ? 'बेस अति-प्रबळ! गायक दबण्याचा व तबला धग्याशी टक्कर होण्याचा धोका (-1.5 dB @ 60–90 Hz).'
+              : m.bands.bass.db > 1.5
+                ? 'बेस किंचित पुढे आहे — हेडफोनवर गायक तपासा.'
+                : m.bands.bass.db < -10.0
+                  ? 'बेस थोडा पातळ वाटू शकतो.'
+                  : 'घट्ट, उबदार आणि नियंत्रित बेस.'
+          },
+          {
+            key: 'mud',
+            name: 'Mud / Low-Mid',
+            range: '250–500 Hz',
+            value: `${m.bands.mud.db >= 0 ? '+' : ''}${m.bands.mud.db.toFixed(1)} dB`,
+            barPct: Math.min(100, Math.max(8, ((m.bands.mud.db + 18) / 24) * 100)),
+            status: m.bands.mud.db > 1.0 ? 'red' : (m.bands.mud.db > -1.5 || m.bands.mud.db < -9.5 ? 'yellow' : 'green'),
+            note: m.bands.mud.db > 1.0
+              ? 'गढूळ (Boxy/Muddy) आवाज! 250–300 Hz वर -1.5 ते -2.5 dB कट करा.'
+              : m.bands.mud.db > -1.5
+                ? 'किंचित जडपणा — 280 Hz ला हलका -1.5 dB कट केल्यास चमक वाढेल.'
+                : 'मोकळा, पारदर्शक आणि स्वच्छ लो-मिड.'
+          },
+          {
+            key: 'vocal',
+            name: 'Vocal Mids (गायक सिंहासन)',
+            range: '500 Hz–4 kHz',
+            value: `${m.bands.vocal.pct.toFixed(0)}% ऊर्जा`,
+            barPct: Math.min(100, Math.max(10, m.bands.vocal.pct * 1.4)),
+            status: m.bands.vocal.pct < 15 ? 'red' : (m.bands.vocal.pct < 22 || m.bands.vocal.pct > 58 || m.bands.vocal.nasalDB > -2.5 ? 'yellow' : 'green'),
+            note: m.bands.vocal.pct < 15
+              ? 'गायक मागे दबला आहे! बेस/वाद्ये कमी करून गायकासाठी जागा मोकळी करा.'
+              : m.bands.vocal.nasalDB > -2.5
+                ? `1–1.8 kHz नासिका (Nasal) भागात थोडा दबाव (${m.bands.vocal.nasalDB.toFixed(1)} dB) — आवाज रोबोटिक तर नाही ना ते तपासा.`
+                : 'गायकाचा आवाज स्वच्छपणे मध्यभागी (Vocal Throne) चमकतोय.'
+          },
+          {
+            key: 'sibilance',
+            name: 'Sibilance (स, श, ष / झंकार)',
+            range: '5–8 kHz',
+            value: `${m.bands.sibilance.db >= 0 ? '+' : ''}${m.bands.sibilance.db.toFixed(1)} dB`,
+            barPct: Math.min(100, Math.max(8, ((m.bands.sibilance.db + 22) / 22) * 100)),
+            status: m.bands.sibilance.db > -3.0 ? 'red' : (m.bands.sibilance.db > -5.5 || m.bands.sibilance.db < -16.5 ? 'yellow' : 'green'),
+            note: m.bands.sibilance.db > -3.0
+              ? 'तीक्ष्ण झंकार / AI Shimmer धोका! 6–7.5 kHz वर -1.5 ते -2 dB कट किंवा De-Esser लावा.'
+              : m.bands.sibilance.db > -5.5
+                ? 'थोडे चमकदार — कोरसमध्ये स/श/ष कानाला टोचतात का ते तपासा.'
+                : 'मखमली, कानाला न थकवणारे (100-Loop Prasanna) उच्च स्वर.'
+          },
+          {
+            key: 'air',
+            name: 'Air & Silk (चमक व श्वास)',
+            range: '10–20 kHz',
+            value: `${m.bands.air.db >= 0 ? '+' : ''}${m.bands.air.db.toFixed(1)} dB`,
+            barPct: Math.min(100, Math.max(8, ((m.bands.air.db + 28) / 26) * 100)),
+            status: (m.bands.air.db < -22.0 || m.bands.air.db > -3.5) ? 'red' : ((m.bands.air.db < -17.0 || m.bands.air.db > -6.5) ? 'yellow' : 'green'),
+            note: m.bands.air.db < -22.0
+              ? 'वरची चमक हरवली (Muffled/MP3 नुकसान)! +1.5 dB High-Shelf @ 10–12 kHz द्या.'
+              : m.bands.air.db > -3.5
+                ? 'अति-काचेसारखा कर्कशपणा (Brittle Highs) — हाय-शेल्फ कमी करा.'
+                : m.bands.air.db < -17.0
+                  ? 'किंचित सौम्य — +1 ते +1.5 dB @ 10–12 kHz ने स्टुडिओ चमक येईल.'
+                  : 'नैसर्गिक श्वास व रेशमी स्टुडिओ चमक.'
+          }
+        ];
+
+        // 8 Core Engineering Meters
+        const durStatus = m.duration > 240 ? 'red' : (m.duration > 235 || m.duration < 120 ? 'yellow' : 'green');
+        const durDesc = m.duration > 240
+          ? 'Volume 1 नियम भंग! गाणे 4:00 मिनिटांपेक्षा मोठे आहे — 3:15–3:55 मध्ये आणा.'
+          : m.duration >= 195 && m.duration <= 235
+            ? 'Volume 1 चा आदर्श आंतरराष्ट्रीय वेळ (3:15–3:55 Sweet Spot)!'
+            : m.duration < 120
+              ? 'गाणे 2 मिनिटांखाली आहे (शॉर्ट/डेमो क्लिप).'
+              : '4:00 मिनिटांच्या मर्यादेत सुरक्षित.';
+
+        const b2vStatus = m.bassToVocalDB > 5.5 ? 'red' : (m.bassToVocalDB > 3.0 || m.bassToVocalDB < -7.5 ? 'yellow' : 'green');
+        const b2vDesc = m.bassToVocalDB > 5.5
+          ? 'बेस गायकाला दाबत आहे (Upward Masking)! Exclude Box व -1.5 dB @ 60–90 Hz आवश्यक.'
+          : m.bassToVocalDB > 3.0
+            ? 'बेस थोडा जास्त जाणवतो — फोन स्पीकरवर गायक स्पष्ट आहे का ते तपासा.'
+            : m.bassToVocalDB < -7.5
+              ? 'गायक खूप पुढे व बेस हलका आहे (अ‍ॅकॉस्टिक/भजनासाठी ठीक).'
+              : 'गायक स्पष्ट पुढे व बेस घट्ट नियंत्रणात आहे.';
+
+        const crestStatus = (m.crestFactorDB < 6.0 || m.crestFactorDB > 17.5) ? 'red' : ((m.crestFactorDB < 8.0 || m.crestFactorDB > 13.5) ? 'yellow' : 'green');
+        const crestDesc = m.crestFactorDB < 6.0
+          ? 'अति-दबलेला सपाट आवाज (Over-Compressed Sausage)! श्वास व जिवंतपणा हरवलाय.'
+          : m.crestFactorDB >= 8.0 && m.crestFactorDB <= 12.5
+            ? 'Volume 2 आदर्श Dynamic Breath (8–12 dB) — प्रत्येक ताल व स्वर मोकळा!'
+            : m.crestFactorDB > 13.5
+              ? 'खूप मोठा डायनॅमिक फरक — हलक्या Soft Limiter ने संतुलित करा.'
+              : 'थोडे घट्ट कॉम्प्रेशन (6–8 dB) — अजून लिमिटर लावू नका.';
+
+        const liftStatus = m.chorusLiftDB < 1.0 ? 'red' : (m.chorusLiftDB < 2.0 || m.chorusLiftDB > 7.5 ? 'yellow' : 'green');
+        const liftDesc = m.chorusLiftDB < 1.0
+          ? 'सपाट ऊर्जा! Verse आणि Chorus मध्ये लाटांसारखे तरंग (Wave Lift) नाहीत.'
+          : m.chorusLiftDB >= 2.0 && m.chorusLiftDB <= 6.5
+            ? `उत्तम +${m.chorusLiftDB.toFixed(1)} dB Chorus Lift! (Verse ${m.verseBaseLUFS.toFixed(1)} → Chorus ${m.chorusPeakLUFS.toFixed(1)} LUFS)`
+            : m.chorusLiftDB < 2.0
+              ? 'Chorus उचल थोडी कमी (+1 ते +2 dB) — Pre-Chorus हलका करा.'
+              : 'खूप मोठा व्हॉल्यूम उडी — 20% कमी आवाजात शांत ओळी ऐकू येतात का तपासा.';
+
+        const lufsStatus = (m.integratedLUFS > -8.5 || m.integratedLUFS < -19.5) ? 'red'
+          : ((m.integratedLUFS > -10.5 || m.integratedLUFS < -15.5) ? 'yellow' : 'green');
+        const lufsDesc = `Short-Term Peak: ${m.maxShortTermLUFS.toFixed(1)} LUFS (@ ${formatTime(m.maxShortTermTime)}). ` +
+          (m.integratedLUFS > -8.5
+            ? 'खूप जोरात व दबलेले! Streaming (-14) / Competition (-11) वर आणा.'
+            : m.integratedLUFS < -16.5
+              ? 'आवाज कमी आहे — 5-Min Polish मध्ये -14 ते -11 LUFS पर्यंत उचला.'
+              : 'Streaming (-14) व Competition (-11) च्या सुरक्षित स्टुडिओ मर्यादेत!');
+
+        const tpStatus = (m.truePeakDBTP > -0.2 || m.clippedCount > 50) ? 'red' : (m.truePeakDBTP > -0.95 ? 'yellow' : 'green');
+        const tpDesc = m.truePeakDBTP > -0.2
+          ? `धोका! Clipping / Codec विकृती (${m.clippedCount} clipped samples). Soft Limiter -1.0 dBTP लावा!`
+          : m.truePeakDBTP > -0.95
+            ? 'Spotify/YouTube साठी हेडरूम कमी आहे — Limiter -1.0 dBTP वर लॉक करा.'
+            : '100% Codec-Safe Headroom (≤ -1.0 dBTP) — कुठेही आवाज फाटणार नाही!';
+
+        const phaseStatus = (m.phaseCorr < 0.1 || (m.channels > 1 && m.lowPhaseCorr < 0.45)) ? 'red'
+          : (m.phaseCorr < 0.35 || (m.channels > 1 && m.lowPhaseCorr < 0.72) ? 'yellow' : 'green');
+        const phaseDesc = m.channels === 1
+          ? 'Mono फाईल (+1.00) — 100% Mono Safe, पण Stereo रुंदी नाही.'
+          : (m.phaseCorr < 0.1
+            ? `Phase Cancellation धोका! (<120Hz Low Phase: ${m.lowPhaseCorr.toFixed(2)}). फोन स्पीकरवर आवाज पोकळ होईल.`
+            : m.lowPhaseCorr < 0.72
+              ? `एकूण Phase उत्तम, पण <120 Hz बेस थोडा Stereo आहे (${m.lowPhaseCorr.toFixed(2)}) — बेस Mono करा.`
+              : `100% Mono Safe! Low-End (<120 Hz) Phase: +${m.lowPhaseCorr.toFixed(2)}.`);
+
+        const startBad = m.startClickAmp > 0.12 || m.startSilenceSec < 0.03;
+        const endBad = m.end50msDBFS > -24;
+        const tailStatus = (startBad || endBad) ? 'red'
+          : (m.startSilenceSec < 0.2 || m.startSilenceSec > 1.4 || m.end50msDBFS > -36 ? 'yellow' : 'green');
+        const tailDesc = startBad
+          ? `सुरुवातीला अचानक झटका/क्लिक (${m.startSilenceSec.toFixed(2)}s शांतता)! 0.3–0.5s शांतता ठेवा.`
+          : endBad
+            ? `शेवट अचानक कापला गेला (End ${m.end50msDBFS.toFixed(1)} dBFS)! 2–3s स्मूथ Fade-Out द्या.`
+            : `सुरुवात: ${m.startSilenceSec.toFixed(2)}s शांतता • शेवट: ${m.end50msDBFS.toFixed(0)} dBFS (स्वच्छ Afterglow).`;
+
+        const coreItems = [
+          { label: '⏱️ गाण्याची लांबी (< 4:00)', value: formatTime(m.duration), status: durStatus, desc: durDesc },
+          { label: '🎚️ बेस विरुद्ध गायक संतुलन', value: `${m.bassToVocalDB >= 0 ? '+' : ''}${m.bassToVocalDB.toFixed(1)} dB`, status: b2vStatus, desc: b2vDesc },
+          { label: '📈 Dynamic Range (Crest)', value: `${m.crestFactorDB.toFixed(1)} dB`, status: crestStatus, desc: crestDesc },
+          { label: '🌊 Verse → Chorus Wave Lift', value: `+${m.chorusLiftDB.toFixed(1)} dB`, status: liftStatus, desc: liftDesc },
+          { label: '🔊 Integrated / Short LUFS', value: `${m.integratedLUFS.toFixed(1)} / ${m.maxShortTermLUFS.toFixed(1)}`, status: lufsStatus, desc: lufsDesc },
+          { label: '⚡ True Peak / Clipping', value: `${m.truePeakDBTP.toFixed(2)} dBTP`, status: tpStatus, desc: tpDesc },
+          { label: '🎧 Stereo Phase (Mono Safe)', value: `${m.phaseCorr >= 0 ? '+' : ''}${m.phaseCorr.toFixed(2)}`, status: phaseStatus, desc: phaseDesc },
+          { label: '✂️ Clean Start & Tail', value: `${m.startSilenceSec.toFixed(2)}s / ${m.end50msDBFS.toFixed(0)} dB`, status: tailStatus, desc: tailDesc }
+        ];
+
+        let green = 0, yellow = 0, red = 0;
+        [...eqItems, ...coreItems].forEach((it) => {
+          if (it.status === 'green') green++;
+          else if (it.status === 'yellow') yellow++;
+          else red++;
+        });
+
+        // Instant 100-Point Offline Technical Audio Score (exact weighted points across all 8 technical pillars)
+        const ptsByStatus = (st, maxPts) => st === 'green' ? maxPts : (st === 'yellow' ? Math.round(maxPts * 0.65) : Math.round(maxPts * 0.25));
+        const eqFreqAvg = Math.round(
+          ptsByStatus(eqItems[0].status, 4) +  // Sub
+          ptsByStatus(eqItems[1].status, 4) +  // Bass
+          ptsByStatus(eqItems[2].status, 4) +  // Mud
+          ptsByStatus(eqItems[3].status, 5) +  // Vocal Mids
+          ptsByStatus(eqItems[4].status, 4) +  // Sibilance
+          ptsByStatus(eqItems[5].status, 4)    // Air
+        ); // max 25 pts
+
+        const scoreBreakdown = [
+          { name: '६-बँड फ्रिक्वेन्सी', pts: eqFreqAvg, max: 25 },
+          { name: 'बेस-गायक संतुलन', pts: ptsByStatus(b2vStatus, 15), max: 15 },
+          { name: 'LUFS व लाऊडनेस', pts: ptsByStatus(lufsStatus, 12), max: 12 },
+          { name: 'True Peak सुरक्षा', pts: ptsByStatus(tpStatus, 12), max: 12 },
+          { name: 'डायनॅमिक्स (Crest)', pts: ptsByStatus(crestStatus, 10), max: 10 },
+          { name: 'Chorus Wave Lift', pts: ptsByStatus(liftStatus, 10), max: 10 },
+          { name: 'Mono Phase सुरक्षा', pts: ptsByStatus(phaseStatus, 8), max: 8 },
+          { name: 'वेळ (<4:00) व शेवट', pts: ptsByStatus(durStatus, 4) + ptsByStatus(tailStatus, 4), max: 8 }
+        ];
+        const techScore = Math.min(100, scoreBreakdown.reduce((acc, s) => acc + s.pts, 0));
+        let techGradeStatus = 'red';
+        let techGradeLabel = 'दुरुस्ती आवश्यक (<65)';
+        let techGradeNote = 'तांत्रिक दोष जास्त आहेत — Suno Cover / Remix किंवा नव्याने तयार करा (पूर्ण गायक+लिरिक्स गुणांसाठी खालील गुरू ऑडिट चालवा).';
+        if (techScore >= 90) {
+          techGradeStatus = 'green';
+          techGradeLabel = 'Release Ready (90+)';
+          techGradeNote = 'तांत्रिक ऑडिओ दर्जा जागतिक दर्जाचा आहे! आता गायन, शब्द व 0% AI तपासणीसाठी खालील गुरू ऑडिट चालवा.';
+        } else if (techScore >= 80) {
+          techGradeStatus = 'yellow';
+          techGradeLabel = '5-Min Polish (80–89)';
+          techGradeNote = 'गाणे खूप चांगले आहे — फक्त लहान EQ / LUFS पॉलिश केल्यास ९०+ पार करेल.';
+        } else if (techScore >= 65) {
+          techGradeStatus = 'yellow';
+          techGradeLabel = 'Suno Cover / Fix (65–79)';
+          techGradeNote = 'बेस, नॉईज किंवा फ्रिक्वेन्सीत स्पष्ट दोष आहेत — खालील "Suno Cover" मोड वापरून अचूक सुधारणा मिळवा.';
+        }
+
+        return {
+          ...m,
+          eqItems,
+          coreItems,
+          counts: { green, yellow, red },
+          statusText,
+          techScore,
+          techGradeStatus,
+          techGradeLabel,
+          techGradeNote,
+          scoreBreakdown
+        };
+      }
+
+      function renderBrain1Dashboard(a) {
+        els.brain1Empty.style.display = 'none';
+        els.brain1Results.style.display = 'block';
+        els.waveWrap.style.display = 'block';
+
+        els.techScoreNum.textContent = a.techScore;
+        els.techScoreBadge.className = `score-badge-big ${a.techGradeStatus}`;
+        els.techScoreTag.className = `status-tag ${a.techGradeStatus}`;
+        els.techScoreTag.textContent = a.techGradeLabel;
+        els.techScoreVerdict.textContent = a.techGradeNote;
+        els.techScoreBreakdown.innerHTML = a.scoreBreakdown.map((s) => `
+          <div class="sb-item">
+            <span class="sb-name">${s.name}</span>
+            <span class="sb-pts">${s.pts}/${s.max}</span>
+          </div>
+        `).join('');
+
+        els.countGreen.textContent = a.counts.green;
+        els.countYellow.textContent = a.counts.yellow;
+        els.countRed.textContent = a.counts.red;
+
+        els.eqGrid.innerHTML = a.eqItems.map((it) => `
+          <div class="eq-row">
+            <div class="eq-top">
+              <div>
+                <span class="eq-name">${it.name}</span>
+                <span class="eq-range">${it.range}</span>
+              </div>
+              <div class="eq-val">
+                <span>${it.value}</span>
+                <span class="status-tag ${it.status}">${a.statusText[it.status]}</span>
+              </div>
+            </div>
+            <div class="meter-track">
+              <div class="meter-bar ${it.status}" style="width:${it.barPct.toFixed(1)}%"></div>
+            </div>
+            <div class="eq-note">${it.note}</div>
+          </div>
+        `).join('');
+
+        els.metricsGrid.innerHTML = a.coreItems.map((it) => `
+          <div class="metric-card ${it.status}">
+            <div class="metric-head">
+              <span class="metric-label">${it.label}</span>
+              <span class="status-tag ${it.status}">${a.statusText[it.status]}</span>
+            </div>
+            <div class="metric-value">${it.value}</div>
+            <div class="metric-desc">${it.desc}</div>
+          </div>
+        `).join('');
+      }
+
+      // Draw Interactive Studio Energy Wave Canvas
+      function drawWaveCanvas(waveData, playProgress = 0) {
+        const canvas = els.waveCanvas;
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // Minimalist White Studio Background
+        ctx.fillStyle = '#F8F9FB';
+        ctx.fillRect(0, 0, W, H);
+
+        // Golden Ratio Peak Zone (65% - 75%)
+        const grStart = W * 0.65;
+        const grWidth = W * 0.10;
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.14)';
+        ctx.fillRect(grStart, 0, grWidth, H);
+        ctx.strokeStyle = 'rgba(180, 83, 9, 0.4)';
+        ctx.setLineDash([4, 4]);
+        ctx.strokeRect(grStart, 1, grWidth, H - 2);
+        ctx.setLineDash([]);
+
+        // Centerline
+        ctx.strokeStyle = 'rgba(17, 19, 24, 0.08)';
+        ctx.beginPath();
+        ctx.moveTo(0, H / 2);
+        ctx.lineTo(W, H / 2);
+        ctx.stroke();
+
+        // Waveform Bars (Black played / Slate unplayed / Red clipping)
+        const n = waveData.length;
+        const barW = W / n;
+        for (let i = 0; i < n; i++) {
+          const val = Math.min(1, waveData[i]);
+          const h = Math.max(4, val * (H * 0.86));
+          const x = i * barW;
+          const y = (H - h) / 2;
+          const frac = i / n;
+          if (frac <= playProgress) {
+            ctx.fillStyle = '#111318';
+          } else if (val >= 0.98) {
+            ctx.fillStyle = '#DC2626';
+          } else {
+            ctx.fillStyle = '#94A3B8';
+          }
+          ctx.fillRect(x + 1, y, Math.max(1.5, barW - 2), h);
+        }
+
+        // Playhead line
+        if (playProgress > 0 && playProgress <= 1) {
+          const px = playProgress * W;
+          ctx.strokeStyle = '#111318';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(px, 0);
+          ctx.lineTo(px, H);
+          ctx.stroke();
+        }
+      }
+
+      els.waveCanvas.addEventListener('click', (e) => {
+        if (!state.analysis || !els.audioPlayer.duration) return;
+        const rect = els.waveCanvas.getBoundingClientRect();
+        const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+        els.audioPlayer.currentTime = frac * els.audioPlayer.duration;
+        els.audioPlayer.play().catch(() => {});
+      });
+
+      els.audioPlayer.addEventListener('timeupdate', () => {
+        if (!state.analysis || !els.audioPlayer.duration) return;
+        drawWaveCanvas(state.analysis.waveData, els.audioPlayer.currentTime / els.audioPlayer.duration);
+      });
+
+      // =========================================================================
+      // FILE PICKER & DRAG-DROP HANDLERS
+      // =========================================================================
+      function handleFileSelected(file) {
+        if (!file) return;
+        state.file = file;
+        if (state.objectUrl) URL.revokeObjectURL(state.objectUrl);
+        state.objectUrl = URL.createObjectURL(file);
+
+        els.fileNameDisplay.textContent = file.name;
+        els.audioPlayer.src = state.objectUrl;
+        els.fileBar.classList.add('show');
+
+        analyzeAudioFile(file);
+      }
+
+      els.audioFileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFileSelected(e.target.files[0]);
+        }
+      });
+
+      els.btnRescan.addEventListener('click', () => {
+        if (state.file) analyzeAudioFile(state.file);
+      });
+
+      ['dragenter', 'dragover'].forEach((ev) => {
+        els.dropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          els.dropzone.classList.add('dragover');
+        });
+      });
+      ['dragleave', 'drop'].forEach((ev) => {
+        els.dropzone.addEventListener(ev, (e) => {
+          e.preventDefault();
+          els.dropzone.classList.remove('dragover');
+        });
+      });
+      els.dropzone.addEventListener('drop', (e) => {
+        const f = e.dataTransfer?.files?.[0];
+        if (f) handleFileSelected(f);
+      });
+
+      // =========================================================================
+      // BUILD FORENSIC DATA SUMMARY (Shared by Brain 2 API & Brain 3 Zero-API)
+      // =========================================================================
+      function buildBrain1ForensicText() {
+        const a = state.analysis;
+        if (!a) return '';
+        const flagLine = (st) => st === 'green' ? 'GREEN (PASS)' : st === 'yellow' ? 'YELLOW (ATTENTION)' : 'RED (DEFECT)';
+        return [
+          `=== BRAIN 1: WEB AUDIO MICROSCOPE FORENSIC X-RAY ===`,
+          `File: ${a.fileName} (${a.fileSizeMB} MB | ${a.formatExt} | ${a.sampleRate} Hz | ${a.channels > 1 ? 'Stereo' : 'Mono'})`,
+          `Offline Technical Audio Score: ${a.techScore}/100 (${a.techGradeLabel}) | Meters: ${a.counts.green} GREEN, ${a.counts.yellow} YELLOW, ${a.counts.red} RED`,
+          ``,
+          `[1] DURATION & STRUCTURE`,
+          `- Exact Length: ${formatTime(a.duration)} (${a.duration.toFixed(1)}s) -> ${flagLine(a.coreItems[0].status)} (Rule: < 4:00 max, 3:15–3:55 ideal)`,
+          `- Clean Start Silence: ${a.startSilenceSec.toFixed(2)}s (Start 5ms peak: ${a.startClickAmp.toFixed(3)}) | End 50ms RMS: ${a.end50msDBFS.toFixed(1)} dBFS -> ${flagLine(a.coreItems[7].status)}`,
+          ``,
+          `[2] 6-BAND FREQUENCY BALANCE (Relative to Vocal Mids 500Hz–4kHz = 0.0 dB)`,
+          `- Sub (20–60 Hz):         ${a.bands.sub.db >= 0 ? '+' : ''}${a.bands.sub.db.toFixed(1)} dB (${a.bands.sub.pct.toFixed(1)}%) -> ${flagLine(a.eqItems[0].status)}`,
+          `- Bass (60–120 Hz):       ${a.bands.bass.db >= 0 ? '+' : ''}${a.bands.bass.db.toFixed(1)} dB (${a.bands.bass.pct.toFixed(1)}%) -> ${flagLine(a.eqItems[1].status)}`,
+          `- Chest Warmth (120–250): ${a.bands.warmth.db >= 0 ? '+' : ''}${a.bands.warmth.db.toFixed(1)} dB`,
+          `- Mud/Low-Mid (250–500):  ${a.bands.mud.db >= 0 ? '+' : ''}${a.bands.mud.db.toFixed(1)} dB -> ${flagLine(a.eqItems[2].status)}`,
+          `- Vocal Mids (500–4kHz):  ${a.bands.vocal.pct.toFixed(1)}% total energy (Nasal 1–1.8k: ${a.bands.vocal.nasalDB.toFixed(1)} dB | Presence 2–4.5k: ${a.bands.vocal.presenceDB.toFixed(1)} dB) -> ${flagLine(a.eqItems[3].status)}`,
+          `- Sibilance (5–8 kHz):    ${a.bands.sibilance.db >= 0 ? '+' : ''}${a.bands.sibilance.db.toFixed(1)} dB -> ${flagLine(a.eqItems[4].status)}`,
+          `- Air/Silk (10–20 kHz):   ${a.bands.air.db >= 0 ? '+' : ''}${a.bands.air.db.toFixed(1)} dB -> ${flagLine(a.eqItems[5].status)}`,
+          `- Bass-to-Vocal Ratio (20–120 Hz vs 500–4k Hz): ${a.bassToVocalDB >= 0 ? '+' : ''}${a.bassToVocalDB.toFixed(1)} dB -> ${flagLine(a.coreItems[1].status)}`,
+          ``,
+          `[3] DYNAMICS, LOUDNESS, PEAK & MONO SAFETY`,
+          `- Dynamic Range (Crest Factor): ${a.crestFactorDB.toFixed(1)} dB (Target: 8–12 dB) -> ${flagLine(a.coreItems[2].status)}`,
+          `- Verse vs Chorus Wave Lift: +${a.chorusLiftDB.toFixed(1)} dB (Verse P25: ${a.verseBaseLUFS.toFixed(1)} LUFS -> Chorus P90: ${a.chorusPeakLUFS.toFixed(1)} LUFS | Golden Ratio 65–75% Peak: ${a.goldenPeakLUFS.toFixed(1)} LUFS) -> ${flagLine(a.coreItems[3].status)}`,
+          `- Integrated LUFS: ${a.integratedLUFS.toFixed(1)} LUFS | Max Short-Term (3s) LUFS: ${a.maxShortTermLUFS.toFixed(1)} LUFS at ${formatTime(a.maxShortTermTime)} -> ${flagLine(a.coreItems[4].status)}`,
+          `- True Peak (4x oversampled): ${a.truePeakDBTP.toFixed(2)} dBTP | Sample Peak: ${a.samplePeakDBFS.toFixed(2)} dBFS | Clipped Samples: ${a.clippedCount} -> ${flagLine(a.coreItems[5].status)}`,
+          `- Stereo Phase Correlation: ${a.phaseCorr >= 0 ? '+' : ''}${a.phaseCorr.toFixed(2)} | Low-End (<120 Hz) Phase: ${a.lowPhaseCorr >= 0 ? '+' : ''}${a.lowPhaseCorr.toFixed(2)} -> ${flagLine(a.coreItems[6].status)}`
+        ].join('\n');
+      }
+
+      function buildAuditUserPrompt(includeConstitutionForChat = false) {
+        const lang = els.langSelect.value;
+        const genre = els.genreSelect.value;
+        const missionKey = els.missionSelect.value || 'auto';
+        const missionInfo = MISSION_META[missionKey] || MISSION_META.auto;
+        const stylePrompt = (els.stylePromptInput.value || '').trim();
+        const excludePrompt = (els.excludePromptInput.value || '').trim();
+        const lyrics = (els.lyricsInput.value || '').trim();
+        const forensic = buildBrain1ForensicText();
+
+        const langRule = lang === 'mr'
+          ? 'LANGUAGE REQUIREMENT: Write ALL explanations, critiques, scores, and mastering guidance in clear, natural, easy-to-understand MARATHI (सोपे मराठी), while keeping ALL AI engine directives, Suno Style/Exclude boxes, meta-tags, and technical specs (Hz, dB, LUFS, dBTP) in exact English.'
+          : 'LANGUAGE REQUIREMENT: Write the entire Strict Guru Audit Report in sharp, authoritative International Competition Judge ENGLISH.';
+
+        const missionDirectives = {
+          auto: 'Auto-detect the best path (Release Ready / 5-Min Polish / Suno Cover / Suno Remix / Replace Section / Regenerate) based purely on the audio quality and Brain 1 X-Ray.',
+          cover: 'USER MISSION = NOISE, GLITCH & FREQUENCY CLEANUP VIA SUNO COVER (Keep exact melody!). In Part (क), you MUST provide a surgical Suno Cover Blueprint obeying the Anti Tug-of-War Rule (Audio Influence 75–80%, Style Influence 45–55%, Weirdness 15–25%, Variety 0%). Diagnose which exact words in the Original Style Box / Lyrics caused noise, shimmer, mud, bass masking, or glitches, show exact DELETE vs ADD changes, and give 100% copy-paste-ready Cleaned Style Box, Exclude Box, and Cleaned Lyrics Box.',
+          remix: 'USER MISSION = SUNO REMIX (Keep iconic hook/melody, upgrade groove, instruments & fix mix flaws!). In Part (क), provide exact Suno Remix sliders (Audio Influence 40–55%, Style Influence 65–75%, Weirdness 35–45%, Variety 0%), enforce Rule-of-3 instrument separation, eliminate bass-tabla collisions and noise, and output 100% copy-paste-ready New Style Box, Exclude Box, and Upgraded Lyrics Box with [Meta-Tags].',
+          replace: 'USER MISSION = SURGICAL REPLACE SECTION. Identify exact 4-bar / 8-bar timestamp windows [MM:SS – MM:SS] where glitches, noisy chorus, syllable cramming, or bad diction occur. Give exact Replace Section instructions (Weirdness 20–30%, Variety 0%, matching Style DNA) and the exact cleaned lyrics snippet to paste ONLY into that replaced block without causing pitch/tone seam drift.',
+          extend: 'USER MISSION = SUNO EXTEND. Identify the exact clean breath timestamp [MM:SS] to extend from (keeping Style Box 90% identical, Weirdness 20–30%, Variety 0%) and write the exact Golden Ratio Climax or serene 3–5s Tonic Afterglow outro lyrics + tags.',
+          fresh: 'USER MISSION = FRESH REGENERATE FROM SCRATCH. Perform full Volume 1 + Volume 2 overhaul (Weirdness 25–35%, Style Influence 70–80%, Variety 0%) with 100% rewritten, copy-paste-ready Master Style Box, Exclude Box, and Buttery-Legato Lyrics Box.'
+        };
+
+        const outputSchema = `
+MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
+
+## (अ) १००-गुणांचे स्कोअरकार्ड (Volume 1 + Volume 2) आणि स्पष्ट निवाडा
+- Present a clean Markdown table scoring all 5 pillars (20 pts each = 100 pts total) with exact numbers and brutally honest 1-line reasons.
+- State TOTAL SCORE: XX/100 and ONE EXACT VERDICT TAG on its own bold line from: **Release Ready** | **5-Min Polish** | **Suno Cover** | **Regenerate**.
+- Give a crisp 3-line Strict Guru Executive Counsel (zero false praise!).
+
+## (ब) सेकंद-दर-सेकंद X-Ray निदान (Timestamped Audio, Noise, Glitch & Vocal Audit)
+- Listen carefully to the entire uploaded audio track from 0:00 to the very end!
+- List exact timestamped observations using [MM:SS] format (e.g. [0:18], [1:12], [2:34]) covering:
+  • Noise, Glitches & 0% AI Check: audio artifacts, pops/clicks, metallic AI shimmer, robotic/nasal spots, plastic instruments, or superhuman runs
+  • Vocalist Lock & Diction: voice-swapping, choir hijacking, pronunciation errors (ळ, ण, ष, schwa), line-end volume drops, or syllable cramming
+  • Bass & Frequency Clashes: bass overpowering vocals, kick vs tabla/pakhawaj collision, Rule-of-3 violations, mud/sibilance spikes, or Extend/Replace seam & pitch drift
+  • Goosebump & Wavy Check: 7-second hook, pause/drop impact, +2 dB chorus lift, 65–75% Golden Ratio peak, and ending Tonic Afterglow.
+
+## (क) प्री-प्रॉडक्शन सुधारणा (Suno AI Style Box + Exclude Box + Lyrics Box + Sliders)
+- Follow the USER MISSION DIRECTIVE strictly!
+- Specify the exact Suno Mode (Cover / Remix / Replace Section / Extend / Fresh) + EXACT Slider Recipe (Audio Influence %, Style Influence %, Weirdness %, Variety 0% — obey Anti Tug-of-War Rule!).
+- If the user pasted an Original Style Box or Exclude Box, explicitly list what caused mistakes (Negative Prompt Traps, Contradictions, Latent Bandwidth Overload) and what to delete/replace.
+- Provide 3 separate, 100% copy-paste-ready fenced code blocks:
+  1. **Improved Suno Style Box**
+  2. **Improved Suno Exclude Box**
+  3. **Improved Suno Lyrics Box** (with exact Pingala Chhanda Matra fixes, Buttery Legato, Open-Vowel high notes, Genre-Lexicon Firewall fixes, and concise 2–5 word [Meta-Tags] — if lyrics were pasted or audible lyric/flow flaws were detected!).
+
+## (ड) ५-मिनिटांच्या पोस्ट-प्रॉडक्शन सुधारणा (Diamond Polish — Audacity / OBRA / BandLab)
+- First decide clearly using Volume 2 Golden Surgical Rule: "Stereo WAV Polish" vs "Stem Split required".
+- Give exact, copy-follow Hz, dB, Q, Pre-Delay, Short-Term/Integrated LUFS, and -1.0 dBTP Soft Limiter steps specifically calculated from Brain 1's numbers above:
+  1. **Audacity (अचूक मॅन्युअल पायऱ्या)**
+  2. **OBRA Audio (obra.art — मोबाईल ब्राउझरसाठी)**
+  3. **BandLab Mastering (मोबाईल अ‍ॅपसाठी — कोणता प्रीसेट वापरायचा व कोणता टाळायचा)**
+  4. **Final Export Spec & 3-Speaker Test Checklist** (24-bit/44.1 kHz Streaming vs 48 kHz Video).
+`;
+
+        return [
+          includeConstitutionForChat ? STRICT_GURU_CONSTITUTION + '\n\n' : '',
+          `USER SELECTED MISSION / FIX MODE: ${missionInfo.label}`,
+          `MISSION DIRECTIVE: ${missionDirectives[missionKey] || missionDirectives.auto}`,
+          `TARGET GENRE / LEXICON WORLD: ${genre}`,
+          langRule,
+          '',
+          forensic,
+          '',
+          stylePrompt
+            ? `=== USER'S ORIGINAL SUNO STYLE BOX (DIAGNOSE & FIX WORD-BY-WORD) ===\n${stylePrompt}`
+            : `=== USER'S ORIGINAL SUNO STYLE BOX ===\n(Not provided — generate a fresh 0% AI Organic Style Box matching this song's genre and fixes.)`,
+          '',
+          excludePrompt
+            ? `=== USER'S ORIGINAL SUNO EXCLUDE BOX ===\n${excludePrompt}`
+            : `=== USER'S ORIGINAL SUNO EXCLUDE BOX ===\n(Not provided — provide the complete Master Anti-Noise & Anti-Bass Exclude Box.)`,
+          '',
+          lyrics
+            ? `=== USER'S ORIGINAL SUNO LYRICS BOX (AUDIT WITH VOLUME 1 RULES & FIX) ===\n${lyrics}`
+            : `=== USER'S ORIGINAL SUNO LYRICS BOX ===\n(No lyrics text pasted. Audit the sung lyrics, diction, flow, and composition directly from the audio track!)`,
+          '',
+          outputSchema
+        ].join('\n');
+      }
+
+      // =========================================================================
+      // BRAIN 3: ZERO-API BACKUP MODE (Copy & Download Forensic Report)
+      // =========================================================================
+      els.btnCopyForensic.addEventListener('click', async () => {
+        if (!state.analysis) return;
+        const packet = buildAuditUserPrompt(true);
+        const ok = await copyTextSafe(packet);
+        if (ok) {
+          showToast('📋 फॉरेन्सिक रिपोर्ट कॉपी झाला! आता Gemini चॅटमध्ये गाणे अपलोड करून थेट पेस्ट करा.', 4200);
+        } else {
+          showToast('क्लिपबोर्ड ब्लॉक आहे — खालील (.txt) सेव्ह बटण वापरा.', 3800);
+        }
+      });
+
+      els.btnDownloadForensic.addEventListener('click', () => {
+        if (!state.analysis) return;
+        const packet = buildAuditUserPrompt(true);
+        const safeName = state.analysis.fileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+        downloadTextFile(`Maestro_Forensic_${safeName}.txt`, packet);
+        showToast('⬇️ फॉरेन्सिक रिपोर्ट .txt फाईल डाउनलोड झाली!');
+      });
+
+      // =========================================================================
+      // BRAIN 2: STRICT GURU MASTER JUDGE (GEMINI FILES API RESUMABLE UPLOAD)
+      // =========================================================================
+      function setB2Progress(pct, text) {
+        els.b2Progress.classList.add('show');
+        els.b2ProgressPct.textContent = `${Math.round(pct)}%`;
+        els.b2ProgressFill.style.width = `${pct}%`;
+        els.b2ProgressText.textContent = text;
+      }
+
+      function showB2Error(htmlMsg) {
+        els.b2Error.innerHTML = htmlMsg;
+        els.b2Error.classList.add('show');
+      }
+
+      function inferAudioMime(file) {
+        if (file.type && file.type.startsWith('audio/')) {
+          if (file.type === 'audio/x-wav' || file.type === 'audio/wave') return 'audio/wav';
+          return file.type;
+        }
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        if (ext === 'wav') return 'audio/wav';
+        if (ext === 'mp3') return 'audio/mpeg';
+        if (ext === 'flac') return 'audio/flac';
+        if (ext === 'm4a' || ext === 'aac') return 'audio/mp4';
+        if (ext === 'ogg') return 'audio/ogg';
+        return 'audio/wav';
+      }
+
+      // Stream binary File directly to Gemini Files API via Resumable Upload (Zero Base64 RAM Bloat!)
+      async function uploadFileToGemini(file, apiKey, onProgress) {
+        const mimeType = inferAudioMime(file);
+
+        // Step 1: Initiate resumable upload session
+        const startUrl = `https://generativelanguage.googleapis.com/upload/v1beta/files?key=${encodeURIComponent(apiKey)}`;
+        const initRes = await fetch(startUrl, {
+          method: 'POST',
+          headers: {
+            'X-Goog-Upload-Protocol': 'resumable',
+            'X-Goog-Upload-Command': 'start',
+            'X-Goog-Upload-Header-Content-Length': String(file.size),
+            'X-Goog-Upload-Header-Content-Type': mimeType,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ file: { display_name: file.name } })
+        });
+
+        if (!initRes.ok) {
+          const errJson = await initRes.json().catch(() => ({}));
+          throw new Error(`Upload Init Failed (${initRes.status}): ${errJson?.error?.message || initRes.statusText}`);
+        }
+
+        const uploadUrl = initRes.headers.get('x-goog-upload-url') || initRes.headers.get('X-Goog-Upload-URL');
+        if (!uploadUrl) {
+          throw new Error('Gemini सर्व्हरने resumable upload URL दिला नाही (ब्राउझर CORS तपासणी). Zero-API Backup वापरा.');
+        }
+
+        // Step 2: Upload raw File stream via XHR for real-time mobile % progress
+        const uploadedData = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', uploadUrl, true);
+          xhr.setRequestHeader('X-Goog-Upload-Offset', '0');
+          xhr.setRequestHeader('X-Goog-Upload-Command', 'upload, finalize');
+
+          xhr.upload.onprogress = (ev) => {
+            if (ev.lengthComputable && onProgress) {
+              onProgress((ev.loaded / ev.total) * 100);
+            }
+          };
+
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try {
+                resolve(JSON.parse(xhr.responseText));
+              } catch (e) {
+                reject(new Error('अपलोड प्रतिसाद वाचता आला नाही.'));
+              }
+            } else {
+              reject(new Error(`फाईल अपलोड अयशस्वी (HTTP ${xhr.status}): ${xhr.responseText.slice(0, 200)}`));
+            }
+          };
+
+          xhr.onerror = () => reject(new Error('नेटवर्क खंडित झाले! कृपया वाय-फाय किंवा स्थिर इंटरनेट तपासा.'));
+          xhr.ontimeout = () => reject(new Error('अपलोड वेळ संपली (Timeout).'));
+          xhr.send(file);
+        });
+
+        const fileObj = uploadedData.file || uploadedData;
+        if (!fileObj || !fileObj.uri) {
+          throw new Error('Gemini Files API कडून वैध file URI मिळाला नाही.');
+        }
+
+        // Step 3: Poll until file state is ACTIVE
+        let current = fileObj;
+        let attempts = 0;
+        while (current.state === 'PROCESSING' && attempts < 45) {
+          attempts++;
+          await new Promise((r) => setTimeout(r, 2000));
+          const pollRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/${current.name}?key=${encodeURIComponent(apiKey)}`);
+          if (pollRes.ok) {
+            current = await pollRes.json();
+          }
+        }
+        if (current.state === 'FAILED') {
+          throw new Error('Gemini सर्व्हरवर ऑडिओ प्रक्रिया अयशस्वी झाली.');
+        }
+
+        return { uri: current.uri, name: current.name, mimeType: current.mimeType || mimeType };
+      }
+
+      async function deleteGeminiFileQuietly(fileName, apiKey) {
+        if (!fileName || !apiKey) return;
+        try {
+          await fetch(`https://generativelanguage.googleapis.com/v1beta/${fileName}?key=${encodeURIComponent(apiKey)}`, {
+            method: 'DELETE'
+          });
+        } catch (_) {}
+      }
+
+      async function runStrictGuruAudit() {
+        if (state.isAuditing || !state.file || !state.analysis) return;
+
+        const apiKey = getActiveApiKey();
+        if (!apiKey) {
+          els.settingsPanel.classList.add('open');
+          els.settingsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          showB2Error(
+            '🔑 <strong>Gemini API Key सेट केलेली नाही!</strong><br/>वरच्या <strong>API Key Settings</strong> मध्ये तुमची Google AI Studio API Key सेव्ह करा — किंवा किल्लीशिवाय वापरण्यासाठी निळे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा.'
+          );
+          return;
+        }
+
+        state.isAuditing = true;
+        els.btnRunAudit.disabled = true;
+        els.b2Error.classList.remove('show');
+        els.reportBox.classList.remove('show');
+
+        let uploaded = null;
+        try {
+          const model = getActiveModel();
+          setB2Progress(5, `1/3 मोठी ऑडिओ फाईल (${state.analysis.fileSizeMB} MB) Gemini Files API वर अपलोड होत आहे...`);
+
+          uploaded = await uploadFileToGemini(state.file, apiKey, (upPct) => {
+            const mapped = 5 + upPct * 0.50;
+            setB2Progress(mapped, `1/3 सुरक्षित अपलोड सुरू आहे... (${Math.round(upPct)}%)`);
+          });
+
+          setB2Progress(62, `2/3 ${model} कठोर गुरू संपूर्ण गाणे ऐकून Vol 1 + Vol 2 परीक्षण करत आहेत... (30–60 सेकंद थांबा)`);
+
+          const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+          const payload = {
+            systemInstruction: {
+              parts: [{ text: STRICT_GURU_CONSTITUTION }]
+            },
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    fileData: {
+                      mimeType: uploaded.mimeType,
+                      fileUri: uploaded.uri
+                    }
+                  },
+                  {
+                    text: buildAuditUserPrompt(false)
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.35,
+              maxOutputTokens: 8192
+            }
+          };
+
+          const genRes = await fetch(genUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const genJson = await genRes.json().catch(() => ({}));
+          if (!genRes.ok) {
+            const msg = genJson?.error?.message || `HTTP ${genRes.status}`;
+            if (genRes.status === 429) {
+              throw new Error(`API कोटा / वेग मर्यादा (429): ${msg}. उपाय: सेटिंग्जमध्ये "Gemini 2.5 Flash" निवडा किंवा निळे "Zero-API Backup" बटण वापरा!`);
+            }
+            if (genRes.status === 400 || genRes.status === 403) {
+              throw new Error(`API Key किंवा मॉडेल त्रुटी (${genRes.status}): ${msg}`);
+            }
+            throw new Error(msg);
+          }
+
+          setB2Progress(92, '3/3 कठोर गुरूंचा ४-भागी अहवाल सजवला जात आहे...');
+          const parts = genJson?.candidates?.[0]?.content?.parts || [];
+          const reportText = parts.map((p) => p.text || '').join('\n').trim();
+          if (!reportText) {
+            throw new Error('Gemini कडून रिकामा प्रतिसाद आला. कृपया पुन्हा प्रयत्न करा.');
+          }
+
+          state.rawMarkdownReport = reportText;
+          renderGuruReport(reportText);
+
+          setB2Progress(100, '✅ Strict Guru Audit १००% पूर्ण!');
+          setTimeout(() => els.b2Progress.classList.remove('show'), 1400);
+          els.reportBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          showToast('🔥 कठोर गुरूंचा संपूर्ण अहवाल तयार आहे!');
+        } catch (err) {
+          console.error(err);
+          els.b2Progress.classList.remove('show');
+          showB2Error(
+            `❌ <strong>ऑडिट अयशस्वी:</strong> ${escapeHtml(err.message)}<br/><br/>💡 <strong>तातडीचा उपाय (Zero-API Backup):</strong> काहीही चिंता करू नका! वरचे निळे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा आणि थेट तुमच्या Gemini चॅटमध्ये पेस्ट करा.`
+          );
+        } finally {
+          if (uploaded?.name) {
+            deleteGeminiFileQuietly(uploaded.name, apiKey);
+          }
+          state.isAuditing = false;
+          els.btnRunAudit.disabled = false;
+        }
+      }
+
+      els.btnRunAudit.addEventListener('click', runStrictGuruAudit);
+
+      // =========================================================================
+      // RICH MARKDOWN RENDERER WITH CLICKABLE [MM:SS] AUDIO SEEK PILLS
+      // =========================================================================
+      function renderGuruReport(md) {
+        // Detect Verdict for styled banner
+        els.verdictBanner.className = 'verdict-banner';
+        const lower = md.toLowerCase();
+        if (lower.includes('release ready')) {
+          els.verdictBanner.classList.add('release');
+          els.verdictText.textContent = '🏆 VERDICT: RELEASE READY (रिलीझसाठी सज्ज!)';
+        } else if (lower.includes('5-min polish') || lower.includes('diamond polish')) {
+          els.verdictBanner.classList.add('polish');
+          els.verdictText.textContent = '✨ VERDICT: 5-MIN DIAMOND POLISH (थोडी स्टुडिओ चमक हवी)';
+        } else if (lower.includes('suno cover') || lower.includes('replace section')) {
+          els.verdictBanner.classList.add('cover');
+          els.verdictText.textContent = '🎛️ VERDICT: SUNO COVER / REPLACE SECTION';
+        } else if (lower.includes('regenerate') || lower.includes('hard guru veto')) {
+          els.verdictBanner.classList.add('regen');
+          els.verdictText.textContent = '🚨 VERDICT: REGENERATE (HARD GURU VETO)';
+        } else {
+          els.verdictText.textContent = '📜 STRICT GURU MASTER AUDIT REPORT';
+        }
+
+        els.reportBody.innerHTML = markdownToHtml(md);
+        els.reportBox.classList.add('show');
+
+        // Wire clickable timestamp pills to jump the studio player
+        els.reportBody.querySelectorAll('.ts-pill').forEach((pill) => {
+          pill.addEventListener('click', () => {
+            const sec = Number(pill.dataset.sec);
+            if (!isNaN(sec) && els.audioPlayer.src) {
+              els.audioPlayer.currentTime = sec;
+              els.audioPlayer.play().catch(() => {});
+              showToast(`⏩ ${pill.textContent} वर प्ले होत आहे...`, 1800);
+            }
+          });
+        });
+
+        // Wire copy buttons on code blocks (Style / Exclude boxes)
+        els.reportBody.querySelectorAll('.copy-code-btn').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const code = btn.parentElement.querySelector('code')?.textContent || '';
+            const ok = await copyTextSafe(code.trim());
+            showToast(ok ? '📋 Prompt कॉपी झाला!' : 'कॉपी त्रुटी.');
+          });
+        });
+      }
+
+      function formatInline(text) {
+        let s = escapeHtml(text);
+        // Inline code
+        s = s.replace(/`([^`]+)`/g, '<code style="background:#F2F4F7;padding:1px 5px;border-radius:4px;color:#111318;border:1px solid #E4E7EC;font-family:var(--font-mono);font-size:0.86em;">$1</code>');
+        // Bold
+        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+        // Italic
+        s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>');
+        // Clickable [MM:SS] timestamps
+        s = s.replace(/\[(\d{1,2}):(\d{2})\]/g, (_, m, sec) => {
+          const total = parseInt(m, 10) * 60 + parseInt(sec, 10);
+          return `<button type="button" class="ts-pill" data-sec="${total}" title="या सेकंदावर गाणे ऐका">▶ ${m}:${sec}</button>`;
+        });
+        return s;
+      }
+
+      function markdownToHtml(md) {
+        const lines = md.replace(/\r\n/g, '\n').split('\n');
+        let html = '';
+        let inCode = false;
+        let codeBuf = [];
+        let inUl = false;
+        let inOl = false;
+        let tableRows = [];
+
+        const closeLists = () => {
+          if (inUl) { html += '</ul>'; inUl = false; }
+          if (inOl) { html += '</ol>'; inOl = false; }
+        };
+
+        const flushTable = () => {
+          if (!tableRows.length) return;
+          html += '<table>';
+          tableRows.forEach((row, idx) => {
+            const cells = row.replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+            // Skip separator row |---|---|
+            if (idx === 1 && cells.every((c) => /^:?-+:?$/.test(c))) return;
+            const tag = idx === 0 ? 'th' : 'td';
+            html += '<tr>' + cells.map((c) => `<${tag}>${formatInline(c)}</${tag}>`).join('') + '</tr>';
+          });
+          html += '</table>';
+          tableRows = [];
+        };
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+
+          // Fenced Code Blocks
+          if (line.trim().startsWith('```')) {
+            closeLists();
+            flushTable();
+            if (!inCode) {
+              inCode = true;
+              codeBuf = [];
+            } else {
+              html += `<div class="code-block-wrap"><button class="copy-mini copy-code-btn" type="button">कॉपी</button><code>${escapeHtml(codeBuf.join('\n'))}</code></div>`;
+              inCode = false;
+            }
+            continue;
+          }
+          if (inCode) {
+            codeBuf.push(line);
+            continue;
+          }
+
+          // Tables
+          if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+            closeLists();
+            tableRows.push(line.trim());
+            continue;
+          } else {
+            flushTable();
+          }
+
+          const trimmed = line.trim();
+          if (!trimmed) {
+            closeLists();
+            continue;
+          }
+
+          // Horizontal rule
+          if (/^---+$/.test(trimmed)) {
+            closeLists();
+            html += '<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;"/>';
+            continue;
+          }
+
+          // Headings
+          const hMatch = trimmed.match(/^(#{1,3})\s+(.*)$/);
+          if (hMatch) {
+            closeLists();
+            const level = hMatch[1].length;
+            html += `<h${level}>${formatInline(hMatch[2])}</h${level}>`;
+            continue;
+          }
+
+          // Blockquote
+          if (trimmed.startsWith('>')) {
+            closeLists();
+            html += `<blockquote>${formatInline(trimmed.replace(/^>\s?/, ''))}</blockquote>`;
+            continue;
+          }
+
+          // Unordered List
+          const ulMatch = trimmed.match(/^[-*•]\s+(.*)$/);
+          if (ulMatch) {
+            if (inOl) { html += '</ol>'; inOl = false; }
+            if (!inUl) { html += '<ul>'; inUl = true; }
+            html += `<li>${formatInline(ulMatch[1])}</li>`;
+            continue;
+          }
+
+          // Ordered List
+          const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
+          if (olMatch) {
+            if (inUl) { html += '</ul>'; inUl = false; }
+            if (!inOl) { html += '<ol>'; inOl = true; }
+            html += `<li>${formatInline(olMatch[1])}</li>`;
+            continue;
+          }
+
+          closeLists();
+          html += `<p>${formatInline(trimmed)}</p>`;
+        }
+
+        closeLists();
+        flushTable();
+        if (inCode) {
+          html += `<div class="code-block-wrap"><code>${escapeHtml(codeBuf.join('\n'))}</code></div>`;
+        }
+        return html;
+      }
+
+      els.btnCopyReport.addEventListener('click', async () => {
+        if (!state.rawMarkdownReport) return;
+        const ok = await copyTextSafe(state.rawMarkdownReport);
+        showToast(ok ? '📋 संपूर्ण गुरू अहवाल कॉपी झाला!' : 'कॉपी करता आले नाही.');
+      });
+
+      els.btnSaveReport.addEventListener('click', () => {
+        if (!state.rawMarkdownReport || !state.analysis) return;
+        const safeName = state.analysis.fileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
+        downloadTextFile(`Maestro_Guru_Audit_${safeName}.md`, state.rawMarkdownReport);
+        showToast('💾 गुरू अहवाल (.md) सेव्ह झाला!');
+      });
+
+      // Initialize app on load
+      loadSettings();
+    })();
+  </script>
+</body>
+</html>
