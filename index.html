@@ -895,55 +895,485 @@
       color: var(--text);
     }
 
-    .report-body {
-      padding: 18px 16px;
-      font-size: 0.94rem;
-      line-height: 1.72;
-      color: var(--text);
-      overflow-wrap: anywhere;
+    /* International Jury Native In-App Dashboard (Zero Document Look!) */
+    .jury-hero {
+      padding: 16px;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
     }
 
-    .report-body h1, .report-body h2, .report-body h3 {
-      color: var(--text);
-      margin-top: 22px;
-      margin-bottom: 8px;
+    .jury-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .award-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 900;
+      border: 1.5px solid #111318;
+      background: #111318;
+      color: #FFFFFF;
       line-height: 1.3;
     }
-    .report-body h2 {
-      font-size: 1.12rem;
-      padding-bottom: 6px;
-      border-bottom: 2px solid #111318;
-    }
-    .report-body h3 { font-size: 1rem; color: #334155; }
-    .report-body p { margin: 8px 0; }
-    .report-body ul, .report-body ol { padding-left: 20px; margin: 8px 0; }
-    .report-body li { margin-bottom: 6px; }
-    .report-body strong { color: #000000; }
-    .report-body blockquote {
-      margin: 12px 0;
-      padding: 10px 14px;
-      border-left: 3px solid #111318;
+    .award-pill.grammy { background: #111318; color: #FFFFFF; border-color: #111318; }
+    .award-pill.finalist { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+    .award-pill.studio { background: var(--yellow-bg); color: var(--yellow); border-color: var(--yellow); }
+    .award-pill.demo { background: var(--blue-bg); color: var(--blue); border-color: var(--blue); }
+    .award-pill.disq { background: var(--red-bg); color: var(--red); border-color: var(--red); }
+
+    .jury-score-box {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      padding: 7px 14px;
+      border-radius: 12px;
       background: var(--bg-subtle);
-      border-radius: 0 8px 8px 0;
+      border: 1.5px solid var(--border-strong);
+      font-family: var(--font-mono);
+    }
+    .jury-score-num {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--text);
+      line-height: 1;
+    }
+    .jury-score-den {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
     }
 
-    .report-body table {
+    .ai-meter-box {
+      padding: 13px 14px;
+      border-radius: 12px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+    }
+    .ai-meter-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .ai-meter-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .ai-meter-pct {
+      font-family: var(--font-mono);
+      font-size: 0.96rem;
+      font-weight: 900;
+      padding: 2px 10px;
+      border-radius: 999px;
+    }
+    .ai-meter-pct.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+    .ai-meter-pct.yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+    .ai-meter-pct.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+    .ai-meter-track {
       width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0;
-      font-size: 0.85rem;
-      display: block;
-      overflow-x: auto;
+      height: 11px;
+      border-radius: 999px;
+      background: #E4E7EC;
+      overflow: hidden;
+      margin-bottom: 7px;
     }
-    .report-body th, .report-body td {
-      border: 1px solid var(--border-strong);
+    .ai-meter-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.55s ease;
+    }
+    .ai-meter-fill.green { background: var(--green-bar); }
+    .ai-meter-fill.yellow { background: var(--yellow-bar); }
+    .ai-meter-fill.red { background: var(--red-bar); }
+
+    .ai-meter-note {
+      font-size: 0.79rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .consensus-strip {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-strong);
+      border-left: 4px solid #111318;
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .redflags-strip {
+      display: none;
+      padding: 11px 13px;
+      border-radius: 10px;
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: var(--red);
+      font-size: 0.83rem;
+      line-height: 1.5;
+    }
+    .redflags-strip.show { display: block; }
+    .redflags-strip.clean {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      color: var(--green);
+    }
+
+    /* Native App Segmented Tab Navigation */
+    .jury-nav {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      padding: 10px 12px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+    .jury-tab-btn {
+      min-height: 44px;
       padding: 8px 10px;
-      text-align: left;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      text-align: center;
     }
-    .report-body th {
+    .jury-tab-btn.active {
+      background: #111318;
+      color: #FFFFFF;
+      border-color: #111318;
+      box-shadow: 0 3px 10px rgba(17, 19, 24, 0.15);
+    }
+
+    .jury-stage {
+      padding: 14px;
+      background: var(--bg);
+    }
+    .jury-pane {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .jury-pane.active {
+      display: flex;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .sub-block-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+      margin: 2px 0 -4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* 3 Full Judge Statement Cards */
+    .judges-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .judge-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-left: 4px solid #111318;
+      border-radius: 13px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+    }
+    .judge-card.green { border-left-color: var(--green-bar); }
+    .judge-card.yellow { border-left-color: var(--yellow-bar); }
+    .judge-card.red { border-left-color: var(--red-bar); }
+
+    .judge-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .judge-card-name {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .judge-card-sub {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+    .judge-score-pill {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 9px;
       background: var(--bg-subtle);
       color: var(--text);
+      border: 1px solid var(--border-strong);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .judge-card-quote {
+      margin: 0;
+      font-size: 0.87rem;
+      color: var(--text);
+      line-height: 1.55;
+      background: var(--bg-subtle);
+      padding: 10px 12px;
+      border-radius: 9px;
+    }
+
+    /* 8-Parameter Visual Scoreboard Meters */
+    .param-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .param-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .param-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .param-name {
+      font-size: 0.87rem;
       font-weight: 800;
+      color: var(--text);
+    }
+    .param-marks {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .param-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    /* Mistake -> Simple Solution Cards */
+    .mistake-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .ms-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+    .ms-problem {
+      padding: 11px 13px;
+      background: var(--red-bg);
+      border-bottom: 1px solid var(--red-border);
+      color: var(--red);
+      font-size: 0.87rem;
+      font-weight: 700;
+      line-height: 1.48;
+    }
+    .ms-solution {
+      padding: 11px 13px;
+      background: #FFFFFF;
+      color: var(--text);
+      font-size: 0.87rem;
+      line-height: 1.5;
+    }
+
+    /* Interactive Timestamped Audio Timeline Cards */
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tl-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+    }
+    .tl-row.red { border-left: 4px solid var(--red-bar); }
+    .tl-row.yellow { border-left: 4px solid var(--yellow-bar); }
+    .tl-row.green { border-left: 4px solid var(--green-bar); }
+    .tl-text {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.48;
+      flex: 1;
+    }
+
+    /* Suno Sliders Studio Widget */
+    .suno-sliders-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .slider-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .slider-val {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: #111318;
+    }
+
+    /* Prompt Copy Cards */
+    .prompt-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .prompt-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .prompt-card-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .prompt-code {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-strong);
+      border-radius: 9px;
+      padding: 11px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #111318;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.55;
+    }
+
+    /* Mastering Polish Tool Cards */
+    .polish-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .polish-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .polish-card h4 {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .polish-steps {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.58;
+    }
+    .polish-steps li { margin-bottom: 5px; }
+
+    /* Zero-API Paste Back Panel */
+    .paste-box-panel {
+      display: none;
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+      border: 1.5px solid #111318;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .paste-box-panel.open { display: flex; animation: fadeIn 0.2s ease; }
+
+    /* Legacy / Fallback report body */
+    .report-body {
+      padding: 14px;
+      font-size: 0.92rem;
+      line-height: 1.68;
+      color: var(--text);
+      overflow-wrap: anywhere;
+      background: var(--bg);
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .report-body.show { display: flex; }
+
+    .report-section-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 16px 15px;
     }
 
     .code-block-wrap {
@@ -977,19 +1407,27 @@
     .ts-pill {
       display: inline-flex;
       align-items: center;
-      padding: 2px 8px;
-      margin: 0 2px;
-      border-radius: 6px;
+      padding: 5px 10px;
+      border-radius: 8px;
       background: #111318;
       border: 1px solid #111318;
       color: #FFFFFF;
       font-family: var(--font-mono);
       font-size: 0.8rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
-      vertical-align: baseline;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .ts-pill:hover { background: #333A48; }
+
+    @media (min-width: 768px) {
+      .jury-nav { grid-template-columns: repeat(4, 1fr); }
+      .judges-cards-grid { grid-template-columns: repeat(3, 1fr); }
+      .param-grid { grid-template-columns: repeat(2, 1fr); }
+      .suno-sliders-grid { grid-template-columns: repeat(4, 1fr); }
+      .polish-grid { grid-template-columns: repeat(3, 1fr); }
+    }
 
     /* Error Box */
     .error-banner {
@@ -1192,11 +1630,13 @@
         <div class="field">
           <label for="modelSelect">Gemini मॉडेल निवडा</label>
           <select id="modelSelect">
-            <option value="gemini-2.5-pro">Gemini 2.5 Pro (सर्वोत्तम कठोर गुरू)</option>
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview (नवीन सर्वोत्तम कठोर गुरू ★)</option>
             <option value="gemini-2.5-flash">Gemini 2.5 Flash (जलद / मोफत कोटा)</option>
+            <option value="gemini-3-flash-preview">Gemini 3 Flash Preview (वेगवान)</option>
             <option value="custom">इतर / नवीन मॉडेल (Custom ID)</option>
           </select>
-          <input type="text" id="customModelInput" placeholder="उदा. gemini-2.5-pro-preview" style="display:none; margin-top:6px;" />
+          <input type="text" id="customModelInput" placeholder="उदा. gemini-3.1-pro-preview" style="display:none; margin-top:6px;" />
+          <p class="helper-text">💡 "API Key तपासा" दाबल्यावर तुमच्या खात्यात उपलब्ध असलेली सर्व मॉडेल्स आपोआप लोड होतात.</p>
         </div>
 
         <div class="field">
@@ -1404,8 +1844,8 @@
       </div>
 
       <p class="helper-text" style="margin-bottom:14px; font-size:0.86rem; color:var(--text-muted);">
-        <strong style="color:#111318; font-weight:700;">मेंदू २ (Auto-Pilot):</strong> तुमची मोठी WAV फाईल सुरक्षितपणे Gemini Files API वर पाठवून, मेंदू १ चा X-Ray + Volume 1 व 2 चे सर्व कठोर गुरू नियम वापरून ४ भागांत सखोल परीक्षण आणतो.<br/>
-        <strong style="color:#111318;">मेंदू ३ (किल्लीशिवाय Backup):</strong> API Key नसली किंवा कोटा संपला, तर खालील निळ्या बटणाने संपूर्ण फॉरेन्सिक रिपोर्ट कॉपी करून नेहमीच्या Gemini चॅटमध्ये पेस्ट करा!
+        <strong style="color:#111318; font-weight:700;">मेंदू २ (Auto-Pilot):</strong> तुमची मोठी WAV फाईल सुरक्षितपणे Gemini Files API वर पाठवून, मेंदू १ चा X-Ray + Volume 1 व 2 चे सर्व कठोर गुरू नियम वापरून ३ आंतरराष्ट्रीय ज्युरी (Grammy+ दर्जा), ८-निकष गुणपत्रक, Award Tier आणि AI संशय मीटरसह सोप्या मराठीत परीक्षण आणतो.<br/>
+        <strong style="color:#111318;">मेंदू ३ (किल्लीशिवाय Backup):</strong> API Key नसली किंवा कोटा संपला, तर खालील "Copy Forensic Report" बटणाने संपूर्ण फॉरेन्सिक रिपोर्ट कॉपी करून नेहमीच्या Gemini चॅटमध्ये पेस्ट करा!
       </p>
 
       <div class="cta-grid" style="display:grid; gap:12px;">
@@ -1418,8 +1858,19 @@
       </div>
 
       <div class="btn-row" style="margin-top:10px;">
-        <button class="btn btn-ghost btn-sm" id="btnDownloadForensic" type="button" disabled>⬇️ फॉरेन्सिक रिपोर्ट (.txt) सेव्ह करा</button>
-        <button class="btn btn-ghost btn-sm" id="btnQuickApiOpen" type="button">⚙️ API Key सेट करा / बदला</button>
+        <button class="btn btn-ghost btn-sm" id="btnTogglePasteImport" type="button">📥 चॅटचा निकाल अ‍ॅपमध्ये पहा</button>
+        <button class="btn btn-ghost btn-sm" id="btnDownloadForensic" type="button" disabled>⬇️ फॉरेन्सिक (.txt) सेव्ह</button>
+        <button class="btn btn-ghost btn-sm" id="btnQuickApiOpen" type="button">⚙️ API Key सेट करा</button>
+      </div>
+
+      <!-- Zero-API Paste Back Panel (Render Chat Result Directly Inside Native App UI!) -->
+      <div class="paste-box-panel" id="pasteImportPanel">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <strong style="font-size:0.88rem;">📥 Gemini चॅटमधून मिळालेला निकाल येथे पेस्ट करा</strong>
+          <button class="btn btn-ghost btn-sm" id="btnClosePasteImport" type="button" style="min-height:34px; padding:4px 10px;">बंद ✕</button>
+        </div>
+        <textarea id="pasteImportInput" style="min-height:110px;" placeholder="Gemini चॅटमधील उत्तर कॉपी करून येथे पेस्ट करा — अ‍ॅप स्वतः त्याचे ३ जज कार्ड्स, ८ मीटर्स आणि Suno स्लाइडर्स मध्ये रूपांतर करेल!"></textarea>
+        <button class="btn btn-gold btn-sm" id="btnApplyPasteImport" type="button">✨ अ‍ॅप डॅशबोर्डवर दाखवा</button>
       </div>
 
       <!-- Brain 2 Progress -->
@@ -1434,18 +1885,107 @@
       <!-- Error Banner -->
       <div class="error-banner" id="b2Error"></div>
 
-      <!-- Audit Output Box -->
+      <!-- Native Interactive In-App International Jury Dashboard (Zero Document Look!) -->
       <div class="report-box" id="reportBox">
         <div class="verdict-banner" id="verdictBanner">
           <div>
-            <div style="font-size:0.74rem; color:var(--text-muted); font-weight:700; letter-spacing:0.05em;">STRICT GURU FINAL VERDICT</div>
-            <div class="verdict-title" id="verdictText">ऑडिट अहवाल तयार</div>
+            <div style="font-size:0.72rem; color:var(--text-muted); font-weight:800; letter-spacing:0.06em;">INTERNATIONAL JURY (GRAMMY+ STANDARD)</div>
+            <div class="verdict-title" id="verdictText">अंतिम ज्युरी निकाल</div>
           </div>
           <div class="btn-row">
-            <button class="btn btn-ghost btn-sm" id="btnCopyReport" type="button">📋 रिपोर्ट कॉपी</button>
-            <button class="btn btn-ghost btn-sm" id="btnSaveReport" type="button">💾 सेव्ह (.md)</button>
+            <button class="btn btn-ghost btn-sm" id="btnCopyReport" type="button">📋 सारांश कॉपी</button>
+            <button class="btn btn-ghost btn-sm" id="btnSaveReport" type="button">💾 सेव्ह</button>
           </div>
         </div>
+
+        <!-- TOP PROMINENT JURY HERO: Award Tier + Total Score + AI Suspicion Meter + Consensus + Red Flags -->
+        <div class="jury-hero" id="juryHero" style="display:none;">
+          <div class="jury-top-row">
+            <div class="award-pill" id="awardTierBadge">🏆 Award Tier</div>
+            <div class="jury-score-box">
+              <span class="jury-score-num" id="juryTotalScore">—</span>
+              <span class="jury-score-den">/ 100 गुण</span>
+            </div>
+          </div>
+
+          <!-- AI / Robotic / Machinery Suspicion Meter (0% to 100%) -->
+          <div class="ai-meter-box">
+            <div class="ai-meter-head">
+              <span class="ai-meter-title">🤖 AI / यांत्रिक / रोबोटिक संशय मीटर (कमी % = जास्त मानवी!)</span>
+              <span class="ai-meter-pct green" id="aiSuspicionPct">0%</span>
+            </div>
+            <div class="ai-meter-track">
+              <div class="ai-meter-fill green" id="aiSuspicionFill"></div>
+            </div>
+            <div class="ai-meter-note" id="aiSuspicionNote"></div>
+          </div>
+
+          <!-- Final Combined Counsel -->
+          <div class="consensus-strip" id="juryConsensusStrip" style="display:none;"></div>
+
+          <!-- Instant Jury Red-Flags Strip -->
+          <div class="redflags-strip" id="redFlagsStrip"></div>
+        </div>
+
+        <!-- 4 Native App Tabs (Tap to view Judges, Mistakes, Suno Sliders, Mastering Steps!) -->
+        <div class="jury-nav" id="juryNav" style="display:none;">
+          <button type="button" class="jury-tab-btn active" data-jtab="jpaneJudges">⚖️ ३ जज व ८ गुण</button>
+          <button type="button" class="jury-tab-btn" data-jtab="jpaneMistakes">🚨 चुका व X-Ray</button>
+          <button type="button" class="jury-tab-btn" data-jtab="jpaneSuno">🎛️ Suno दुरुस्ती</button>
+          <button type="button" class="jury-tab-btn" data-jtab="jpanePolish">✨ ५-मिनिटे पॉलिश</button>
+        </div>
+
+        <!-- Tabbed Native App Stage -->
+        <div class="jury-stage" id="juryStage" style="display:none;">
+          <!-- TAB 1: 3 Independent Judge Statement Cards + 8-Parameter Visual Scoreboard -->
+          <div class="jury-pane active" id="jpaneJudges">
+            <div class="sub-block-title">
+              <span>⚖️ ३ आंतरराष्ट्रीय ज्युरींचे स्वतंत्र मत (3 Judges Panel)</span>
+            </div>
+            <div class="judges-cards-grid" id="judgesCardsGrid"></div>
+
+            <div class="sub-block-title" style="margin-top:6px;">
+              <span>📊 ८-निकष जागतिक गुणपत्रक (एकूण १०० गुण)</span>
+            </div>
+            <div class="param-grid" id="paramScoreGrid"></div>
+          </div>
+
+          <!-- TAB 2: Mistakes -> Solutions Cards + Interactive Clickable Timeline -->
+          <div class="jury-pane" id="jpaneMistakes">
+            <div class="sub-block-title">
+              <span>🚨 मुख्य चुका आणि त्यांचे सोपे उपाय</span>
+            </div>
+            <div class="mistake-grid" id="mistakesCardsGrid"></div>
+
+            <div class="sub-block-title" style="margin-top:6px;">
+              <span>⏱️ सेकंद-दर-सेकंद X-Ray (वेळेवर टच करून गाणे ऐका)</span>
+            </div>
+            <div class="timeline-list" id="timelineList"></div>
+          </div>
+
+          <!-- TAB 3: Suno Fix Studio (Visual Sliders + 1-Tap Copy Boxes) -->
+          <div class="jury-pane" id="jpaneSuno">
+            <div class="sub-block-title">
+              <span>🎛️ Suno AI दुरुस्ती सेटिंग्ज (स्लाइडर्स व प्रॉम्प्ट्स)</span>
+              <span class="step-badge" id="sunoModePill">—</span>
+            </div>
+            <p class="mission-hint-box" id="sunoModeReason" style="margin:0;"></p>
+            <div class="suno-sliders-grid" id="sunoSlidersGrid"></div>
+            <div id="sunoPromptsStack" style="display:flex; flex-direction:column; gap:10px;"></div>
+          </div>
+
+          <!-- TAB 4: 5-Minute Diamond Polish Cards -->
+          <div class="jury-pane" id="jpanePolish">
+            <div class="sub-block-title">
+              <span>✨ ५-मिनिटे स्टुडिओ पॉलिश (OBRA / BandLab / Audacity)</span>
+              <span class="step-badge green" id="polishMethodPill">Stereo WAV Polish</span>
+            </div>
+            <div class="polish-grid" id="polishToolsGrid"></div>
+            <div class="mission-hint-box" id="polishExportNote" style="margin:0;"></div>
+          </div>
+        </div>
+
+        <!-- Safe Fallback Markdown View (only used if non-JSON text is ever pasted) -->
         <div class="report-body" id="reportBody"></div>
       </div>
     </section>
@@ -1586,19 +2126,34 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
    - Tools: Audacity (manual EQ/Loudness/Soft Limiter), OBRA Audio (obra.art — mobile Bass/Warmth/Brightness/LUFS), BandLab Mastering (Universal/Clarity/Tape; AVOID "Fire" if bass threatens vocals).
    - Specs: 0.3–0.5s clean start silence, smooth 2–5s tail fade, Short-Term Chorus -10 to -12 LUFS, Integrated -14 LUFS (Streaming) / -11 LUFS (Competition), Soft Limiter -1.0 dBTP True Peak Ceiling. Export 24-bit/44.1 kHz (DistroKid/Spotify) or 24-bit/48 kHz (YouTube/Reels).
 
-=== COMBINED 100-POINT MASTER RUBRIC & VERDICT THRESHOLDS ===
-When evaluating the track (audio + Brain 1 X-Ray + optional lyrics), score ruthlessly out of 100 across Volume 1 + Volume 2 pillars:
-- Pillar 1 (20 pts): 0% AI Purity, Organic Acoustics & 105% Human Virtuosity (Vol 2)
-- Pillar 2 (20 pts): High-EQ Vocal Acting, Native Scholar Diction, Buttery Legato & Vocalist Lock (Vol 1 + Vol 2)
-- Pillar 3 (20 pts): Crystal Separation, Bass-to-Vocal Balance, Zero Noise/Sibilance & Stereo/Mono Safety (Vol 2 + Brain 1 Math)
-- Pillar 4 (20 pts): Lyrics/Poetry Depth, Genre-Lexicon Purity, 70/30 MAYA & Wavy Architecture / Goosebump Peak (Vol 1 + Vol 2; if no lyrics text provided, judge audible lyrics/composition/wavy architecture & note lyrics text was not pasted)
-- Pillar 5 (20 pts): Under-4:00 Pacing, Prasanna 100-Loop Polish, Dynamics/LUFS/True Peak & Clean Start/Tail (Vol 1 + Vol 2 + Brain 1 Math)
+=== WORLD-CLASS INTERNATIONAL JURY PANEL (3 INDEPENDENT JUDGES -> 1 FINAL CONSENSUS) ===
+Evaluate every song through the eyes of a supreme Grammy+ International Jury composed of 3 distinct world-class judges who deliberate independently and then conclude to ONE unified Consensus Score (0–100), Award Tier, and AI Suspicion %:
+- JUDGE 1 (Global Music Director & Concept Visionary): Scores Idea, Concept, Never-Done-Before Originality, 70/30 MAYA balance, Wavy Architecture, Goosebumps/Frisson (65–75% peak), Under-4:00 Pacing & Timelessness.
+- JUDGE 2 (Master Vocalist, High-EQ Acting & Native Language Scholar): Ruthlessly checks 0% AI Human Voice Purity (eliminating robotic, nasal, metallic, autotuned, or machinery vocal artifacts), Chest Resonance, Emotional Acting, Buttery Legato, Diction (ळ, ण, ष), Single-Vocalist Lock, Lyrics & Genre-Lexicon Purity.
+- JUDGE 3 (Grammy+ Audiophile Sound & Mastering Chief): Audits Organic Living Instruments (wood/skin/air transients, 105% virtuosity, Vocal-Gap Call & Response), 3D Same-Room Glue, Bass-to-Vocal balance, Rule of 3, Zero Noise/Shimmer, LUFS, True Peak (-1.0 dBTP) & Mono Safety.
 
-STRICT VERDICT THRESHOLDS:
-- 90–100 pts => Release Ready (आंतरराष्ट्रीय स्पर्धा व अधिकृत रिलीझसाठी सज्ज!)
-- 80–89 pts  => 5-Min Polish (५-मिनिटांचा Diamond Polish करून पुन्हा तपासा)
-- 65–79 pts  => Suno Cover (Anti Tug-of-War Suno Cover किंवा Replace Section करा)
-- Below 65   => Regenerate (Hard Guru Veto — लिरिक्स/मात्रा/Key/Style दुरुस्त करून नव्याने तयार करा)
+=== 8-PARAMETER INTERNATIONAL JURY 100-POINT SCORECARD ===
+Score ruthlessly across these EXACT 8 parameters (Total = 100 pts):
+1. Idea, Concept & Global Originality (कल्पना, विषय व नाविन्य) — 15 pts
+2. 0% AI Purity & Robotic/Nasal/Machinery Elimination (०% AI शुद्धता — रोबोटिक/नाकातला/यांत्रिक आवाज बाद) — 20 pts
+3. Vocals, High-EQ Acting & Native Diction (गायन, भावनिक अभिनय व शुद्ध उच्चार) — 15 pts
+4. Instruments, Organic Texture & 1000% Sync (वाद्ये, नैसर्गिक पोत व सुसंवाद) — 15 pts
+5. Melody, Lyrics & Cultural Purity (चाल, शब्दरचना व भाषा-शुद्धता) — 10 pts
+6. 3D Studio Mix, Bass Control & Zero Noise (३D स्टुडिओ साऊंड, बेस नियंत्रण व स्वच्छता) — 10 pts
+7. Wavy Architecture & Goosebumps/Frisson (ऊर्जेच्या लाटा व अंगावर काटा) — 10 pts
+8. Timelessness, <4:00 Pacing & 100-Loop Prasanna (अमरत्व, वेळ व १००-लूप प्रसन्नता) — 5 pts
+
+AWARD TIER & ACTION VERDICT THRESHOLDS:
+- 95–100 pts => Grammy / Global Masterpiece | Verdict: **Release Ready**
+- 90–94 pts  => International Competition Finalist | Verdict: **Release Ready**
+- 80–89 pts  => Strong Studio Track | Verdict: **5-Min Polish**
+- 65–79 pts  => Demo / Draft Level | Verdict: **Suno Cover**
+- Below 65   => Jury Disqualified | Verdict: **Regenerate**
+
+AI / MACHINERY SUSPICION METER (0% to 100%):
+- 0%–5%: Truly Living Human Studio Recording (Grammy Safe)
+- 6%–20%: Mild AI / Nasal / Metallic Hint on specific moments (needs Cover/Polish)
+- 21%–100%: Clear Machine / Robotic / Plastic AI Feel (Instant Competition Rejection Risk)
 `;
 
       // =========================================================================
@@ -1714,6 +2269,11 @@ STRICT VERDICT THRESHOLDS:
         btnRunAudit: $('btnRunAudit'),
         btnCopyForensic: $('btnCopyForensic'),
         btnDownloadForensic: $('btnDownloadForensic'),
+        btnTogglePasteImport: $('btnTogglePasteImport'),
+        pasteImportPanel: $('pasteImportPanel'),
+        btnClosePasteImport: $('btnClosePasteImport'),
+        pasteImportInput: $('pasteImportInput'),
+        btnApplyPasteImport: $('btnApplyPasteImport'),
         b2Progress: $('b2Progress'),
         b2ProgressText: $('b2ProgressText'),
         b2ProgressPct: $('b2ProgressPct'),
@@ -1723,6 +2283,27 @@ STRICT VERDICT THRESHOLDS:
         reportBox: $('reportBox'),
         verdictBanner: $('verdictBanner'),
         verdictText: $('verdictText'),
+        juryHero: $('juryHero'),
+        awardTierBadge: $('awardTierBadge'),
+        juryTotalScore: $('juryTotalScore'),
+        aiSuspicionPct: $('aiSuspicionPct'),
+        aiSuspicionFill: $('aiSuspicionFill'),
+        aiSuspicionNote: $('aiSuspicionNote'),
+        juryConsensusStrip: $('juryConsensusStrip'),
+        redFlagsStrip: $('redFlagsStrip'),
+        juryNav: $('juryNav'),
+        juryStage: $('juryStage'),
+        judgesCardsGrid: $('judgesCardsGrid'),
+        paramScoreGrid: $('paramScoreGrid'),
+        mistakesCardsGrid: $('mistakesCardsGrid'),
+        timelineList: $('timelineList'),
+        sunoModePill: $('sunoModePill'),
+        sunoModeReason: $('sunoModeReason'),
+        sunoSlidersGrid: $('sunoSlidersGrid'),
+        sunoPromptsStack: $('sunoPromptsStack'),
+        polishMethodPill: $('polishMethodPill'),
+        polishToolsGrid: $('polishToolsGrid'),
+        polishExportNote: $('polishExportNote'),
         reportBody: $('reportBody'),
         btnCopyReport: $('btnCopyReport'),
         btnSaveReport: $('btnSaveReport'),
@@ -1809,14 +2390,23 @@ STRICT VERDICT THRESHOLDS:
 
       function loadSettings() {
         const savedKey = localStorage.getItem(LS_KEYS.apiKey) || '';
-        const savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-2.5-pro';
+        let savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-3.1-pro-preview';
+        // Automatically upgrade retired gemini-2.5-pro to Google's recommended gemini-3.1-pro-preview
+        if (savedModel === 'gemini-2.5-pro') {
+          savedModel = 'gemini-3.1-pro-preview';
+          localStorage.setItem(LS_KEYS.model, savedModel);
+        }
         const savedCustom = localStorage.getItem(LS_KEYS.customModel) || '';
         const savedLang = localStorage.getItem(LS_KEYS.lang) || 'mr';
 
         els.apiKeyInput.value = savedKey;
-        els.modelSelect.value = savedModel;
+        if ([...els.modelSelect.options].some((o) => o.value === savedModel)) {
+          els.modelSelect.value = savedModel;
+        } else {
+          els.modelSelect.value = 'gemini-3.1-pro-preview';
+        }
         els.customModelInput.value = savedCustom;
-        els.customModelInput.style.display = savedModel === 'custom' ? 'block' : 'none';
+        els.customModelInput.style.display = els.modelSelect.value === 'custom' ? 'block' : 'none';
         els.langSelect.value = savedLang;
 
         updateApiDot();
@@ -1828,9 +2418,9 @@ STRICT VERDICT THRESHOLDS:
 
       function getActiveModel() {
         if (els.modelSelect.value === 'custom') {
-          return (els.customModelInput.value || '').trim() || 'gemini-2.5-pro';
+          return (els.customModelInput.value || '').trim() || 'gemini-3.1-pro-preview';
         }
-        return els.modelSelect.value || 'gemini-2.5-pro';
+        return els.modelSelect.value || 'gemini-3.1-pro-preview';
       }
 
       function updateApiDot() {
@@ -1891,8 +2481,28 @@ STRICT VERDICT THRESHOLDS:
             const err = await res.json().catch(() => ({}));
             throw new Error(err?.error?.message || `HTTP ${res.status}`);
           }
+          const data = await res.json().catch(() => ({}));
+          const validModels = (data.models || [])
+            .filter((m) => (m.supportedGenerationMethods || []).includes('generateContent') && /gemini-(3|2\.5)/i.test(m.name || ''))
+            .map((m) => m.name.replace(/^models\//, ''));
+          if (validModels.length > 0) {
+            const currentVal = els.modelSelect.value;
+            const preferred = validModels.find((x) => x.includes('3.1-pro')) || validModels.find((x) => x.includes('pro')) || validModels[0];
+            // Add any discovered models not already in dropdown
+            validModels.slice(0, 8).forEach((mId) => {
+              if (![...els.modelSelect.options].some((o) => o.value === mId)) {
+                const opt = document.createElement('option');
+                opt.value = mId;
+                opt.textContent = mId + ' (तुमच्या खात्यात उपलब्ध)';
+                els.modelSelect.insertBefore(opt, els.modelSelect.lastElementChild);
+              }
+            });
+            if (!validModels.includes(currentVal) && currentVal !== 'custom') {
+              els.modelSelect.value = preferred;
+            }
+          }
           saveSettings();
-          els.keyTestResult.innerHTML = '<span style="color:#047857; font-weight:700;">✅ अभिनंदन! तुमची Gemini API Key १००% वैध आणि सक्रिय आहे.</span>';
+          els.keyTestResult.innerHTML = `<span style="color:#047857; font-weight:700;">✅ अभिनंदन! तुमची API Key १००% सक्रिय आहे. (निवडलेले मॉडेल: ${escapeHtml(getActiveModel())})</span>`;
         } catch (e) {
           els.apiStatusDot.classList.remove('ok');
           els.apiStatusDot.classList.add('err');
@@ -3032,41 +3642,93 @@ STRICT VERDICT THRESHOLDS:
         };
 
         const outputSchema = `
-MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
+CRITICAL OUTPUT FORMAT — RETURN STRICT VALID JSON ONLY (NO EXTRA PROSE BEFORE OR AFTER THE JSON OBJECT!):
+Your JSON will be rendered directly as interactive visual cards, judge statements, score meters, and sliders inside a mobile app.
+Write ALL human-facing text (statements, notes, mistakes, fixes, steps) in VERY SIMPLE, SHORT, CLEAR ${lang === 'mr' ? 'MARATHI (सोपे मराठी)' : 'ENGLISH'}. Keep every text field short (1–2 crisp lines max). Keep Suno Style Box, Exclude Box, and technical specs (Hz, dB, LUFS, dBTP) in exact English.
 
-## (अ) १००-गुणांचे स्कोअरकार्ड (Volume 1 + Volume 2) आणि स्पष्ट निवाडा
-- Present a clean Markdown table scoring all 5 pillars (20 pts each = 100 pts total) with exact numbers and brutally honest 1-line reasons.
-- State TOTAL SCORE: XX/100 and ONE EXACT VERDICT TAG on its own bold line from: **Release Ready** | **5-Min Polish** | **Suno Cover** | **Regenerate**.
-- Give a crisp 3-line Strict Guru Executive Counsel (zero false praise!).
+RETURN THIS EXACT JSON STRUCTURE:
+{
+  "total_score": 82,
+  "verdict": "5-Min Polish",
+  "ai_suspicion_pct": 12,
+  "ai_suspicion_reason": "काही सेकंदांवर हलका नाकातला व AI झंकार जाणवतो.",
+  "consensus_summary": "२ सोप्या ओळींत एकत्रित गुरू सल्ला: काय जगात भारी झाले आहे आणि जागतिक पुरस्कारासाठी सर्वात मोठा अडथळा कोणता.",
+  "red_flags": ["गाण्याची लांबी 4:00 पेक्षा जास्त", "बेस थोडा जड आहे"],
+  "judges": [
+    {
+      "role": "जज १: जागतिक संगीत दिग्दर्शक",
+      "focus": "कल्पना, रचना, लाटा व अमरत्व",
+      "score": 84,
+      "statement": "१–२ सोप्या ओळींत स्पष्ट मत (कल्पना, 70/30 MAYA, Goosebumps व वेळेबद्दल)."
+    },
+    {
+      "role": "जज २: गायन, भाव व भाषा तज्ज्ञ",
+      "focus": "०% AI आवाज, रोबोटिक/नाकातला चेक व लिरिक्स",
+      "score": 78,
+      "statement": "१–२ सोप्या ओळींत स्पष्ट मत (रोबोटिक/नाकातला/यांत्रिक आवाज बाद झाला का, उच्चार, भाव व लेगाटोबद्दल)."
+    },
+    {
+      "role": "जज ३: Grammy+ साऊंड व मास्टरिंग चीफ",
+      "focus": "जिवंत वाद्ये, ३D मिक्स, बेस व स्वच्छता",
+      "score": 85,
+      "statement": "१–२ सोप्या ओळींत स्पष्ट मत (नैसर्गिक वाद्ये, बेस-गायक संतुलन, नॉईज व मास्टरिंगबद्दल)."
+    }
+  ],
+  "parameters": [
+    { "name": "कल्पना, विषय व नाविन्य (Idea & Concept)", "score": 13, "max": 15, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "०% AI शुद्धता — रोबोटिक/नाकातला/यांत्रिक आवाज बाद", "score": 16, "max": 20, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "गायन, भावनिक अभिनय व शुद्ध उच्चार (Vocals)", "score": 12, "max": 15, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "वाद्ये, नैसर्गिक पोत व सुसंवाद (Instruments)", "score": 13, "max": 15, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "चाल, शब्दरचना व भाषा-शुद्धता (Melody & Lyrics)", "score": 8, "max": 10, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "३D स्टुडिओ साऊंड, बेस व स्वच्छता (Mix)", "score": 8, "max": 10, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "ऊर्जेच्या लाटा व Goosebumps (Wavy Peak)", "score": 8, "max": 10, "note": "१ सोप्या ओळीत कारण" },
+    { "name": "अमरत्व, <4:00 वेळ व १००-लूप प्रसन्नता", "score": 4, "max": 5, "note": "१ सोप्या ओळीत कारण" }
+  ],
+  "mistakes": [
+    { "problem": "नेमकी चूक (सोप्या शब्दांत)", "fix": "अचूक सोपा उपाय" }
+  ],
+  "timeline": [
+    { "time": "0:18", "severity": "green", "note": "सुरुवात स्वच्छ व आकर्षक आहे." },
+    { "time": "1:24", "severity": "red", "note": "कोरसमध्ये हलका AI झंकार व बेसचा दबाव." }
+  ],
+  "suno_fix": {
+    "mode": "Suno Cover",
+    "reason": "१ सोप्या ओळीत हा मोड का निवडला.",
+    "audio_influence": 78,
+    "style_influence": 50,
+    "weirdness": 20,
+    "variety": 0,
+    "style_box": "Exact English copy-paste ready 0% AI Organic Style Box...",
+    "exclude_box": "Exact English copy-paste ready Master Anti-Robot & Anti-Bass Exclude Box...",
+    "lyrics_fix": "Cleaned lyrics / matra fix with concise [2-4 word] tags (or empty string if no lyrics rewrite needed)"
+  },
+  "polish_5min": {
+    "method": "Stereo WAV Polish",
+    "obra_steps": ["OBRA step 1", "OBRA step 2", "OBRA step 3"],
+    "bandlab_steps": ["BandLab step 1 (use Clarity/Universal/Tape; avoid Fire)", "BandLab step 2"],
+    "audacity_steps": ["HPF @ 30 Hz", "Exact EQ Hz/dB from Brain 1", "Soft Limiter -1.0 dBTP"],
+    "export_spec": "Spotify/DistroKid: 24-bit / 44.1 kHz WAV • YouTube/Reels: 24-bit / 48 kHz WAV"
+  }
+}
 
-## (ब) सेकंद-दर-सेकंद X-Ray निदान (Timestamped Audio, Noise, Glitch & Vocal Audit)
-- Listen carefully to the entire uploaded audio track from 0:00 to the very end!
-- List exact timestamped observations using [MM:SS] format (e.g. [0:18], [1:12], [2:34]) covering:
-  • Noise, Glitches & 0% AI Check: audio artifacts, pops/clicks, metallic AI shimmer, robotic/nasal spots, plastic instruments, or superhuman runs
-  • Vocalist Lock & Diction: voice-swapping, choir hijacking, pronunciation errors (ळ, ण, ष, schwa), line-end volume drops, or syllable cramming
-  • Bass & Frequency Clashes: bass overpowering vocals, kick vs tabla/pakhawaj collision, Rule-of-3 violations, mud/sibilance spikes, or Extend/Replace seam & pitch drift
-  • Goosebump & Wavy Check: 7-second hook, pause/drop impact, +2 dB chorus lift, 65–75% Golden Ratio peak, and ending Tonic Afterglow.
-
-## (क) प्री-प्रॉडक्शन सुधारणा (Suno AI Style Box + Exclude Box + Lyrics Box + Sliders)
-- Follow the USER MISSION DIRECTIVE strictly!
-- Specify the exact Suno Mode (Cover / Remix / Replace Section / Extend / Fresh) + EXACT Slider Recipe (Audio Influence %, Style Influence %, Weirdness %, Variety 0% — obey Anti Tug-of-War Rule!).
-- If the user pasted an Original Style Box or Exclude Box, explicitly list what caused mistakes (Negative Prompt Traps, Contradictions, Latent Bandwidth Overload) and what to delete/replace.
-- Provide 3 separate, 100% copy-paste-ready fenced code blocks:
-  1. **Improved Suno Style Box**
-  2. **Improved Suno Exclude Box**
-  3. **Improved Suno Lyrics Box** (with exact Pingala Chhanda Matra fixes, Buttery Legato, Open-Vowel high notes, Genre-Lexicon Firewall fixes, and concise 2–5 word [Meta-Tags] — if lyrics were pasted or audible lyric/flow flaws were detected!).
-
-## (ड) ५-मिनिटांच्या पोस्ट-प्रॉडक्शन सुधारणा (Diamond Polish — Audacity / OBRA / BandLab)
-- First decide clearly using Volume 2 Golden Surgical Rule: "Stereo WAV Polish" vs "Stem Split required".
-- Give exact, copy-follow Hz, dB, Q, Pre-Delay, Short-Term/Integrated LUFS, and -1.0 dBTP Soft Limiter steps specifically calculated from Brain 1's numbers above:
-  1. **Audacity (अचूक मॅन्युअल पायऱ्या)**
-  2. **OBRA Audio (obra.art — मोबाईल ब्राउझरसाठी)**
-  3. **BandLab Mastering (मोबाईल अ‍ॅपसाठी — कोणता प्रीसेट वापरायचा व कोणता टाळायचा)**
-  4. **Final Export Spec & 3-Speaker Test Checklist** (24-bit/44.1 kHz Streaming vs 48 kHz Video).
+RULES:
+- "verdict" MUST be one of: "Release Ready" | "5-Min Polish" | "Suno Cover" | "Regenerate".
+- Sum of the 8 "parameters" scores MUST equal "total_score".
+- "red_flags" should be an empty array [] if there are no disqualifying flaws.
+- "timeline" severity MUST be "red", "yellow", or "green", with exact "MM:SS" times from listening to the full audio.
+- Provide 3 to 6 real items in "mistakes" and 4 to 8 key moments in "timeline".
 `;
 
+        const compactChatConstitution = `STRICT INTERNATIONAL JURY MODE (Grammy+ Standard • Volume 1 & Volume 2 Constitution):
+- Act as 3 Independent International Judges concluding to 1 Final Consensus Score (0–100), Award Tier, and AI/Machinery Suspicion % (0–100%):
+  1. Judge 1 (Global Music Director): Idea, Concept, 70/30 MAYA, Wavy Architecture, Goosebumps, <4:00 Pacing.
+  2. Judge 2 (Master Vocal & Language Scholar): 0% AI Voice Purity (eliminating robotic/nasal/machinery feel), High-EQ Acting, Legato, Diction, Lyrics & Genre-Lexicon Firewall.
+  3. Judge 3 (Grammy+ Sound Chief): Organic 105% Virtuoso Instruments, 3D Same-Room Glue, Bass-to-Vocal Balance, Zero Noise/Shimmer, LUFS & -1.0 dBTP.
+- Score ruthlessly on 8 parameters (100 pts): Idea/Concept (15), 0% AI/Anti-Robotic/Nasal (20), Vocals/Acting/Diction (15), Instruments/Sync (15), Melody/Lyrics/Purity (10), 3D Mix/Bass (10), Wavy/Goosebumps (10), Timelessness/<4:00 (5).
+- Award Tiers: 95–100 Grammy Masterpiece (Release Ready) | 90–94 International Finalist (Release Ready) | 80–89 Strong Studio Track (5-Min Polish) | 65–79 Demo/Draft (Suno Cover) | <65 Jury Disqualified (Regenerate).`;
+
         return [
-          includeConstitutionForChat ? STRICT_GURU_CONSTITUTION + '\n\n' : '',
+          includeConstitutionForChat ? compactChatConstitution + '\n\n' : '',
           `USER SELECTED MISSION / FIX MODE: ${missionInfo.label}`,
           `MISSION DIRECTIVE: ${missionDirectives[missionKey] || missionDirectives.auto}`,
           `TARGET GENRE / LEXICON WORLD: ${genre}`,
@@ -3239,7 +3901,7 @@ MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
           els.settingsPanel.classList.add('open');
           els.settingsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
           showB2Error(
-            '🔑 <strong>Gemini API Key सेट केलेली नाही!</strong><br/>वरच्या <strong>API Key Settings</strong> मध्ये तुमची Google AI Studio API Key सेव्ह करा — किंवा किल्लीशिवाय वापरण्यासाठी निळे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा.'
+            '🔑 <strong>Gemini API Key सेट केलेली नाही!</strong><br/>वरच्या <strong>API Key Settings</strong> मध्ये तुमची Google AI Studio API Key सेव्ह करा — किंवा किल्लीशिवाय वापरण्यासाठी <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा.'
           );
           return;
         }
@@ -3283,18 +3945,43 @@ MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
               }
             ],
             generationConfig: {
-              temperature: 0.35,
-              maxOutputTokens: 8192
+              temperature: 0.3,
+              maxOutputTokens: 8192,
+              responseMimeType: 'application/json'
             }
           };
 
-          const genRes = await fetch(genUrl, {
+          let activeModel = model;
+          let genRes = await fetch(genUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
+          let genJson = await genRes.json().catch(() => ({}));
 
-          const genJson = await genRes.json().catch(() => ({}));
+          // Automatic smart fallback if selected model is retired/unavailable (e.g. 404)
+          if (!genRes.ok && (genRes.status === 404 || /no longer available|not found/i.test(genJson?.error?.message || ''))) {
+            const fallbacks = ['gemini-3.1-pro-preview', 'gemini-2.5-flash', 'gemini-3-flash-preview'].filter((m) => m !== activeModel);
+            for (const fb of fallbacks) {
+              setB2Progress(68, `2/3 जुने मॉडेल बंद आहे — आपोआप ${fb} वर स्विच करून ऑडिट सुरू करत आहे...`);
+              const fbUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(fb)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+              genRes = await fetch(fbUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              genJson = await genRes.json().catch(() => ({}));
+              if (genRes.ok) {
+                activeModel = fb;
+                if ([...els.modelSelect.options].some((o) => o.value === fb)) {
+                  els.modelSelect.value = fb;
+                  localStorage.setItem(LS_KEYS.model, fb);
+                }
+                break;
+              }
+            }
+          }
+
           if (!genRes.ok) {
             const msg = genJson?.error?.message || `HTTP ${genRes.status}`;
             if (genRes.status === 429) {
@@ -3306,7 +3993,7 @@ MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
             throw new Error(msg);
           }
 
-          setB2Progress(92, '3/3 कठोर गुरूंचा ४-भागी अहवाल सजवला जात आहे...');
+          setB2Progress(92, '3/3 आंतरराष्ट्रीय ज्युरीचा अहवाल व AI संशय मीटर तयार होत आहे...');
           const parts = genJson?.candidates?.[0]?.content?.parts || [];
           const reportText = parts.map((p) => p.text || '').join('\n').trim();
           if (!reportText) {
@@ -3324,7 +4011,7 @@ MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
           console.error(err);
           els.b2Progress.classList.remove('show');
           showB2Error(
-            `❌ <strong>ऑडिट अयशस्वी:</strong> ${escapeHtml(err.message)}<br/><br/>💡 <strong>तातडीचा उपाय (Zero-API Backup):</strong> काहीही चिंता करू नका! वरचे निळे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा आणि थेट तुमच्या Gemini चॅटमध्ये पेस्ट करा.`
+            `❌ <strong>ऑडिट अयशस्वी:</strong> ${escapeHtml(err.message)}<br/><br/>💡 <strong>तातडीचा उपाय (Zero-API Backup):</strong> काहीही चिंता करू नका! वरचे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा आणि थेट तुमच्या Gemini चॅटमध्ये पेस्ट करा.`
           );
         } finally {
           if (uploaded?.name) {
@@ -3338,197 +4025,391 @@ MANDATORY 4-PART OUTPUT STRUCTURE (Use exact clear Markdown headings & tables):
       els.btnRunAudit.addEventListener('click', runStrictGuruAudit);
 
       // =========================================================================
-      // RICH MARKDOWN RENDERER WITH CLICKABLE [MM:SS] AUDIO SEEK PILLS
+      // NATIVE IN-APP INTERACTIVE JURY DASHBOARD RENDERER (ZERO DOCUMENT LOOK!)
       // =========================================================================
-      function renderGuruReport(md) {
-        // Detect Verdict for styled banner
-        els.verdictBanner.className = 'verdict-banner';
-        const lower = md.toLowerCase();
-        if (lower.includes('release ready')) {
-          els.verdictBanner.classList.add('release');
-          els.verdictText.textContent = '🏆 VERDICT: RELEASE READY (रिलीझसाठी सज्ज!)';
-        } else if (lower.includes('5-min polish') || lower.includes('diamond polish')) {
-          els.verdictBanner.classList.add('polish');
-          els.verdictText.textContent = '✨ VERDICT: 5-MIN DIAMOND POLISH (थोडी स्टुडिओ चमक हवी)';
-        } else if (lower.includes('suno cover') || lower.includes('replace section')) {
-          els.verdictBanner.classList.add('cover');
-          els.verdictText.textContent = '🎛️ VERDICT: SUNO COVER / REPLACE SECTION';
-        } else if (lower.includes('regenerate') || lower.includes('hard guru veto')) {
-          els.verdictBanner.classList.add('regen');
-          els.verdictText.textContent = '🚨 VERDICT: REGENERATE (HARD GURU VETO)';
+      function parseJuryJsonSafe(raw) {
+        if (!raw) return null;
+        let text = String(raw).trim();
+        // Strip markdown ```json ... ``` fences if present
+        const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+        if (fenceMatch) text = fenceMatch[1].trim();
+        try {
+          const obj = JSON.parse(text);
+          if (obj && typeof obj === 'object' && (obj.judges || obj.parameters || obj.total_score !== undefined)) {
+            return obj;
+          }
+        } catch (_) {}
+        // Try extracting outermost { ... }
+        const firstBrace = text.indexOf('{');
+        const lastBrace = text.lastIndexOf('}');
+        if (firstBrace !== -1 && lastBrace > firstBrace) {
+          try {
+            const obj = JSON.parse(text.slice(firstBrace, lastBrace + 1));
+            if (obj && typeof obj === 'object' && (obj.judges || obj.parameters || obj.total_score !== undefined)) {
+              return obj;
+            }
+          } catch (_) {}
+        }
+        return null;
+      }
+
+      function timeStrToSec(ts) {
+        const m = String(ts || '').match(/(\d{1,2}):(\d{2})/);
+        if (!m) return 0;
+        return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+      }
+
+      function buildPlainSummaryFromJury(d) {
+        const lines = [];
+        lines.push(`MAESTRO AUDITOR — INTERNATIONAL JURY SUMMARY`);
+        lines.push(`एकूण गुण: ${d.total_score ?? '—'}/100 | निवाडा: ${d.verdict || '—'} | AI संशय: ${d.ai_suspicion_pct ?? '—'}%`);
+        if (d.consensus_summary) lines.push(`सारांश: ${d.consensus_summary}`);
+        if (Array.isArray(d.judges) && d.judges.length) {
+          lines.push(`\n--- ३ आंतरराष्ट्रीय ज्युरी ---`);
+          d.judges.forEach((j) => lines.push(`• ${j.role} (${j.score}/100): ${j.statement}`));
+        }
+        if (Array.isArray(d.parameters) && d.parameters.length) {
+          lines.push(`\n--- ८-निकष गुणपत्रक ---`);
+          d.parameters.forEach((p) => lines.push(`• ${p.name}: ${p.score}/${p.max} — ${p.note}`));
+        }
+        if (Array.isArray(d.mistakes) && d.mistakes.length) {
+          lines.push(`\n--- मुख्य चुका व उपाय ---`);
+          d.mistakes.forEach((m, i) => lines.push(`${i + 1}. चूक: ${m.problem} -> उपाय: ${m.fix}`));
+        }
+        if (d.suno_fix) {
+          lines.push(`\n--- Suno AI दुरुस्ती (${d.suno_fix.mode || 'Cover'}) ---`);
+          lines.push(`Sliders: Audio ${d.suno_fix.audio_influence ?? 0}% | Style ${d.suno_fix.style_influence ?? 0}% | Weirdness ${d.suno_fix.weirdness ?? 0}% | Variety ${d.suno_fix.variety ?? 0}%`);
+          if (d.suno_fix.style_box) lines.push(`Style Box:\n${d.suno_fix.style_box}`);
+          if (d.suno_fix.exclude_box) lines.push(`Exclude Box:\n${d.suno_fix.exclude_box}`);
+          if (d.suno_fix.lyrics_fix) lines.push(`Lyrics Fix:\n${d.suno_fix.lyrics_fix}`);
+        }
+        return lines.join('\n');
+      }
+
+      function switchJuryTab(paneId) {
+        document.querySelectorAll('.jury-tab-btn').forEach((b) => {
+          b.classList.toggle('active', b.dataset.jtab === paneId);
+        });
+        document.querySelectorAll('.jury-pane').forEach((p) => {
+          p.classList.toggle('active', p.id === paneId);
+        });
+      }
+
+      document.querySelectorAll('.jury-tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => switchJuryTab(btn.dataset.jtab));
+      });
+
+      function renderGuruReport(rawOutput) {
+        const data = parseJuryJsonSafe(rawOutput);
+        if (data) {
+          state.rawMarkdownReport = buildPlainSummaryFromJury(data);
+          renderNativeJuryDashboard(data);
         } else {
-          els.verdictText.textContent = '📜 STRICT GURU MASTER AUDIT REPORT';
+          // Graceful fallback if plain text was pasted or returned
+          state.rawMarkdownReport = rawOutput;
+          renderFallbackMarkdown(rawOutput);
+        }
+      }
+
+      function renderNativeJuryDashboard(d) {
+        // Compute exact total from parameters if needed
+        const params = Array.isArray(d.parameters) ? d.parameters : [];
+        let totalScore = Number.isFinite(Number(d.total_score)) ? Math.round(Number(d.total_score)) : null;
+        if (totalScore === null && params.length) {
+          totalScore = params.reduce((acc, p) => acc + (Number(p.score) || 0), 0);
+        }
+        if (totalScore !== null) totalScore = Math.min(100, Math.max(0, totalScore));
+
+        // 1. Verdict Banner
+        els.verdictBanner.className = 'verdict-banner';
+        const vLower = String(d.verdict || '').toLowerCase();
+        if (vLower.includes('release') || (totalScore !== null && totalScore >= 90)) {
+          els.verdictBanner.classList.add('release');
+          els.verdictText.textContent = '🏆 निवाडा: RELEASE READY (स्पर्धा व रिलीझसाठी सज्ज!)';
+        } else if (vLower.includes('polish') || (totalScore !== null && totalScore >= 80)) {
+          els.verdictBanner.classList.add('polish');
+          els.verdictText.textContent = '✨ निवाडा: 5-MIN DIAMOND POLISH (थोडी स्टुडिओ चमक हवी)';
+        } else if (vLower.includes('cover') || vLower.includes('remix') || vLower.includes('replace') || (totalScore !== null && totalScore >= 65)) {
+          els.verdictBanner.classList.add('cover');
+          els.verdictText.textContent = `🎛️ निवाडा: ${(d.verdict || 'SUNO COVER').toUpperCase()}`;
+        } else {
+          els.verdictBanner.classList.add('regen');
+          els.verdictText.textContent = '🚨 निवाडा: REGENERATE (HARD GURU VETO)';
         }
 
-        els.reportBody.innerHTML = markdownToHtml(md);
-        els.reportBox.classList.add('show');
+        // 2. Top Hero: Award Tier Badge + Big Score
+        els.juryHero.style.display = 'flex';
+        els.juryTotalScore.textContent = totalScore !== null ? String(totalScore) : '—';
 
-        // Wire clickable timestamp pills to jump the studio player
-        els.reportBody.querySelectorAll('.ts-pill').forEach((pill) => {
+        els.awardTierBadge.className = 'award-pill';
+        if (totalScore !== null && totalScore >= 95) {
+          els.awardTierBadge.classList.add('grammy');
+          els.awardTierBadge.textContent = '🏆 Grammy / Global Masterpiece (95–100)';
+        } else if (totalScore !== null && totalScore >= 90) {
+          els.awardTierBadge.classList.add('finalist');
+          els.awardTierBadge.textContent = '🥇 International Competition Finalist (90–94)';
+        } else if (totalScore !== null && totalScore >= 80) {
+          els.awardTierBadge.classList.add('studio');
+          els.awardTierBadge.textContent = '🥈 Strong Studio Track — Needs Polish (80–89)';
+        } else if (totalScore !== null && totalScore >= 65) {
+          els.awardTierBadge.classList.add('demo');
+          els.awardTierBadge.textContent = '🥉 Demo / Draft Level — Suno Cover (65–79)';
+        } else {
+          els.awardTierBadge.classList.add('disq');
+          els.awardTierBadge.textContent = '🚫 Jury Disqualified — Rebuild (<65)';
+        }
+
+        // 3. AI / Robotic / Machinery Suspicion Meter (0–100%)
+        const aiVal = Number.isFinite(Number(d.ai_suspicion_pct))
+          ? Math.min(100, Math.max(0, Math.round(Number(d.ai_suspicion_pct))))
+          : 10;
+        let aiCls = 'green';
+        let aiDefaultNote = '✅ ०%–५% — पूर्णपणे जिवंत मानवी स्टुडिओ रेकॉर्डिंग वाटते (Grammy+ Safe)!';
+        if (aiVal > 20) {
+          aiCls = 'red';
+          aiDefaultNote = '🚨 २०%+ — स्पष्ट AI / रोबोटिक / नाकातला फील जाणवतो (स्पर्धेत बाद होण्याचा धोका).';
+        } else if (aiVal > 5) {
+          aiCls = 'yellow';
+          aiDefaultNote = '⚠️ ६%–२०% — काही सेकंदांवर हलका नाकातला किंवा AI झंकार जाणवतो.';
+        }
+        els.aiSuspicionPct.textContent = `${aiVal}% संशय`;
+        els.aiSuspicionPct.className = `ai-meter-pct ${aiCls}`;
+        els.aiSuspicionFill.className = `ai-meter-fill ${aiCls}`;
+        els.aiSuspicionFill.style.width = `${Math.max(4, aiVal)}%`;
+        els.aiSuspicionNote.textContent = d.ai_suspicion_reason ? `${d.ai_suspicion_reason} (${aiDefaultNote})` : aiDefaultNote;
+
+        // 4. Final Consensus Counsel
+        if (d.consensus_summary) {
+          els.juryConsensusStrip.style.display = 'block';
+          els.juryConsensusStrip.innerHTML = `<strong>🎯 ३ ज्युरींचा एकत्रित अंतिम सल्ला:</strong> ${escapeHtml(d.consensus_summary)}`;
+        } else {
+          els.juryConsensusStrip.style.display = 'none';
+        }
+
+        // 5. Instant Red Flags Strip
+        const flags = Array.isArray(d.red_flags) ? d.red_flags.filter((f) => f && !/^(none|नाही|0)$/i.test(String(f).trim())) : [];
+        if (flags.length > 0) {
+          els.redFlagsStrip.className = 'redflags-strip show';
+          els.redFlagsStrip.innerHTML = `<strong>⚡ ज्युरीचे थेट बाद करणारे दोष (Red Flags):</strong> ` + flags.map((f) => escapeHtml(f)).join(' • ');
+        } else {
+          els.redFlagsStrip.className = 'redflags-strip show clean';
+          els.redFlagsStrip.innerHTML = `✅ <strong>कोणताही थेट बाद करणारा (Disqualifying) दोष आढळला नाही!</strong>`;
+        }
+
+        // 6. TAB 1 — 3 Independent Judge Statement Cards + 8 Visual Parameter Meters
+        const judgeIcons = ['🎬', '🎤', '🎚️'];
+        const judges = Array.isArray(d.judges) ? d.judges : [];
+        els.judgesCardsGrid.innerHTML = judges.map((j, idx) => {
+          const sc = Number.isFinite(Number(j.score)) ? Math.round(Number(j.score)) : 0;
+          const cls = sc >= 85 ? 'green' : (sc >= 70 ? 'yellow' : 'red');
+          const icon = judgeIcons[idx] || '⚖️';
+          return `
+            <div class="judge-card ${cls}">
+              <div class="judge-card-head">
+                <div>
+                  <div class="judge-card-name">${icon} ${escapeHtml(j.role || `जज ${idx + 1}`)}</div>
+                  <div class="judge-card-sub">${escapeHtml(j.focus || '')}</div>
+                </div>
+                <span class="judge-score-pill">${sc} / 100</span>
+              </div>
+              <p class="judge-card-quote">${escapeHtml(j.statement || '')}</p>
+            </div>
+          `;
+        }).join('') || '<div class="empty-state">ज्युरींचे मत उपलब्ध नाही.</div>';
+
+        els.paramScoreGrid.innerHTML = params.map((p) => {
+          const sc = Number(p.score) || 0;
+          const mx = Math.max(1, Number(p.max) || 10);
+          const pct = Math.min(100, Math.max(4, (sc / mx) * 100));
+          const ratio = sc / mx;
+          const cls = ratio >= 0.85 ? 'green' : (ratio >= 0.65 ? 'yellow' : 'red');
+          const tagTxt = cls === 'green' ? 'उत्तम' : (cls === 'yellow' ? 'सुधारणा' : 'दोष');
+          return `
+            <div class="param-card">
+              <div class="param-top">
+                <span class="param-name">${escapeHtml(p.name || '')}</span>
+                <span class="param-marks">
+                  <span>${sc}/${mx}</span>
+                  <span class="status-tag ${cls}">${tagTxt}</span>
+                </span>
+              </div>
+              <div class="meter-track">
+                <div class="meter-bar ${cls}" style="width:${pct.toFixed(1)}%"></div>
+              </div>
+              <div class="param-note">${escapeHtml(p.note || '')}</div>
+            </div>
+          `;
+        }).join('') || '<div class="empty-state">८-निकष गुणपत्रक उपलब्ध नाही.</div>';
+
+        // 7. TAB 2 — Mistakes -> Solutions Cards + Interactive Clickable Timeline
+        const mistakes = Array.isArray(d.mistakes) ? d.mistakes : [];
+        els.mistakesCardsGrid.innerHTML = mistakes.length
+          ? mistakes.map((m, idx) => `
+              <div class="ms-card">
+                <div class="ms-problem">❌ चूक ${idx + 1}: ${escapeHtml(m.problem || '')}</div>
+                <div class="ms-solution">✅ <strong>सोपा उपाय:</strong> ${escapeHtml(m.fix || '')}</div>
+              </div>
+            `).join('')
+          : '<div class="empty-state">🎉 या गाण्यात कोणतीही मोठी चूक आढळली नाही!</div>';
+
+        const timeline = Array.isArray(d.timeline) ? d.timeline : [];
+        els.timelineList.innerHTML = timeline.length
+          ? timeline.map((t) => {
+              const sev = ['red', 'yellow', 'green'].includes(String(t.severity || '').toLowerCase())
+                ? String(t.severity).toLowerCase()
+                : 'yellow';
+              const sec = timeStrToSec(t.time);
+              const badgeTxt = sev === 'red' ? 'दोष' : (sev === 'yellow' ? 'लक्ष द्या' : 'उत्तम');
+              return `
+                <div class="tl-row ${sev}">
+                  <button type="button" class="ts-pill" data-sec="${sec}" title="या सेकंदावर गाणे ऐका">▶ ${escapeHtml(t.time || '0:00')}</button>
+                  <div class="tl-text">
+                    <span class="status-tag ${sev}" style="margin-right:6px;">${badgeTxt}</span>
+                    ${escapeHtml(t.note || '')}
+                  </div>
+                </div>
+              `;
+            }).join('')
+          : '<div class="empty-state">सेकंद-दर-सेकंद टिपा उपलब्ध नाहीत.</div>';
+
+        // 8. TAB 3 — Suno Fix Studio (Visual Sliders + 1-Tap Copy Boxes)
+        const sf = d.suno_fix || {};
+        els.sunoModePill.textContent = sf.mode || 'Suno Cover';
+        els.sunoModeReason.textContent = sf.reason || 'गाण्यातील दोष काढण्यासाठी शिफारस केलेला Suno मोड आणि अचूक स्लाइडर्स:';
+
+        const sliders = [
+          { label: 'Audio Influence', val: sf.audio_influence ?? 78 },
+          { label: 'Style Influence', val: sf.style_influence ?? 50 },
+          { label: 'Weirdness', val: sf.weirdness ?? 20 },
+          { label: 'Variety (Locked)', val: sf.variety ?? 0 }
+        ];
+        els.sunoSlidersGrid.innerHTML = sliders.map((s) => {
+          const v = Math.min(100, Math.max(0, Number(s.val) || 0));
+          return `
+            <div class="slider-card">
+              <div class="slider-head">
+                <span>${s.label}</span>
+                <span class="slider-val">${v}%</span>
+              </div>
+              <div class="meter-track" style="margin-bottom:0;">
+                <div class="meter-bar green" style="width:${Math.max(3, v)}%; background:#111318;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        const promptBlocks = [];
+        if (sf.style_box) promptBlocks.push({ id: 'pStyleBox', title: '🎹 सुधारित Suno Style Box', text: sf.style_box });
+        if (sf.exclude_box) promptBlocks.push({ id: 'pExcludeBox', title: '🚫 सुधारित Suno Exclude Box', text: sf.exclude_box });
+        if (sf.lyrics_fix && String(sf.lyrics_fix).trim()) {
+          promptBlocks.push({ id: 'pLyricsBox', title: '📝 सुधारित Suno Lyrics / Matra Box', text: sf.lyrics_fix });
+        }
+        els.sunoPromptsStack.innerHTML = promptBlocks.map((pb) => `
+          <div class="prompt-card">
+            <div class="prompt-card-head">
+              <span class="prompt-card-title">${pb.title}</span>
+              <button type="button" class="btn btn-gold btn-sm copy-prompt-btn" data-pid="${pb.id}" style="min-height:36px; padding:5px 12px;">📋 कॉपी करा</button>
+            </div>
+            <div class="prompt-code" id="${pb.id}">${escapeHtml(pb.text)}</div>
+          </div>
+        `).join('');
+
+        // 9. TAB 4 — 5-Minute Diamond Polish Cards
+        const pol = d.polish_5min || {};
+        els.polishMethodPill.textContent = pol.method || 'Stereo WAV Polish';
+        const toolCards = [
+          { title: '📱 OBRA Audio (obra.art — मोबाईल)', steps: pol.obra_steps || [] },
+          { title: '📱 BandLab Mastering (मोबाईल अ‍ॅप)', steps: pol.bandlab_steps || [] },
+          { title: '💻 Audacity (सखोल मॅन्युअल पॉलिश)', steps: pol.audacity_steps || [] }
+        ];
+        els.polishToolsGrid.innerHTML = toolCards.map((tc) => `
+          <div class="polish-card">
+            <h4>${tc.title}</h4>
+            <ol class="polish-steps">
+              ${(tc.steps.length ? tc.steps : ['आवश्यकता नाही / डीफॉल्ट पॉलिश वापरा.']).map((st) => `<li>${escapeHtml(st)}</li>`).join('')}
+            </ol>
+          </div>
+        `).join('');
+        els.polishExportNote.innerHTML = `<strong>💾 Export नियम:</strong> ${escapeHtml(pol.export_spec || 'Spotify/DistroKid: 24-bit / 44.1 kHz WAV • YouTube/Reels: 24-bit / 48 kHz WAV')}`;
+
+        // Show native dashboard, hide fallback raw body
+        els.juryNav.style.display = 'grid';
+        els.juryStage.style.display = 'block';
+        els.reportBody.classList.remove('show');
+        els.reportBox.classList.add('show');
+        switchJuryTab('jpaneJudges');
+
+        // Wire clickable audio timeline pills
+        els.timelineList.querySelectorAll('.ts-pill').forEach((pill) => {
           pill.addEventListener('click', () => {
             const sec = Number(pill.dataset.sec);
             if (!isNaN(sec) && els.audioPlayer.src) {
               els.audioPlayer.currentTime = sec;
               els.audioPlayer.play().catch(() => {});
-              showToast(`⏩ ${pill.textContent} वर प्ले होत आहे...`, 1800);
-            }
-          });
-        });
-
-        // Wire copy buttons on code blocks (Style / Exclude boxes)
-        els.reportBody.querySelectorAll('.copy-code-btn').forEach((btn) => {
-          btn.addEventListener('click', async () => {
-            const code = btn.parentElement.querySelector('code')?.textContent || '';
-            const ok = await copyTextSafe(code.trim());
-            showToast(ok ? '📋 Prompt कॉपी झाला!' : 'कॉपी त्रुटी.');
-          });
-        });
-      }
-
-      function formatInline(text) {
-        let s = escapeHtml(text);
-        // Inline code
-        s = s.replace(/`([^`]+)`/g, '<code style="background:#F2F4F7;padding:1px 5px;border-radius:4px;color:#111318;border:1px solid #E4E7EC;font-family:var(--font-mono);font-size:0.86em;">$1</code>');
-        // Bold
-        s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-        // Italic
-        s = s.replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>');
-        // Clickable [MM:SS] timestamps
-        s = s.replace(/\[(\d{1,2}):(\d{2})\]/g, (_, m, sec) => {
-          const total = parseInt(m, 10) * 60 + parseInt(sec, 10);
-          return `<button type="button" class="ts-pill" data-sec="${total}" title="या सेकंदावर गाणे ऐका">▶ ${m}:${sec}</button>`;
-        });
-        return s;
-      }
-
-      function markdownToHtml(md) {
-        const lines = md.replace(/\r\n/g, '\n').split('\n');
-        let html = '';
-        let inCode = false;
-        let codeBuf = [];
-        let inUl = false;
-        let inOl = false;
-        let tableRows = [];
-
-        const closeLists = () => {
-          if (inUl) { html += '</ul>'; inUl = false; }
-          if (inOl) { html += '</ol>'; inOl = false; }
-        };
-
-        const flushTable = () => {
-          if (!tableRows.length) return;
-          html += '<table>';
-          tableRows.forEach((row, idx) => {
-            const cells = row.replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
-            // Skip separator row |---|---|
-            if (idx === 1 && cells.every((c) => /^:?-+:?$/.test(c))) return;
-            const tag = idx === 0 ? 'th' : 'td';
-            html += '<tr>' + cells.map((c) => `<${tag}>${formatInline(c)}</${tag}>`).join('') + '</tr>';
-          });
-          html += '</table>';
-          tableRows = [];
-        };
-
-        for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
-
-          // Fenced Code Blocks
-          if (line.trim().startsWith('```')) {
-            closeLists();
-            flushTable();
-            if (!inCode) {
-              inCode = true;
-              codeBuf = [];
+              showToast(`⏩ ${pill.textContent} वर गाणे प्ले होत आहे...`, 1800);
             } else {
-              html += `<div class="code-block-wrap"><button class="copy-mini copy-code-btn" type="button">कॉपी</button><code>${escapeHtml(codeBuf.join('\n'))}</code></div>`;
-              inCode = false;
+              showToast('आधी भाग १ मध्ये गाण्याची फाईल निवडा.', 2200);
             }
-            continue;
-          }
-          if (inCode) {
-            codeBuf.push(line);
-            continue;
-          }
+          });
+        });
 
-          // Tables
-          if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
-            closeLists();
-            tableRows.push(line.trim());
-            continue;
-          } else {
-            flushTable();
-          }
-
-          const trimmed = line.trim();
-          if (!trimmed) {
-            closeLists();
-            continue;
-          }
-
-          // Horizontal rule
-          if (/^---+$/.test(trimmed)) {
-            closeLists();
-            html += '<hr style="border:none;border-top:1px solid var(--border);margin:14px 0;"/>';
-            continue;
-          }
-
-          // Headings
-          const hMatch = trimmed.match(/^(#{1,3})\s+(.*)$/);
-          if (hMatch) {
-            closeLists();
-            const level = hMatch[1].length;
-            html += `<h${level}>${formatInline(hMatch[2])}</h${level}>`;
-            continue;
-          }
-
-          // Blockquote
-          if (trimmed.startsWith('>')) {
-            closeLists();
-            html += `<blockquote>${formatInline(trimmed.replace(/^>\s?/, ''))}</blockquote>`;
-            continue;
-          }
-
-          // Unordered List
-          const ulMatch = trimmed.match(/^[-*•]\s+(.*)$/);
-          if (ulMatch) {
-            if (inOl) { html += '</ol>'; inOl = false; }
-            if (!inUl) { html += '<ul>'; inUl = true; }
-            html += `<li>${formatInline(ulMatch[1])}</li>`;
-            continue;
-          }
-
-          // Ordered List
-          const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
-          if (olMatch) {
-            if (inUl) { html += '</ul>'; inUl = false; }
-            if (!inOl) { html += '<ol>'; inOl = true; }
-            html += `<li>${formatInline(olMatch[1])}</li>`;
-            continue;
-          }
-
-          closeLists();
-          html += `<p>${formatInline(trimmed)}</p>`;
-        }
-
-        closeLists();
-        flushTable();
-        if (inCode) {
-          html += `<div class="code-block-wrap"><code>${escapeHtml(codeBuf.join('\n'))}</code></div>`;
-        }
-        return html;
+        // Wire 1-tap Suno prompt copy buttons
+        els.sunoPromptsStack.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const txt = $(btn.dataset.pid)?.textContent || '';
+            const ok = await copyTextSafe(txt.trim());
+            showToast(ok ? '📋 Prompt कॉपी झाला! आता थेट Suno मध्ये पेस्ट करा.' : 'कॉपी त्रुटी.');
+          });
+        });
       }
+
+      // Fallback renderer only if user pastes non-JSON text
+      function renderFallbackMarkdown(md) {
+        els.juryHero.style.display = 'none';
+        els.juryNav.style.display = 'none';
+        els.juryStage.style.display = 'none';
+        els.verdictBanner.className = 'verdict-banner';
+        els.verdictText.textContent = '📜 ज्युरी अहवाल';
+        els.reportBody.innerHTML = `<div class="report-section-card" style="white-space:pre-wrap;">${escapeHtml(md)}</div>`;
+        els.reportBody.classList.add('show');
+        els.reportBox.classList.add('show');
+      }
+
+      // Zero-API Paste Back Panel Handlers
+      els.btnTogglePasteImport.addEventListener('click', () => {
+        els.pasteImportPanel.classList.toggle('open');
+        if (els.pasteImportPanel.classList.contains('open')) {
+          els.pasteImportInput.focus();
+        }
+      });
+      els.btnClosePasteImport.addEventListener('click', () => {
+        els.pasteImportPanel.classList.remove('open');
+      });
+      els.btnApplyPasteImport.addEventListener('click', () => {
+        const pasted = (els.pasteImportInput.value || '').trim();
+        if (!pasted) {
+          showToast('कृपया आधी Gemini चॅटचा निकाल येथे पेस्ट करा.');
+          return;
+        }
+        renderGuruReport(pasted);
+        els.pasteImportPanel.classList.remove('open');
+        els.reportBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showToast('✨ निकाल अ‍ॅप डॅशबोर्डवर लोड झाला!');
+      });
 
       els.btnCopyReport.addEventListener('click', async () => {
         if (!state.rawMarkdownReport) return;
         const ok = await copyTextSafe(state.rawMarkdownReport);
-        showToast(ok ? '📋 संपूर्ण गुरू अहवाल कॉपी झाला!' : 'कॉपी करता आले नाही.');
+        showToast(ok ? '📋 ज्युरी सारांश कॉपी झाला!' : 'कॉपी करता आले नाही.');
       });
 
       els.btnSaveReport.addEventListener('click', () => {
-        if (!state.rawMarkdownReport || !state.analysis) return;
-        const safeName = state.analysis.fileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_');
-        downloadTextFile(`Maestro_Guru_Audit_${safeName}.md`, state.rawMarkdownReport);
-        showToast('💾 गुरू अहवाल (.md) सेव्ह झाला!');
+        if (!state.rawMarkdownReport) return;
+        const baseName = state.analysis?.fileName
+          ? state.analysis.fileName.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_-]/g, '_')
+          : 'Song';
+        downloadTextFile(`Maestro_Jury_${baseName}.txt`, state.rawMarkdownReport);
+        showToast('💾 ज्युरी सारांश सेव्ह झाला!');
       });
 
       // =========================================================================

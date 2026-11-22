@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maestro-auditor-v5';
+const CACHE_NAME = 'maestro-auditor-v8';
 const APP_SHELL = [
   './',
   './index.html',
