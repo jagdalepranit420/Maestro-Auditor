@@ -953,6 +953,102 @@
       color: var(--green);
     }
 
+    /* Speed Mode & Background Execution Controls */
+    .speed-bg-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+    }
+
+    .speed-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 4px;
+      border-radius: 11px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+    }
+
+    .speed-btn {
+      min-height: 44px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.83rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .speed-btn small {
+      display: block;
+      font-size: 0.71rem;
+      font-weight: 600;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+    .speed-btn.active {
+      background: #111318;
+      color: #FFFFFF;
+    }
+
+    .bg-status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.79rem;
+      color: var(--text-muted);
+    }
+
+    .bg-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: #FFFFFF;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .bg-pill-btn.active {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green-border);
+    }
+
+    .saved-result-bar {
+      display: none;
+      margin-bottom: 12px;
+      padding: 10px 13px;
+      border-radius: var(--radius-sm);
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      color: var(--green);
+      font-size: 0.82rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .saved-result-bar.show { display: flex; }
+
     /* Audit Report Output */
     .report-box {
       display: none;
@@ -1986,9 +2082,34 @@
         <strong style="color:#111318;">मेंदू ३ (किल्लीशिवाय Backup):</strong> API Key नसली किंवा कोटा संपला, तर खालील "Copy Forensic Report" बटणाने संपूर्ण फॉरेन्सिक रिपोर्ट कॉपी करून नेहमीच्या Gemini चॅटमध्ये पेस्ट करा!
       </p>
 
+      <!-- Restored Background Audit Notice -->
+      <div class="saved-result-bar" id="savedResultBar">
+        <span id="savedResultText">💾 शेवटचा ज्युरी निकाल सुरक्षित आहे.</span>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnShowSavedResult" style="min-height:34px; padding:4px 11px; background:#FFFFFF;">👁️ पुन्हा पहा</button>
+      </div>
+
+      <!-- Audit Speed Mode & Background Execution Controls -->
+      <div class="speed-bg-bar">
+        <div class="speed-switch" role="tablist" aria-label="ऑडिट वेग मोड">
+          <button type="button" class="speed-btn active" id="btnSpeedFast" role="tab" aria-selected="true">
+            ⚡ झटपट मोड (Fast)
+            <small>~10–20 सेकंद • 6x लहान अपलोड</small>
+          </button>
+          <button type="button" class="speed-btn" id="btnSpeedDeep" role="tab" aria-selected="false">
+            🧠 सखोल Pro मोड
+            <small>~40–60 सेकंद • सर्वोच्च खोली</small>
+          </button>
+        </div>
+
+        <div class="bg-status-row">
+          <span id="bgModeHint">🔄 <strong>बॅकग्राऊंड मोड तयार:</strong> ऑडिट सुरू झाल्यावर तुम्ही Suno/WhatsApp वापरू शकता — निकाल झाल्यावर अलर्ट येईल!</span>
+          <button type="button" class="bg-pill-btn" id="btnEnableNotif">🔔 बॅकग्राऊंड अलर्ट सुरू करा</button>
+        </div>
+      </div>
+
       <div class="cta-grid" style="display:grid; gap:12px;">
         <button class="btn btn-gold btn-full" id="btnRunAudit" type="button" disabled>
-          🔥 Run Strict Guru Audit (Gemini API)
+          ⚡ Run Strict Guru Audit (Fast + Background)
         </button>
         <button class="btn btn-cyan btn-full" id="btnCopyForensic" type="button" disabled>
           📋 Copy Forensic Report for Gemini Chat
@@ -2340,10 +2461,18 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
       // =========================================================================
       const state = {
         sourceMode: 'file', // 'file' | 'youtube'
+        speedMode: 'fast',  // 'fast' | 'deep'
         file: null,
+        fastWavBlob: null,
+        fastWavMeta: null,  // { sizeMB, sampleRate }
         objectUrl: null,
         analysis: null,
-        youtube: null, // { id, canonicalUrl, title, author }
+        youtube: null,      // { id, canonicalUrl, title, author }
+        activeJobId: null,
+        lastSavedJob: null,
+        wakeLock: null,
+        auditTimerId: null,
+        auditStartedAt: 0,
         rawMarkdownReport: '',
         isScanning: false,
         isAuditing: false
@@ -2421,6 +2550,13 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
         lyricsStats: $('lyricsStats'),
         lexiconAlert: $('lexiconAlert'),
 
+        btnSpeedFast: $('btnSpeedFast'),
+        btnSpeedDeep: $('btnSpeedDeep'),
+        btnEnableNotif: $('btnEnableNotif'),
+        bgModeHint: $('bgModeHint'),
+        savedResultBar: $('savedResultBar'),
+        savedResultText: $('savedResultText'),
+        btnShowSavedResult: $('btnShowSavedResult'),
         btnRunAudit: $('btnRunAudit'),
         btnCopyForensic: $('btnCopyForensic'),
         btnDownloadForensic: $('btnDownloadForensic'),
@@ -2540,7 +2676,8 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
         apiKey: 'maestro_auditor_api_key',
         model: 'maestro_auditor_model',
         customModel: 'maestro_auditor_custom_model',
-        lang: 'maestro_auditor_lang'
+        lang: 'maestro_auditor_lang',
+        speed: 'maestro_auditor_speed_mode'
       };
 
       function loadSettings() {
@@ -2564,6 +2701,9 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
         els.customModelInput.style.display = els.modelSelect.value === 'custom' ? 'block' : 'none';
         els.langSelect.value = savedLang;
 
+        const savedSpeed = localStorage.getItem(LS_KEYS.speed) || 'fast';
+        setSpeedMode(savedSpeed);
+        updateNotifButtonState();
         updateApiDot();
       }
 
@@ -2577,6 +2717,34 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
         }
         return els.modelSelect.value || 'gemini-3.1-pro-preview';
       }
+
+      function getAuditModelForSpeed() {
+        const chosen = getActiveModel();
+        if (state.speedMode === 'fast') {
+          // If user already chose a Flash model or custom ID, respect it; otherwise pick fast Flash!
+          if (els.modelSelect.value === 'custom' || /flash/i.test(chosen)) return chosen;
+          return 'gemini-2.5-flash';
+        }
+        // Deep Pro mode: prefer Pro model
+        if (els.modelSelect.value === 'custom' || /pro/i.test(chosen)) return chosen;
+        return 'gemini-3.1-pro-preview';
+      }
+
+      function setSpeedMode(mode) {
+        state.speedMode = mode === 'deep' ? 'deep' : 'fast';
+        localStorage.setItem(LS_KEYS.speed, state.speedMode);
+        const isFast = state.speedMode === 'fast';
+        els.btnSpeedFast.classList.toggle('active', isFast);
+        els.btnSpeedFast.setAttribute('aria-selected', String(isFast));
+        els.btnSpeedDeep.classList.toggle('active', !isFast);
+        els.btnSpeedDeep.setAttribute('aria-selected', String(!isFast));
+        els.btnRunAudit.textContent = isFast
+          ? '⚡ Run Strict Guru Audit (Fast + Background)'
+          : '🧠 Run Strict Guru Audit (Deep Pro + Background)';
+      }
+
+      els.btnSpeedFast.addEventListener('click', () => setSpeedMode('fast'));
+      els.btnSpeedDeep.addEventListener('click', () => setSpeedMode('deep'));
 
       function updateApiDot() {
         const key = getActiveApiKey();
@@ -2907,6 +3075,61 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
         if (!sortedArr.length) return -60;
         const idx = Math.min(sortedArr.length - 1, Math.max(0, Math.floor((sortedArr.length - 1) * p)));
         return sortedArr[idx];
+      }
+
+      // Pure-JS Fast Anti-Aliased Downsampler -> Compact 16-bit Mono WAV (Shrinks 65 MB WAV -> ~10 MB for 6x faster upload!)
+      function buildFastAuditWavBlob(ch0, ch1, fs, duration) {
+        try {
+          let step = 1;
+          if (fs >= 44100) {
+            step = duration > 260 ? 3 : 2; // 48k -> 16k (>4:20) or 24k (<=4:20); 44.1k -> 14.7k or 22.05k
+          } else if (fs >= 32000) {
+            step = 2;
+          }
+          const targetFs = Math.max(8000, Math.round(fs / step));
+          const outLen = Math.floor(ch0.length / step);
+          const dataBytes = outLen * 2;
+          const buf = new ArrayBuffer(44 + dataBytes);
+          const view = new DataView(buf);
+
+          const writeStr = (off, str) => {
+            for (let i = 0; i < str.length; i++) view.setUint8(off + i, str.charCodeAt(i));
+          };
+          writeStr(0, 'RIFF');
+          view.setUint32(4, 36 + dataBytes, true);
+          writeStr(8, 'WAVE');
+          writeStr(12, 'fmt ');
+          view.setUint32(16, 16, true);           // PCM chunk size
+          view.setUint16(20, 1, true);            // PCM format = 1
+          view.setUint16(22, 1, true);            // Mono (1 channel)
+          view.setUint32(24, targetFs, true);     // Sample rate
+          view.setUint32(28, targetFs * 2, true); // Byte rate
+          view.setUint16(32, 2, true);            // Block align
+          view.setUint16(34, 16, true);           // 16-bit
+          writeStr(36, 'data');
+          view.setUint32(40, dataBytes, true);
+
+          const invStep = 1 / step;
+          let off = 44;
+          for (let o = 0; o < outLen; o++) {
+            const base = o * step;
+            let acc = 0;
+            for (let k = 0; k < step; k++) {
+              const idx = base + k;
+              acc += ch1 ? 0.5 * (ch0[idx] + ch1[idx]) : ch0[idx];
+            }
+            let s = acc * invStep;
+            if (s > 1) s = 1;
+            else if (s < -1) s = -1;
+            view.setInt16(off, s < 0 ? Math.round(s * 32768) : Math.round(s * 32767), true);
+            off += 2;
+          }
+
+          return { blob: new Blob([buf], { type: 'audio/wav' }), targetFs };
+        } catch (e) {
+          console.warn('Fast WAV build skipped:', e);
+          return null;
+        }
       }
 
       async function analyzeAudioFile(file) {
@@ -3261,7 +3484,23 @@ AI / MACHINERY SUSPICION METER (0% to 100%):
           const airDB = relDB(pAir);
           const bassToVocalDB = 10 * Math.log10((pSub + pBass) / pVocal);
 
-          setB1Progress(95, '4/4 डॅशबोर्ड व वेव्हफॉर्म तयार होत आहे...');
+          // Build Smart Fast-Upload 16-bit Mono WAV (~6x smaller for 40–65 MB WAVs!) before freeing AudioBuffer
+          state.fastWavBlob = null;
+          state.fastWavMeta = null;
+          if (file.size > 6 * 1024 * 1024) {
+            setB1Progress(91, '4/4 झटपट अपलोडसाठी हलकी AI ऑडिओ कॉपी तयार होत आहे...');
+            await yieldUI();
+            const built = buildFastAuditWavBlob(ch0, ch1, fs, duration);
+            if (built && built.blob && built.blob.size < file.size * 0.8) {
+              state.fastWavBlob = built.blob;
+              state.fastWavMeta = {
+                sizeMB: (built.blob.size / (1024 * 1024)).toFixed(1),
+                sampleRate: built.targetFs
+              };
+            }
+          }
+
+          setB1Progress(96, '4/4 डॅशबोर्ड व वेव्हफॉर्म तयार होत आहे...');
           await yieldUI();
 
           // Release heavy AudioBuffer & AudioContext immediately to free phone RAM!
@@ -4199,7 +4438,7 @@ RULES:
         let attempts = 0;
         while (current.state === 'PROCESSING' && attempts < 45) {
           attempts++;
-          await new Promise((r) => setTimeout(r, 2000));
+          await new Promise((r) => setTimeout(r, 900));
           const pollRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/${current.name}?key=${encodeURIComponent(apiKey)}`);
           if (pollRes.ok) {
             current = await pollRes.json();
@@ -4221,6 +4460,222 @@ RULES:
         } catch (_) {}
       }
 
+      // =========================================================================
+      // BACKGROUND INFRASTRUCTURE: INDEXEDDB + WAKE LOCK + NOTIFICATIONS + SW BRIDGE
+      // =========================================================================
+      const JOB_DB_NAME = 'MaestroAuditorDB';
+      const JOB_DB_STORE = 'jobs';
+
+      function openLocalJobDB() {
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open(JOB_DB_NAME, 1);
+          req.onupgradeneeded = () => {
+            const db = req.result;
+            if (!db.objectStoreNames.contains(JOB_DB_STORE)) {
+              db.createObjectStore(JOB_DB_STORE, { keyPath: 'id' });
+            }
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      }
+
+      async function saveLocalJobRecord(record) {
+        try {
+          const db = await openLocalJobDB();
+          await new Promise((resolve, reject) => {
+            const tx = db.transaction(JOB_DB_STORE, 'readwrite');
+            tx.objectStore(JOB_DB_STORE).put(record);
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+          });
+          db.close();
+        } catch (_) {}
+      }
+
+      async function getLatestJobRecord() {
+        try {
+          const db = await openLocalJobDB();
+          const rec = await new Promise((resolve, reject) => {
+            const tx = db.transaction(JOB_DB_STORE, 'readonly');
+            const g = tx.objectStore(JOB_DB_STORE).get('latest');
+            g.onsuccess = () => resolve(g.result || null);
+            g.onerror = () => reject(g.error);
+          });
+          db.close();
+          return rec;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function updateNotifButtonState() {
+        if (!els.btnEnableNotif) return;
+        if (typeof Notification === 'undefined') {
+          els.btnEnableNotif.textContent = '🔕 अलर्ट उपलब्ध नाही';
+          els.btnEnableNotif.classList.remove('active');
+          return;
+        }
+        if (Notification.permission === 'granted') {
+          els.btnEnableNotif.textContent = '🔔 बॅकग्राऊंड अलर्ट चालू ✓';
+          els.btnEnableNotif.classList.add('active');
+        } else if (Notification.permission === 'denied') {
+          els.btnEnableNotif.textContent = '🔕 अलर्ट ब्लॉक (Settings मध्ये उघडा)';
+          els.btnEnableNotif.classList.remove('active');
+        } else {
+          els.btnEnableNotif.textContent = '🔔 बॅकग्राऊंड अलर्ट सुरू करा';
+          els.btnEnableNotif.classList.remove('active');
+        }
+      }
+
+      els.btnEnableNotif.addEventListener('click', async () => {
+        if (typeof Notification === 'undefined') {
+          showToast('हा ब्राउझर नोटिफिकेशनला सपोर्ट करत नाही — तरीही निकाल ऑटो-सेव्ह होईल.');
+          return;
+        }
+        try {
+          const perm = await Notification.requestPermission();
+          updateNotifButtonState();
+          if (perm === 'granted') {
+            showToast('✅ बॅकग्राऊंड अलर्ट सुरू! आता ऑडिट सुरू करून तुम्ही दुसरे अ‍ॅप वापरू शकता.', 3800);
+          } else {
+            showToast('नोटिफिकेशन परवानगी नाकारली — तरीही परत आल्यावर निकाल आपोआप दिसेल.', 3400);
+          }
+        } catch (_) {}
+      });
+
+      async function acquireWakeLock() {
+        try {
+          if ('wakeLock' in navigator && document.visibilityState === 'visible') {
+            state.wakeLock = await navigator.wakeLock.request('screen');
+          }
+        } catch (_) {}
+      }
+
+      async function releaseWakeLock() {
+        try {
+          if (state.wakeLock) {
+            await state.wakeLock.release();
+            state.wakeLock = null;
+          }
+        } catch (_) {}
+      }
+
+      function startElapsedTimer(baseLabel) {
+        stopElapsedTimer();
+        state.auditStartedAt = Date.now();
+        state.auditTimerId = setInterval(() => {
+          if (!state.isAuditing) { stopElapsedTimer(); return; }
+          const sec = Math.floor((Date.now() - state.auditStartedAt) / 1000);
+          const currentPct = parseFloat(els.b2ProgressFill.style.width) || 60;
+          const smoothPct = Math.min(93, currentPct + 0.6);
+          setB2Progress(smoothPct, `${baseLabel} (${sec}s गेले — तुम्ही अ‍ॅप मिनिमाईज करू शकता)`);
+        }, 1200);
+      }
+
+      function stopElapsedTimer() {
+        if (state.auditTimerId) {
+          clearInterval(state.auditTimerId);
+          state.auditTimerId = null;
+        }
+      }
+
+      function finishAuditSuccess(reportText, songTitle, activeModel, elapsedSec) {
+        stopElapsedTimer();
+        releaseWakeLock();
+        state.isAuditing = false;
+        state.activeJobId = null;
+        state.rawMarkdownReport = reportText;
+        renderGuruReport(reportText);
+        setB2Progress(100, `✅ ज्युरी निकाल तयार! (${elapsedSec ? elapsedSec + ' सेकंदात पूर्ण' : 'पूर्ण'})`);
+        setTimeout(() => els.b2Progress.classList.remove('show'), 1800);
+        syncActionButtons();
+        els.reportBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showToast(`🔥 आंतरराष्ट्रीय ज्युरी निकाल तयार! (${elapsedSec || ''}s)`);
+        refreshSavedResultBanner();
+      }
+
+      function finishAuditError(errMsg) {
+        stopElapsedTimer();
+        releaseWakeLock();
+        state.isAuditing = false;
+        state.activeJobId = null;
+        els.b2Progress.classList.remove('show');
+        showB2Error(
+          `❌ <strong>ऑडिट अयशस्वी:</strong> ${escapeHtml(errMsg)}<br/><br/>💡 <strong>तातडीचा उपाय (Zero-API Backup):</strong> काहीही चिंता करू नका! वरचे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा आणि थेट तुमच्या Gemini चॅटमध्ये पेस्ट करा.`
+        );
+        syncActionButtons();
+      }
+
+      async function refreshSavedResultBanner() {
+        const rec = await getLatestJobRecord();
+        if (!rec) return;
+        state.lastSavedJob = rec;
+        if (rec.status === 'done' && rec.reportText) {
+          const dt = rec.finishedAt ? new Date(rec.finishedAt).toLocaleTimeString('mr-IN', { hour: '2-digit', minute: '2-digit' }) : '';
+          els.savedResultText.textContent = `💾 शेवटचा निकाल सेव्ह आहे: ${rec.songTitle || 'Song'}${dt ? ' (' + dt + ')' : ''}`;
+          els.savedResultBar.classList.add('show');
+        }
+      }
+
+      els.btnShowSavedResult.addEventListener('click', () => {
+        if (state.lastSavedJob && state.lastSavedJob.reportText) {
+          renderGuruReport(state.lastSavedJob.reportText);
+          els.reportBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          showToast('💾 सेव्ह केलेला ज्युरी निकाल उघडला!');
+        }
+      });
+
+      // Reconnect & sync automatically whenever user returns from background (WhatsApp / Suno / Lock Screen)
+      async function syncBackgroundJobState() {
+        const rec = await getLatestJobRecord();
+        if (!rec) return;
+        state.lastSavedJob = rec;
+
+        if (state.activeJobId && rec.jobId === state.activeJobId) {
+          if (rec.status === 'done' && rec.reportText) {
+            const elapsed = rec.finishedAt && rec.startedAt ? Math.round((rec.finishedAt - rec.startedAt) / 1000) : null;
+            finishAuditSuccess(rec.reportText, rec.songTitle, rec.activeModel, elapsed);
+            return;
+          }
+          if (rec.status === 'error') {
+            finishAuditError(rec.error || 'बॅकग्राऊंड ऑडिट अयशस्वी.');
+            return;
+          }
+        }
+
+        // If user closed & reopened app while a background audit finished within last 15 minutes, show it immediately!
+        if (!state.isAuditing && rec.status === 'done' && rec.reportText) {
+          const ageMs = Date.now() - (rec.finishedAt || 0);
+          refreshSavedResultBanner();
+          if (ageMs < 15 * 60 * 1000 && !els.reportBox.classList.contains('show')) {
+            renderGuruReport(rec.reportText);
+            showToast('✅ बॅकग्राऊंडमधील पूर्ण झालेला निकाल आपोआप लोड केला!', 3400);
+          }
+        }
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          syncBackgroundJobState();
+        }
+      });
+
+      // Listen for live progress / completion messages from Service Worker (sw.js)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', (event) => {
+          const msg = event.data;
+          if (!msg || typeof msg !== 'object') return;
+          if (msg.type === 'BG_AUDIT_PROGRESS' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
+            setB2Progress(msg.pct || 70, msg.text || 'बॅकग्राऊंडमध्ये ऑडिट सुरू आहे...');
+          } else if (msg.type === 'BG_AUDIT_DONE' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
+            finishAuditSuccess(msg.reportText, msg.songTitle, msg.activeModel, msg.elapsedSec);
+          } else if (msg.type === 'BG_AUDIT_ERROR' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
+            finishAuditError(msg.error || 'अज्ञात त्रुटी');
+          }
+        });
+      }
+
       async function runStrictGuruAudit() {
         if (state.isAuditing || !isCurrentSourceReady()) return;
 
@@ -4235,29 +4690,44 @@ RULES:
         }
 
         const isYT = state.sourceMode === 'youtube';
+        const isFast = state.speedMode === 'fast';
+        const model = getAuditModelForSpeed();
+        const songTitle = isYT ? (state.youtube?.title || 'YouTube Song') : (state.file?.name || 'Audio Track');
+        const jobId = 'job_' + Date.now();
+
         state.isAuditing = true;
+        state.activeJobId = jobId;
         syncActionButtons();
         els.b2Error.classList.remove('show');
         els.reportBox.classList.remove('show');
+        acquireWakeLock();
 
         let uploaded = null;
         try {
-          const model = getActiveModel();
           let mediaPart = null;
 
           if (isYT) {
-            setB2Progress(25, `1/2 YouTube लिंक थेट ${model} आंतरराष्ट्रीय ज्युरींकडे पाठवत आहे...`);
+            setB2Progress(25, `1/2 YouTube लिंक थेट ${model} ज्युरींकडे पाठवत आहे...`);
             mediaPart = {
               fileData: {
                 fileUri: state.youtube.canonicalUrl
               }
             };
-            setB2Progress(55, `2/2 ${model} ज्युरी संपूर्ण YouTube गाणे ऐकून परीक्षण करत आहेत... (30–60 सेकंद थांबा)`);
           } else {
-            setB2Progress(5, `1/3 मोठी ऑडिओ फाईल (${state.analysis.fileSizeMB} MB) Gemini Files API वर अपलोड होत आहे...`);
-            uploaded = await uploadFileToGemini(state.file, apiKey, (upPct) => {
-              const mapped = 5 + upPct * 0.50;
-              setB2Progress(mapped, `1/3 सुरक्षित अपलोड सुरू आहे... (${Math.round(upPct)}%)`);
+            // In Fast mode, use the 6x smaller anti-aliased WAV blob when available for lightning-fast mobile upload!
+            const useFastBlob = isFast && state.fastWavBlob;
+            const fileToUpload = useFastBlob
+              ? new File([state.fastWavBlob], state.file.name.replace(/\.[^/.]+$/, '') + '_fast.wav', { type: 'audio/wav' })
+              : state.file;
+            const uploadMB = (fileToUpload.size / (1024 * 1024)).toFixed(1);
+            const tagTxt = useFastBlob
+              ? `⚡ स्मार्ट झटपट कॉपी (${uploadMB} MB — मूळ ${state.analysis.fileSizeMB} MB वरून 6x हलकी)`
+              : `मूळ फाईल (${uploadMB} MB)`;
+
+            setB2Progress(6, `1/3 ${tagTxt} अपलोड होत आहे...`);
+            uploaded = await uploadFileToGemini(fileToUpload, apiKey, (upPct) => {
+              const mapped = 6 + upPct * 0.46;
+              setB2Progress(mapped, `1/3 सुरक्षित अपलोड सुरू... (${Math.round(upPct)}% • ${uploadMB} MB)`);
             });
             mediaPart = {
               fileData: {
@@ -4265,10 +4735,8 @@ RULES:
                 fileUri: uploaded.uri
               }
             };
-            setB2Progress(62, `2/3 ${model} ज्युरी संपूर्ण गाणे ऐकून Vol 1 + Vol 2 परीक्षण करत आहेत... (30–60 सेकंद थांबा)`);
           }
 
-          const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
           const payload = {
             systemInstruction: {
               parts: [{ text: STRICT_GURU_CONSTITUTION }]
@@ -4286,12 +4754,41 @@ RULES:
             ],
             generationConfig: {
               temperature: 0.3,
-              maxOutputTokens: 8192,
+              maxOutputTokens: isFast ? 4096 : 8192,
               responseMimeType: 'application/json'
             }
           };
 
+          const fallbackModels = isFast
+            ? ['gemini-2.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-pro-preview']
+            : ['gemini-3.1-pro-preview', 'gemini-2.5-flash', 'gemini-3-flash-preview'];
+
+          // PREFERRED PATH: Offload Gemini generation to Service Worker so it survives backgrounding & notifies when done!
+          const swController = ('serviceWorker' in navigator) ? navigator.serviceWorker.controller : null;
+          if (swController) {
+            setB2Progress(60, `2/3 ${model} ज्युरी बॅकग्राऊंडमध्ये तपासत आहेत...`);
+            startElapsedTimer(`2/3 ${model} ज्युरी तपासत आहेत`);
+            swController.postMessage({
+              type: 'START_BG_AUDIT',
+              jobId,
+              apiKey,
+              model,
+              fallbackModels,
+              payload,
+              songTitle,
+              isYT,
+              uploadedName: uploaded?.name || null
+            });
+            return; // Completion is handled via SW message / visibilitychange IndexedDB sync!
+          }
+
+          // FALLBACK PATH (only if Service Worker not yet controlling page on very first visit)
+          const t0 = Date.now();
+          setB2Progress(60, `2/3 ${model} ज्युरी संपूर्ण गाणे ऐकून परीक्षण करत आहेत...`);
+          startElapsedTimer(`2/3 ${model} ज्युरी तपासत आहेत`);
+
           let activeModel = model;
+          const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
           let genRes = await fetch(genUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -4299,11 +4796,9 @@ RULES:
           });
           let genJson = await genRes.json().catch(() => ({}));
 
-          // Automatic smart fallback if selected model is retired/unavailable (e.g. 404)
           if (!genRes.ok && (genRes.status === 404 || /no longer available|not found/i.test(genJson?.error?.message || ''))) {
-            const fallbacks = ['gemini-3.1-pro-preview', 'gemini-2.5-flash', 'gemini-3-flash-preview'].filter((m) => m !== activeModel);
-            for (const fb of fallbacks) {
-              setB2Progress(68, `2/3 जुने मॉडेल बंद आहे — आपोआप ${fb} वर स्विच करून ऑडिट सुरू करत आहे...`);
+            for (const fb of fallbackModels) {
+              if (fb === activeModel) continue;
               const fbUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(fb)}:generateContent?key=${encodeURIComponent(apiKey)}`;
               genRes = await fetch(fbUrl, {
                 method: 'POST',
@@ -4311,18 +4806,10 @@ RULES:
                 body: JSON.stringify(payload)
               });
               genJson = await genRes.json().catch(() => ({}));
-              if (genRes.ok) {
-                activeModel = fb;
-                if ([...els.modelSelect.options].some((o) => o.value === fb)) {
-                  els.modelSelect.value = fb;
-                  localStorage.setItem(LS_KEYS.model, fb);
-                }
-                break;
-              }
+              if (genRes.ok) { activeModel = fb; break; }
             }
           }
 
-          // If YouTube URL call requested explicit mimeType, retry cleanly with video/mp4
           if (!genRes.ok && isYT && genRes.status === 400 && /mime/i.test(genJson?.error?.message || '')) {
             payload.contents[0].parts[0].fileData.mimeType = 'video/mp4';
             const retryUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -4337,43 +4824,35 @@ RULES:
           if (!genRes.ok) {
             const msg = genJson?.error?.message || `HTTP ${genRes.status}`;
             if (genRes.status === 429) {
-              throw new Error(`API कोटा / वेग मर्यादा (429): ${msg}. उपाय: सेटिंग्जमध्ये "Gemini 2.5 Flash" निवडा किंवा "Copy Forensic Report for Gemini Chat" वापरा!`);
+              throw new Error(`API कोटा / वेग मर्यादा (429): ${msg}. उपाय: "⚡ झटपट मोड (Fast)" निवडा किंवा "Copy Forensic Report for Gemini Chat" वापरा!`);
             }
             if (isYT && (genRes.status === 400 || genRes.status === 403 || /youtube|video|private|unavailable/i.test(msg))) {
-              throw new Error(`YouTube व्हिडिओ वाचता आला नाही (${genRes.status}): ${msg}. खात्री करा की YouTube व्हिडिओ Public आहे (Private / वय-मर्यादित नसावा) — किंवा गाणे डाउनलोड करून "ऑडिओ फाईल" मोडमध्ये टाका.`);
-            }
-            if (genRes.status === 400 || genRes.status === 403) {
-              throw new Error(`API Key किंवा मॉडेल त्रुटी (${genRes.status}): ${msg}`);
+              throw new Error(`YouTube व्हिडिओ वाचता आला नाही (${genRes.status}): ${msg}. खात्री करा की व्हिडिओ Public आहे.`);
             }
             throw new Error(msg);
           }
 
-          setB2Progress(92, '3/3 आंतरराष्ट्रीय ज्युरीचा अहवाल व AI संशय मीटर तयार होत आहे...');
           const parts = genJson?.candidates?.[0]?.content?.parts || [];
           const reportText = parts.map((p) => p.text || '').join('\n').trim();
-          if (!reportText) {
-            throw new Error('Gemini कडून रिकामा प्रतिसाद आला. कृपया पुन्हा प्रयत्न करा.');
-          }
+          if (!reportText) throw new Error('Gemini कडून रिकामा प्रतिसाद आला. कृपया पुन्हा प्रयत्न करा.');
 
-          state.rawMarkdownReport = reportText;
-          renderGuruReport(reportText);
-
-          setB2Progress(100, '✅ Strict Guru Audit १००% पूर्ण!');
-          setTimeout(() => els.b2Progress.classList.remove('show'), 1400);
-          els.reportBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          showToast('🔥 कठोर गुरूंचा संपूर्ण अहवाल तयार आहे!');
+          const elapsedSec = Math.round((Date.now() - t0) / 1000);
+          await saveLocalJobRecord({
+            id: 'latest',
+            jobId,
+            status: 'done',
+            songTitle,
+            activeModel,
+            reportText,
+            startedAt: t0,
+            finishedAt: Date.now()
+          });
+          if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
+          finishAuditSuccess(reportText, songTitle, activeModel, elapsedSec);
         } catch (err) {
           console.error(err);
-          els.b2Progress.classList.remove('show');
-          showB2Error(
-            `❌ <strong>ऑडिट अयशस्वी:</strong> ${escapeHtml(err.message)}<br/><br/>💡 <strong>तातडीचा उपाय (Zero-API Backup):</strong> काहीही चिंता करू नका! वरचे <strong>"Copy Forensic Report for Gemini Chat"</strong> बटण दाबा आणि थेट तुमच्या Gemini चॅटमध्ये पेस्ट करा.`
-          );
-        } finally {
-          if (uploaded?.name) {
-            deleteGeminiFileQuietly(uploaded.name, apiKey);
-          }
-          state.isAuditing = false;
-          syncActionButtons();
+          if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
+          finishAuditError(err.message || 'अज्ञात त्रुटी');
         }
       }
 
@@ -4810,8 +5289,9 @@ RULES:
         });
       }
 
-      // Initialize app on load
+      // Initialize app on load & recover any completed background audit
       loadSettings();
+      syncBackgroundJobState();
     })();
   </script>
 </body>
