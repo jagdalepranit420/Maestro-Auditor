@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maestro-auditor-v10';
+const CACHE_NAME = 'maestro-auditor-v14';
 const APP_SHELL = [
   './',
   './index.html',
@@ -66,20 +66,27 @@ async function notifyIfBackground(title, body, jobId) {
   } catch (_) {}
 }
 
-function extractQuickNotificationSummary(rawText) {
+function extractQuickNotificationSummary(rawText, jobType) {
   try {
     let s = String(rawText || '').trim();
     const fm = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
     if (fm) s = fm[1].trim();
     const obj = JSON.parse(s);
     if (obj && typeof obj === 'object') {
+      if (jobType === 'script') {
+        const mode = obj.suno_fix?.mode || 'Suno Script';
+        const ai = obj.suno_fix?.audio_influence !== undefined ? `Audio ${obj.suno_fix.audio_influence}%` : '';
+        return `🛠️ ${mode} तयार! ${ai} • कॉपी करण्यासाठी टच करा.`.trim();
+      }
       const sc = obj.total_score !== undefined ? `${obj.total_score}/100 गुण` : '';
       const vd = obj.verdict ? `• ${obj.verdict}` : '';
       const ai = obj.ai_suspicion_pct !== undefined ? `• AI संशय: ${obj.ai_suspicion_pct}%` : '';
       return `${sc} ${vd} ${ai}`.trim();
     }
   } catch (_) {}
-  return 'तुमच्या गाण्याचा आंतरराष्ट्रीय ज्युरी निकाल तयार आहे! पाहण्यासाठी टच करा.';
+  return jobType === 'script'
+    ? 'तुमची तयार Suno स्क्रिप्ट व स्लाइडर्स तयार आहेत! पाहण्यासाठी टच करा.'
+    : 'तुमच्या गाण्याचा आंतरराष्ट्रीय ज्युरी निकाल तयार आहे! पाहण्यासाठी टच करा.';
 }
 
 async function deleteUploadedQuietly(fileName, apiKey) {
@@ -91,37 +98,89 @@ async function deleteUploadedQuietly(fileName, apiKey) {
   } catch (_) {}
 }
 
+async function fetchWithTimeout(url, options, timeoutMs = 110000) {
+  const ctrl = new AbortController();
+  const tid = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: ctrl.signal });
+  } catch (err) {
+    if (err && err.name === 'AbortError') {
+      throw new Error('सर्व्हर प्रतिसादास खूप वेळ लागला (Timeout). कृपया "⚡ झटपट मोड (Fast)" वापरून पुन्हा प्रयत्न करा.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(tid);
+  }
+}
+
 async function runBackgroundAuditJob(msg) {
-  const { jobId, apiKey, model, fallbackModels, payload, songTitle, isYT, uploadedName } = msg;
+  const { jobId, jobType, apiKey, model, fallbackModels, payload, songTitle, isYT, uploadedName } = msg;
+  const kind = jobType === 'jury' ? 'jury' : 'script';
+  const dbKey = `latest_${kind}`;
   const startedAt = Date.now();
+  const labelAction = kind === 'jury' ? 'आंतरराष्ट्रीय ज्युरी तपासत आहेत' : 'God Volume Suno स्क्रिप्ट तयार होत आहे';
 
   await saveJobRecord({
-    id: 'latest',
+    id: dbKey,
     jobId,
+    jobType: kind,
     status: 'running',
     songTitle: songTitle || 'Song',
     model,
-    startedAt
+    startedAt,
+    updatedAt: startedAt
   });
+
+  const hbTimer = setInterval(() => {
+    const now = Date.now();
+    saveJobRecord({
+      id: dbKey,
+      jobId,
+      jobType: kind,
+      status: 'running',
+      songTitle: songTitle || 'Song',
+      model,
+      startedAt,
+      updatedAt: now
+    });
+    broadcastToClients({
+      type: 'BG_AUDIT_HEARTBEAT',
+      jobId,
+      jobType: kind,
+      elapsedSec: Math.floor((now - startedAt) / 1000)
+    });
+  }, 4500);
 
   await broadcastToClients({
     type: 'BG_AUDIT_PROGRESS',
     jobId,
+    jobType: kind,
     pct: 64,
-    text: `2/3 ${model} ज्युरी बॅकग्राऊंडमध्ये गाणे ऐकत आहेत... (तुम्ही इतर अ‍ॅप्स वापरू शकता)`
+    text: `2/3 ${model} — ${labelAction}...`
   });
 
   try {
     let activeModel = model;
-    const genUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-    let genRes = await fetch(genUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    let genJson = await genRes.json().catch(() => ({}));
+    const callModel = async (mdl, bodyObj) => {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mdl)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const res = await fetchWithTimeout(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyObj)
+      }, 115000);
+      const json = await res.json().catch(() => ({}));
+      return { res, json };
+    };
 
-    // Smart automatic fallback if selected model is retired / 404 / overloaded
+    let { res: genRes, json: genJson } = await callModel(activeModel, payload);
+
+    // Strip thinkingConfig if model doesn't support it
+    if (!genRes.ok && genRes.status === 400 && payload?.generationConfig?.thinkingConfig && /thinking/i.test(genJson?.error?.message || '')) {
+      delete payload.generationConfig.thinkingConfig;
+      ({ res: genRes, json: genJson } = await callModel(activeModel, payload));
+    }
+
+    // Smart automatic fallback if selected model is retired / 404
     if (!genRes.ok && (genRes.status === 404 || /no longer available|not found/i.test(genJson?.error?.message || ''))) {
       const list = Array.isArray(fallbackModels) ? fallbackModels : ['gemini-2.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-pro-preview'];
       for (const fb of list) {
@@ -129,16 +188,14 @@ async function runBackgroundAuditJob(msg) {
         await broadcastToClients({
           type: 'BG_AUDIT_PROGRESS',
           jobId,
+          jobType: kind,
           pct: 72,
-          text: `2/3 आपोआप ${fb} वर स्विच करून बॅकग्राऊंड ऑडिट सुरू आहे...`
+          text: `2/3 आपोआप ${fb} वर स्विच करून काम सुरू आहे...`
         });
-        const fbUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(fb)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-        genRes = await fetch(fbUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        genJson = await genRes.json().catch(() => ({}));
+        if (!/2\.5-flash/i.test(fb) && payload?.generationConfig?.thinkingConfig) {
+          delete payload.generationConfig.thinkingConfig;
+        }
+        ({ res: genRes, json: genJson } = await callModel(fb, payload));
         if (genRes.ok) {
           activeModel = fb;
           break;
@@ -151,85 +208,90 @@ async function runBackgroundAuditJob(msg) {
       if (payload?.contents?.[0]?.parts?.[0]?.fileData) {
         payload.contents[0].parts[0].fileData.mimeType = 'video/mp4';
       }
-      const retryUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-      genRes = await fetch(retryUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      genJson = await genRes.json().catch(() => ({}));
+      ({ res: genRes, json: genJson } = await callModel(activeModel, payload));
     }
 
     if (!genRes.ok) {
       const rawMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
       let errText = rawMsg;
       if (genRes.status === 429) {
-        errText = `API कोटा / वेग मर्यादा (429): ${rawMsg}. उपाय: "⚡ झटपट मोड (Flash)" निवडा किंवा "Copy Forensic Report for Gemini Chat" वापरा!`;
-      } else if (isYT && (genRes.status === 400 || genRes.status === 403 || /youtube|video|private|unavailable/i.test(rawMsg))) {
-        errText = `YouTube व्हिडिओ वाचता आला नाही (${genRes.status}): ${rawMsg}. खात्री करा की व्हिडिओ Public आहे.`;
+        errText = `API कोटा / वेग मर्यादा (429): ${rawMsg}. उपाय: "⚡ झटपट मोड (Fast)" निवडा किंवा "Copy Prompt for Gemini Chat" वापरा!`;
+      } else if (isYT && (genRes.status === 400 || genRes.status === 403 || /youtube|video|private|unavailable|duration/i.test(rawMsg))) {
+        errText = `YouTube व्हिडिओ वाचता आला नाही (${genRes.status}): ${rawMsg}. खात्री करा की व्हिडिओ Public आहे व खूप लांब नाही.`;
       } else if (genRes.status === 400 || genRes.status === 403) {
         errText = `API Key किंवा मॉडेल त्रुटी (${genRes.status}): ${rawMsg}`;
       }
       throw new Error(errText);
     }
 
-    const parts = genJson?.candidates?.[0]?.content?.parts || [];
+    const cand = genJson?.candidates?.[0];
+    const finishReason = cand?.finishReason || '';
+    const parts = cand?.content?.parts || [];
     const reportText = parts.map((p) => p.text || '').join('\n').trim();
     if (!reportText) {
-      throw new Error('Gemini कडून रिकामा प्रतिसाद आला. कृपया पुन्हा प्रयत्न करा.');
+      const blockReason = genJson?.promptFeedback?.blockReason || finishReason || 'EMPTY';
+      throw new Error(`Gemini कडून निकाल तयार झाला नाही (कारण: ${blockReason}). कृपया "⚡ झटपट मोड" मध्ये पुन्हा प्रयत्न करा.`);
     }
 
     const finishedAt = Date.now();
     await saveJobRecord({
-      id: 'latest',
+      id: dbKey,
       jobId,
+      jobType: kind,
       status: 'done',
       songTitle: songTitle || 'Song',
       activeModel,
       reportText,
       startedAt,
-      finishedAt
+      finishedAt,
+      updatedAt: finishedAt
     });
 
     await broadcastToClients({
       type: 'BG_AUDIT_DONE',
       jobId,
+      jobType: kind,
       activeModel,
       songTitle,
       reportText,
       elapsedSec: Math.round((finishedAt - startedAt) / 1000)
     });
 
-    const summaryLine = extractQuickNotificationSummary(reportText);
+    const summaryLine = extractQuickNotificationSummary(reportText, kind);
     await notifyIfBackground(
-      `🏆 Maestro Auditor निकाल तयार!`,
+      kind === 'script' ? '🛠️ Suno स्क्रिप्ट तयार!' : '🏆 आंतरराष्ट्रीय ज्युरी निकाल तयार!',
       `${songTitle ? songTitle + ' — ' : ''}${summaryLine}`,
       jobId
     );
   } catch (err) {
     const errMsg = err?.message || 'अज्ञात त्रुटी';
+    const now = Date.now();
     await saveJobRecord({
-      id: 'latest',
+      id: dbKey,
       jobId,
+      jobType: kind,
       status: 'error',
       songTitle: songTitle || 'Song',
       error: errMsg,
       startedAt,
-      finishedAt: Date.now()
+      finishedAt: now,
+      updatedAt: now
     });
 
     await broadcastToClients({
       type: 'BG_AUDIT_ERROR',
       jobId,
+      jobType: kind,
       error: errMsg
     });
 
     await notifyIfBackground(
-      `⚠️ Maestro Auditor ऑडिट थांबले`,
+      `⚠️ Maestro Auditor थांबले`,
       errMsg.slice(0, 120),
       jobId
     );
   } finally {
+    clearInterval(hbTimer);
     if (uploadedName) {
       await deleteUploadedQuietly(uploadedName, apiKey);
     }
@@ -274,12 +336,10 @@ self.addEventListener('notificationclick', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
-  // Never intercept POST/DELETE or external API calls (Gemini Files API / large WAV uploads)
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  // Network-first strategy so GitHub Pages updates appear immediately, with offline fallback
   event.respondWith(
     fetch(req)
       .then((res) => {
