@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Maestro Auditor" />
   <meta name="application-name" content="Maestro Auditor" />
-  <meta name="description" content="MAESTRO AUDITOR v24 — 10,000x Deep Audio Forensics, AI-Vocal Fixation, Offline+Online EQ & Noise Fix Recipe, Generational Appeal % & Master Gemini Report" />
+  <meta name="description" content="MAESTRO AUDITOR v25 — 10,000x Deep Audio Forensics, AI-Vocal Fixation, Offline+Online EQ & Noise Fix Recipe, Generational Appeal % & Master Gemini Report" />
   <title>MAESTRO AUDITOR — Audio Microscope &amp; Strict Guru Judge</title>
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
@@ -3144,7 +3144,7 @@
           </svg>
         </div>
         <div style="min-width:0">
-          <div class="brand-title">MAESTRO AUDITOR v24</div>
+          <div class="brand-title">MAESTRO AUDITOR v25</div>
           <div class="brand-sub">10,000x Forensic Audio Audit • AI-Vocal Fixation • Master Gemini Handoff</div>
         </div>
       </div>
@@ -3171,7 +3171,7 @@
 
     <!-- Status Strip -->
     <div class="mode-strip">
-      <span class="mode-badge">👑 SUPER-ENGINE v24 • Always-On Google Search + 4-PDF GOD Volume + 10s DSP Heatmap + AI-Vocal Fixation</span>
+      <span class="mode-badge">👑 SUPER-ENGINE v25 • Always-On Google Search + 4-PDF GOD Volume + 10s DSP Heatmap + AI-Vocal Fixation</span>
       <span class="mode-meta">Clean Zero-Clutter Auditor • 100% English Token-Saver • Complete Gemini + Suno Handoff</span>
     </div>
 
@@ -3672,7 +3672,7 @@
     </section>
 
     <div class="footer-note">
-      MAESTRO AUDITOR v24 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GENERATIONAL APPEAL % • GOOGLE SEARCH + 4-PDF GOD VOLUME)
+      MAESTRO AUDITOR v25 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GENERATIONAL APPEAL % • GOOGLE SEARCH + 4-PDF GOD VOLUME)
     </div>
   </main>
 
@@ -4588,10 +4588,17 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
 
       function loadSettings() {
         const savedKey = localStorage.getItem(LS_KEYS.apiKey) || '';
-        const savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-4-hydrogen';
+        let savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-4-hydrogen';
         const savedCustom = localStorage.getItem(LS_KEYS.customModel) || '';
         const savedLang = localStorage.getItem(LS_KEYS.lang) || 'en';
         const savedTier = localStorage.getItem(LS_KEYS.accountTier) || 'auto';
+
+        // One-time v25 Free-Key Auto-Heal: if user is not explicitly on Paid Tier and had a Paid-only model stuck in localStorage, switch to Free gemini-4-hydrogen automatically
+        if (savedTier !== 'paid' && !localStorage.getItem('maestro_v25_free_migrated') && /(carbon|neon|argon|pro)/i.test(savedModel) && !/hydrogen/i.test(savedModel)) {
+          savedModel = 'gemini-4-hydrogen';
+          localStorage.setItem(LS_KEYS.model, 'gemini-4-hydrogen');
+          localStorage.setItem('maestro_v25_free_migrated', '1');
+        }
 
         // Restore previously auto-discovered future models immediately before setting dropdown value
         try {
@@ -6483,13 +6490,17 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         if (status === 404) return true;
         return /not found|no longer available|is not supported for generateContent/i.test(String(msg || ''));
       }
+      function isPaidOnlyModelClient(mdl) {
+        const id = String(mdl || '').toLowerCase();
+        return /(carbon|neon|argon|pro)/i.test(id) && !/hydrogen/i.test(id);
+      }
       function isQuotaZeroErr(status, msg) {
-        return status === 429 && /limit:\s*0|quota.*0|billing|free_tier/i.test(String(msg || ''));
+        return status === 429 && /limit:\s*0|quota.*0|billing|free_tier|exceeded your current quota/i.test(String(msg || ''));
       }
 
-      // Build smart quality-ordered anti-503 fallback cascade using verified + auto-discovered models
+      // Build smart quality-ordered anti-503 & anti-429 fallback cascade (ALWAYS ends with full Free Tier safety net!)
       function buildResilientFallbackCascade(primaryModel) {
-        const isPaid = /(neon|carbon|argon|pro)/i.test(primaryModel) && !/hydrogen/i.test(primaryModel);
+        const isPaid = isPaidOnlyModelClient(primaryModel);
         let discoveredFlash = [];
         try {
           const disc = JSON.parse(localStorage.getItem(LS_KEYS.discoveredModels) || '[]');
@@ -6514,9 +6525,7 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
           'gemini-4-argon',
           'gemini-3.1-pro-preview',
           'gemini-pro-latest',
-          'gemini-4-hydrogen',
-          'gemini-3.8-flash',
-          'gemini-flash-latest'
+          ...freeOrder
         ];
         const base = isPaid ? paidOrder : freeOrder;
         return base.filter((m, idx, arr) => m && m !== primaryModel && arr.indexOf(m) === idx);
@@ -7590,7 +7599,18 @@ STRICT RULES:
       }
       els.btnCancelAudit.addEventListener('click', cancelCurrentAudit);
 
-      function finishJobSuccess(jobType, reportText, songTitle, activeModel, elapsedSec, usageMetadata = null, explicitTier = null, webGrounding = null) {
+      function finishJobSuccess(jobType, reportText, songTitle, activeModel, elapsedSec, usageMetadata = null, explicitTier = null, webGrounding = null, autoSwitchedToFree = false) {
+        if (autoSwitchedToFree && activeModel && !isPaidOnlyModelClient(activeModel)) {
+          if ([...els.modelSelect.options].some((o) => o.value === activeModel)) {
+            els.modelSelect.value = activeModel;
+            localStorage.setItem(LS_KEYS.model, activeModel);
+          } else {
+            els.modelSelect.value = 'gemini-4-hydrogen';
+            localStorage.setItem(LS_KEYS.model, 'gemini-4-hydrogen');
+          }
+          updateActiveModelChip();
+          updateEstimatedCostStrip();
+        }
         stopElapsedTimer();
         releaseWakeLock();
         state.isAuditing = false;
@@ -7737,7 +7757,7 @@ STRICT RULES:
         if (state.activeJobId && rec && rec.jobId === state.activeJobId) {
           if (rec.status === 'done' && rec.reportText) {
             const elapsed = rec.finishedAt && rec.startedAt ? Math.round((rec.finishedAt - rec.startedAt) / 1000) : null;
-            finishJobSuccess(rec.jobType || state.activeJobType, rec.reportText, rec.songTitle, rec.activeModel, elapsed, rec.usageMetadata || null, rec.tierLabel || null, rec.webGrounding || null);
+            finishJobSuccess(rec.jobType || state.activeJobType, rec.reportText, rec.songTitle, rec.activeModel, elapsed, rec.usageMetadata || null, rec.tierLabel || null, rec.webGrounding || null, Boolean(rec.autoSwitchedToFree));
             return;
           }
           if (rec.status === 'error') {
@@ -7771,7 +7791,7 @@ STRICT RULES:
             state.lastHeartbeatAt = Date.now();
             setB2Progress(msg.pct || 70, msg.text || 'Deep background audit running...');
           } else if (msg.type === 'BG_AUDIT_DONE' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
-            finishJobSuccess(msg.jobType || state.activeJobType, msg.reportText, msg.songTitle, msg.activeModel, msg.elapsedSec, msg.usageMetadata || null, msg.tierLabel || null, msg.webGrounding || null);
+            finishJobSuccess(msg.jobType || state.activeJobType, msg.reportText, msg.songTitle, msg.activeModel, msg.elapsedSec, msg.usageMetadata || null, msg.tierLabel || null, msg.webGrounding || null, Boolean(msg.autoSwitchedToFree));
           } else if (msg.type === 'BG_AUDIT_ERROR' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
             finishJobError(msg.error || 'अज्ञात त्रुटी');
           }
@@ -7935,21 +7955,26 @@ STRICT RULES:
 
           const modelQueue = [activeModel, ...fallbackModels].filter((m, i, a) => m && a.indexOf(m) === i);
           let genRes = null, genJson = null, lastStatus = 0, lastMsg = '';
+          let skipPaidModels = false, autoSwitchedToFree = false;
 
           for (let mIdx = 0; mIdx < modelQueue.length; mIdx++) {
             const candidateModel = modelQueue[mIdx];
+            if (skipPaidModels && isPaidOnlyModelClient(candidateModel)) continue;
+
             const isPrimary = mIdx === 0;
             const maxAttempts = isPrimary ? 3 : 2;
-            const backoffMs = isPrimary ? [2200, 4800] : [2200];
+            const backoffMs = isPrimary ? [2200, 4600] : [2000];
 
             for (let attempt = 1; attempt <= maxAttempts; attempt++) {
               if (!state.isAuditing) return;
-              const pctNow = Math.min(90, 68 + mIdx * 4 + attempt * 2);
+              const pctNow = Math.min(91, 68 + mIdx * 3 + attempt * 2);
               const statusTxt = isPrimary && attempt === 1
                 ? `Pass 2/2 ${candidateModel} — ${labelNow}...`
                 : (attempt > 1
                     ? `⏳ High demand on ${candidateModel} — auto-retrying (${attempt}/${maxAttempts})...`
-                    : `🔄 ${modelQueue[mIdx - 1]} busy — auto-switching to ${candidateModel}...`);
+                    : (skipPaidModels
+                        ? `⚡ Free API Key detected — auto-switching to ${candidateModel} (₹0)...`
+                        : `🔄 ${modelQueue[mIdx - 1]} busy — auto-switching to ${candidateModel}...`));
               setB2Progress(pctNow, statusTxt);
 
               try {
@@ -7966,6 +7991,7 @@ STRICT RULES:
 
               if (genRes.ok) {
                 activeModel = candidateModel;
+                autoSwitchedToFree = skipPaidModels && !isPaidOnlyModelClient(candidateModel);
                 break;
               }
 
@@ -7973,14 +7999,21 @@ STRICT RULES:
               lastMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
 
               if (lastStatus === 401 || lastStatus === 403 || (lastStatus === 400 && !isModelMissingErr(lastStatus, lastMsg))) break;
-              if (isPrimary && isQuotaZeroErr(lastStatus, lastMsg) && /(pro|neon|carbon|argon)/i.test(candidateModel)) break;
+
+              // PERMANENT FIX: Paid model 429 on Free API key -> skip all Paid models & cascade immediately to Free Tier!
+              if (lastStatus === 429 && isPaidOnlyModelClient(candidateModel)) {
+                skipPaidModels = true;
+                break;
+              }
+
               if (isModelMissingErr(lastStatus, lastMsg)) break;
+              if (isQuotaZeroErr(lastStatus, lastMsg)) break;
 
               if (isTransientHighDemandErr(lastStatus, lastMsg) || lastStatus === 429) {
                 if (attempt < maxAttempts) {
-                  const baseWait = lastStatus === 429 ? 4000 : (backoffMs[attempt - 1] || 3000);
-                  const waitMs = baseWait + Math.floor(Math.random() * 1200);
-                  setB2Progress(pctNow, `⏳ Google server busy on ${candidateModel} — waiting ${(waitMs / 1000).toFixed(1)}s before retry (${attempt + 1}/${maxAttempts})...`);
+                  const baseWait = lastStatus === 429 ? 3200 : (backoffMs[attempt - 1] || 2800);
+                  const waitMs = baseWait + Math.floor(Math.random() * 1000);
+                  setB2Progress(pctNow, `⏳ Server busy on ${candidateModel} — waiting ${(waitMs / 1000).toFixed(1)}s before retry (${attempt + 1}/${maxAttempts})...`);
                   await sleepMs(waitMs);
                   continue;
                 }
@@ -7991,12 +8024,11 @@ STRICT RULES:
 
             if (genRes && genRes.ok) break;
             if (lastStatus === 401 || lastStatus === 403 || (lastStatus === 400 && !isModelMissingErr(lastStatus, lastMsg))) break;
-            if (mIdx === 0 && isQuotaZeroErr(lastStatus, lastMsg) && /(pro|neon|carbon|argon)/i.test(candidateModel)) break;
           }
 
           if (!genRes || !genRes.ok) {
             const rawMsg = lastMsg || `HTTP ${lastStatus || 503}`;
-            if (lastStatus === 429 && /(pro|neon|carbon|argon)/i.test(activeModel)) {
+            if (lastStatus === 429 && isPaidOnlyModelClient(activeModel)) {
               throw new Error(`PRO_FREE_TIER_QUOTA::${activeModel} has zero quota (limit: 0) on your Free Tier API key (${rawMsg.slice(0, 140)}).`);
             }
             if (isTransientHighDemandErr(lastStatus, rawMsg)) {
@@ -8039,7 +8071,7 @@ STRICT RULES:
             updatedAt: Date.now()
           });
           if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
-          if (state.activeJobId === jobId) finishJobSuccess(kind, reportText, songTitle, activeModel, elapsedSec, usageMetadata, finalTier, cleanWebMeta);
+          if (state.activeJobId === jobId) finishJobSuccess(kind, reportText, songTitle, activeModel, elapsedSec, usageMetadata, finalTier, cleanWebMeta, autoSwitchedToFree);
         } catch (err) {
           console.error(err);
           if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
@@ -8248,7 +8280,7 @@ STRICT RULES:
         const meta = getCurrentSongMeta();
         const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const out = [
-          `MAESTRO AUDITOR v24 — OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE`,
+          `MAESTRO AUDITOR v25 — OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE`,
           `Song: ${meta.title} | ${meta.sourceLine}`,
           `Generated: ${meta.nowStr}`,
           ``
@@ -8418,7 +8450,7 @@ STRICT RULES:
         const allDefects = collectAllConsolidatedDefects();
         const parts = [
           `Act as a World-Class Grammy+ Music Director, Chief Mastering Engineer, Vocal Arranger, and Suno AI Master Architect.`,
-          `Below is the COMPLETE, END-TO-END 10,000x Forensic Audit Report generated by Maestro Auditor v24 for my song "${meta.title}" (I am attaching my original audio file + my 4 Master Reference PDFs).`,
+          `Below is the COMPLETE, END-TO-END 10,000x Forensic Audit Report generated by Maestro Auditor v25 for my song "${meta.title}" (I am attaching my original audio file + my 4 Master Reference PDFs).`,
           `Use BOTH my 4 Master Reference PDFs (GOD Volume) AND your absolute highest Pro/Neon global music intelligence to eliminate EVERY SINGLE DEFECT listed below — including ANY AI/machine/robotic sound in the vocals — and produce a 100% VERIFIED, ZERO-DEFECT, WORLD-CLASS Suno AI Remix/Cover/Replace blueprint (Style Box, Exclude Box, Tightened Lyrics <3:55 with natural human vocal delivery/Alaps, Anti Tug-of-War Sliders, and 5-Min BandLab/OBRA Polish).`,
           ``,
           `=== 1. SONG METADATA ===`,
@@ -8538,7 +8570,7 @@ STRICT RULES:
         const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const mTag = modelId ? `${formatFriendlyModelName(modelId)} (${resolveTierForModel(modelId, tier)})` : '';
         const out = [
-          `MAESTRO AUDITOR v24 — COMPLETE 10,000x INTERNATIONAL JURY, AI-VOCAL FIXATION & GENERATIONAL REVIEW`,
+          `MAESTRO AUDITOR v25 — COMPLETE 10,000x INTERNATIONAL JURY, AI-VOCAL FIXATION & GENERATIONAL REVIEW`,
           ...(mTag ? [`Model & Tier: ${mTag}`] : []),
           `Total Score: ${d.total_score ?? '—'}/100 | Verdict: ${d.verdict || '—'} | AI/Machine Suspicion: ${d.ai_suspicion_pct ?? '—'}%`
         ];
@@ -8954,8 +8986,8 @@ STRICT RULES:
 
         const sections = [];
         const docHeading = scope === 'fixrecipe'
-          ? 'MAESTRO AUDITOR v24 • OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE'
-          : 'MAESTRO AUDITOR v24 • COMPLETE END-TO-END 10,000x FORENSIC FINAL REPORT';
+          ? 'MAESTRO AUDITOR v25 • OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE'
+          : 'MAESTRO AUDITOR v25 • COMPLETE END-TO-END 10,000x FORENSIC FINAL REPORT';
 
         sections.push(`
           <div class="pdf-cover">
@@ -9114,7 +9146,7 @@ STRICT RULES:
           `);
         }
 
-        sections.push(`<div class="pdf-footer">MAESTRO AUDITOR v24 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GOOGLE SEARCH + 4-PDF GOD VOLUME) • Generated: ${escapeHtml(meta.nowStr)}</div>`);
+        sections.push(`<div class="pdf-footer">MAESTRO AUDITOR v25 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GOOGLE SEARCH + 4-PDF GOD VOLUME) • Generated: ${escapeHtml(meta.nowStr)}</div>`);
         return `<div class="pdf-doc">${sections.join('')}</div>`;
       }
 

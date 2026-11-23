@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maestro-auditor-v24';
+const CACHE_NAME = 'maestro-auditor-v25';
 const APP_SHELL = [
   './',
   './index.html',
@@ -24,8 +24,13 @@ function isModelMissingSW(status, msg) {
   return /not found|no longer available|is not supported for generateContent/i.test(String(msg || ''));
 }
 
+function isPaidOnlyModelSW(mdl) {
+  const id = String(mdl || '').toLowerCase();
+  return /(carbon|neon|argon|pro)/i.test(id) && !/hydrogen/i.test(id);
+}
+
 function isQuotaZeroSW(status, msg) {
-  return status === 429 && /limit:\s*0|quota.*0|billing|free_tier/i.test(String(msg || ''));
+  return status === 429 && /limit:\s*0|quota.*0|billing|free_tier|exceeded your current quota/i.test(String(msg || ''));
 }
 
 function openJobDB() {
@@ -392,9 +397,9 @@ async function runBackgroundAuditJob(msg) {
       }
     };
 
-    // Build deduplicated Resilient Cascade Queue: [Primary Model, ...Fallbacks]
-    const defaultFreeCascade = ['gemini-4-hydrogen', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest'];
-    const rawQueue = [model, ...(Array.isArray(fallbackModels) ? fallbackModels : defaultFreeCascade)];
+    // Build deduplicated Resilient Cascade Queue: [Primary Model, ...Fallbacks, ...Full Free Safety Net]
+    const freeSafetyNet = ['gemini-4-hydrogen', 'gemini-3.8-flash', 'gemini-3.7-flash', 'gemini-3.6-flash', 'gemini-flash-latest', 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest'];
+    const rawQueue = [model, ...(Array.isArray(fallbackModels) ? fallbackModels : []), ...freeSafetyNet];
     const modelQueue = rawQueue.filter((m, i, a) => m && a.indexOf(m) === i);
 
     let genRes = null;
@@ -402,20 +407,28 @@ async function runBackgroundAuditJob(msg) {
     let lastErrorStatus = 0;
     let lastErrorMsg = '';
     let switchedNotice = false;
+    let skipPaidModels = false;
+    let autoSwitchedToFree = false;
 
     for (let mIdx = 0; mIdx < modelQueue.length; mIdx++) {
       const candidateModel = modelQueue[mIdx];
+      if (skipPaidModels && isPaidOnlyModelSW(candidateModel)) {
+        continue;
+      }
+
       const isPrimary = mIdx === 0;
       const maxAttempts = isPrimary ? 3 : 2;
-      const backoffMs = isPrimary ? [2200, 4800] : [2200];
+      const backoffMs = isPrimary ? [2200, 4600] : [2000];
 
       for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-        const pctNow = Math.min(90, 66 + mIdx * 4 + attempt * 2);
+        const pctNow = Math.min(91, 66 + mIdx * 3 + attempt * 2);
         const statusMsg = isPrimary && attempt === 1
           ? `Pass 2/2 ${candidateModel} — ${labelAction}...`
           : (attempt > 1
               ? `⏳ High demand on ${candidateModel} — auto-retrying (${attempt}/${maxAttempts})...`
-              : `🔄 ${modelQueue[mIdx - 1]} busy — auto-switching to ${candidateModel}...`);
+              : (skipPaidModels
+                  ? `⚡ Free API Key detected — auto-switching to ${candidateModel} (₹0)...`
+                  : `🔄 ${modelQueue[mIdx - 1]} busy — auto-switching to ${candidateModel}...`));
         await broadcastToClients({
           type: 'BG_AUDIT_PROGRESS',
           jobId,
@@ -443,19 +456,21 @@ async function runBackgroundAuditJob(msg) {
         if (genRes.ok) {
           activeModel = candidateModel;
           switchedNotice = !isPrimary;
+          autoSwitchedToFree = skipPaidModels && !isPaidOnlyModelSW(candidateModel);
           break;
         }
 
         lastErrorStatus = genRes.status;
         lastErrorMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
 
-        // Fatal client/auth error (invalid key, bad request) -> stop immediately
+        // Fatal auth/invalid-request error -> stop immediately
         if (genRes.status === 401 || genRes.status === 403 || (genRes.status === 400 && !isModelMissingSW(genRes.status, lastErrorMsg))) {
           break;
         }
 
-        // Paid-only model has limit: 0 on Free API key -> stop immediately if primary Paid model so user sees clear Free/Paid guidance
-        if (isPrimary && isQuotaZeroSW(genRes.status, lastErrorMsg) && /(pro|neon|carbon|argon)/i.test(candidateModel)) {
+        // PERMANENT FIX: Paid-only model hits 429 (limit: 0 / billing) on Free API key -> DO NOT FAIL! Skip all Paid models and cascade immediately to Free Tier!
+        if (genRes.status === 429 && isPaidOnlyModelSW(candidateModel)) {
+          skipPaidModels = true;
           break;
         }
 
@@ -464,33 +479,35 @@ async function runBackgroundAuditJob(msg) {
           break;
         }
 
-        // Transient 503 High Demand / 5xx / 429 RPM burst -> wait with exponential backoff + random jitter, then retry!
+        // Free model hit daily quota (429 quota/billing) -> immediately try next Free model family (each family has its own quota!)
+        if (isQuotaZeroSW(genRes.status, lastErrorMsg)) {
+          break;
+        }
+
+        // Transient 503 High Demand / 5xx / short 429 RPM burst -> exponential backoff + jitter, then retry or cascade!
         if (isTransientHighDemandSW(genRes.status, lastErrorMsg) || genRes.status === 429) {
           if (attempt < maxAttempts) {
-            const baseWait = genRes.status === 429 ? 4000 : (backoffMs[attempt - 1] || 3000);
-            const waitMs = baseWait + Math.floor(Math.random() * 1200);
+            const baseWait = genRes.status === 429 ? 3200 : (backoffMs[attempt - 1] || 2800);
+            const waitMs = baseWait + Math.floor(Math.random() * 1000);
             await broadcastToClients({
               type: 'BG_AUDIT_PROGRESS',
               jobId,
               jobType: kind,
               pct: pctNow,
-              text: `⏳ Google server busy on ${candidateModel} — waiting ${(waitMs / 1000).toFixed(1)}s before auto-retry (${attempt + 1}/${maxAttempts})...`
+              text: `⏳ Server busy on ${candidateModel} — waiting ${(waitMs / 1000).toFixed(1)}s before retry (${attempt + 1}/${maxAttempts})...`
             });
             await sleepSW(waitMs);
             continue;
           }
-          // Exhausted retries on this model -> cascade to next model in modelQueue!
           break;
         }
 
-        // Any other error -> stop retrying this model
         break;
       }
 
       if (genRes && genRes.ok) break;
-      // Stop cascading on fatal auth/invalid-request/paid-quota-zero errors
+      // Only stop outer cascade on fatal auth / invalid key / bad request errors
       if (lastErrorStatus === 401 || lastErrorStatus === 403 || (lastErrorStatus === 400 && !isModelMissingSW(lastErrorStatus, lastErrorMsg))) break;
-      if (mIdx === 0 && isQuotaZeroSW(lastErrorStatus, lastErrorMsg) && /(pro|neon|carbon|argon)/i.test(candidateModel)) break;
     }
 
     if (!genRes || !genRes.ok) {
@@ -536,6 +553,7 @@ async function runBackgroundAuditJob(msg) {
       songTitle: songTitle || 'Song',
       activeModel,
       switchedFromPrimary: switchedNotice,
+      autoSwitchedToFree,
       tierLabel: resolvedTier,
       usageMetadata,
       webGrounding: cleanWebMeta,
@@ -554,6 +572,7 @@ async function runBackgroundAuditJob(msg) {
       jobType: kind,
       activeModel,
       switchedFromPrimary: switchedNotice,
+      autoSwitchedToFree,
       tierLabel: resolvedTier,
       usageMetadata,
       webGrounding: cleanWebMeta,
