@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maestro-auditor-v22';
+const CACHE_NAME = 'maestro-auditor-v23';
 const APP_SHELL = [
   './',
   './index.html',
@@ -200,10 +200,9 @@ function extractQuickNotificationSummary(rawText, jobType) {
     if (fm) s = fm[1].trim();
     const obj = JSON.parse(s);
     if (obj && typeof obj === 'object') {
-      if (jobType === 'script') {
-        const mode = obj.suno_fix?.mode || 'Suno Script';
-        const ai = obj.suno_fix?.audio_influence !== undefined ? `Audio ${obj.suno_fix.audio_influence}%` : '';
-        return `🛠️ ${mode} Ready! ${ai} • Tap to open & copy.`.trim();
+      if (jobType === 'fixrecipe') {
+        const mode = obj.recommended_path || 'EQ, Noise & AI-Vocal Fix Recipe';
+        return `🎛️ ${mode} Ready! Tap to Copy, Preview or Save PDF.`;
       }
       const sc = obj.total_score !== undefined ? `${obj.total_score}/100` : '';
       const vd = obj.verdict ? `• ${obj.verdict}` : '';
@@ -294,12 +293,12 @@ function mergeUsageMeta(u1, u2) {
 
 async function runBackgroundAuditJob(msg) {
   const { jobId, jobType, songId, tierLabel, apiKey, model, fallbackModels, payload, webSearchPrompt, songTitle, isYT, uploadedName } = msg;
-  const kind = jobType === 'jury' ? 'jury' : 'script';
+  const kind = jobType === 'jury' ? 'jury' : 'fixrecipe';
   const dbKey = `latest_${kind}`;
   const startedAt = Date.now();
   const labelAction = kind === 'jury'
-    ? '10,000x Deep Jury Review & Generational Audit'
-    : 'Verified Suno Remix/Cover Master Script';
+    ? '10,000x Deep Jury, AI-Vocal Fixation & Generational Audit'
+    : 'Online + 4-PDF EQ, Noise & AI-Vocal Fix Recipe';
 
   await saveJobRecord({
     id: dbKey,
@@ -477,7 +476,7 @@ async function runBackgroundAuditJob(msg) {
 
     const summaryLine = extractQuickNotificationSummary(reportText, kind);
     await notifyIfBackground(
-      kind === 'script' ? '🛠️ Verified Suno Script Ready!' : '🏆 Deep Jury & Generational Review Ready!',
+      kind === 'fixrecipe' ? '🎛️ Online EQ, Noise & AI-Vocal Fix Recipe Ready!' : '🏆 10,000x Deep Jury & AI-Vocal Audit Ready!',
       `${songTitle ? songTitle + ' — ' : ''}${summaryLine}`,
       jobId
     );
