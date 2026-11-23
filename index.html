@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Maestro Auditor" />
   <meta name="application-name" content="Maestro Auditor" />
-  <meta name="description" content="MAESTRO AUDITOR v23 — 10,000x Deep Audio Forensics, AI-Vocal Fixation, Offline+Online EQ & Noise Fix Recipe, Generational Appeal % & Master Gemini Report" />
+  <meta name="description" content="MAESTRO AUDITOR v24 — 10,000x Deep Audio Forensics, AI-Vocal Fixation, Offline+Online EQ & Noise Fix Recipe, Generational Appeal % & Master Gemini Report" />
   <title>MAESTRO AUDITOR — Audio Microscope &amp; Strict Guru Judge</title>
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
@@ -3144,7 +3144,7 @@
           </svg>
         </div>
         <div style="min-width:0">
-          <div class="brand-title">MAESTRO AUDITOR v23</div>
+          <div class="brand-title">MAESTRO AUDITOR v24</div>
           <div class="brand-sub">10,000x Forensic Audio Audit • AI-Vocal Fixation • Master Gemini Handoff</div>
         </div>
       </div>
@@ -3171,7 +3171,7 @@
 
     <!-- Status Strip -->
     <div class="mode-strip">
-      <span class="mode-badge">👑 SUPER-ENGINE v23 • Always-On Google Search + 4-PDF GOD Volume + 10s DSP Heatmap + AI-Vocal Fixation</span>
+      <span class="mode-badge">👑 SUPER-ENGINE v24 • Always-On Google Search + 4-PDF GOD Volume + 10s DSP Heatmap + AI-Vocal Fixation</span>
       <span class="mode-meta">Clean Zero-Clutter Auditor • 100% English Token-Saver • Complete Gemini + Suno Handoff</span>
     </div>
 
@@ -3664,15 +3664,15 @@
           <div class="pdf-included-chips" id="pdfIncludedChips"></div>
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn-neon-copy btn-sm" id="btnCopyMasterReportBar" style="flex:1; min-height:46px;">🚀 Copy Complete Master Report for Gemini</button>
-          <button type="button" class="btn btn-gold btn-sm" id="btnExportFullPdf" style="flex:1; min-height:46px;">📄 Save Full Final PDF</button>
-          <button type="button" class="btn btn-cyan btn-sm" id="btnPreviewFullPdf" style="min-height:46px;">👁️ Preview Full Report</button>
+          <button type="button" class="btn btn-neon-copy btn-sm" id="btnCopyMasterReportBar" style="flex:1 1 210px; min-height:46px;">🚀 Copy Complete Master Report for Gemini</button>
+          <button type="button" class="btn btn-gold btn-sm" id="btnExportFullPdf" style="flex:1 1 155px; min-height:46px;">📄 Save Full Final PDF</button>
+          <button type="button" class="btn btn-cyan btn-sm" id="btnPreviewFullPdf" style="flex:1 1 155px; min-height:46px;">👁️ Preview Full Report</button>
         </div>
       </div>
     </section>
 
     <div class="footer-note">
-      MAESTRO AUDITOR v23 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GENERATIONAL APPEAL % • GOOGLE SEARCH + 4-PDF GOD VOLUME)
+      MAESTRO AUDITOR v24 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GENERATIONAL APPEAL % • GOOGLE SEARCH + 4-PDF GOD VOLUME)
     </div>
   </main>
 
@@ -6474,37 +6474,89 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         ].join('\n');
       }
 
+      const sleepMs = (ms) => new Promise((r) => setTimeout(r, ms));
+      function isTransientHighDemandErr(status, msg) {
+        if (status === 503 || status === 500 || status === 502 || status === 504 || status === 408) return true;
+        return /high demand|overloaded|unavailable|temporarily|try again later|capacity|internal error|deadline/i.test(String(msg || ''));
+      }
+      function isModelMissingErr(status, msg) {
+        if (status === 404) return true;
+        return /not found|no longer available|is not supported for generateContent/i.test(String(msg || ''));
+      }
+      function isQuotaZeroErr(status, msg) {
+        return status === 429 && /limit:\s*0|quota.*0|billing|free_tier/i.test(String(msg || ''));
+      }
+
+      // Build smart quality-ordered anti-503 fallback cascade using verified + auto-discovered models
+      function buildResilientFallbackCascade(primaryModel) {
+        const isPaid = /(neon|carbon|argon|pro)/i.test(primaryModel) && !/hydrogen/i.test(primaryModel);
+        let discoveredFlash = [];
+        try {
+          const disc = JSON.parse(localStorage.getItem(LS_KEYS.discoveredModels) || '[]');
+          discoveredFlash = disc.filter((m) =>
+            /flash|hydrogen/i.test(m) && !/omni|banana|image|video|tts|live|audio-only/i.test(m)
+          );
+        } catch (_) {}
+
+        const freeOrder = [
+          'gemini-4-hydrogen',
+          'gemini-3.8-flash',
+          'gemini-3.7-flash',
+          'gemini-3.6-flash',
+          'gemini-flash-latest',
+          'gemini-3.5-flash-lite',
+          'gemini-flash-lite-latest',
+          ...discoveredFlash
+        ];
+        const paidOrder = [
+          'gemini-4-carbon',
+          'gemini-4-neon',
+          'gemini-4-argon',
+          'gemini-3.1-pro-preview',
+          'gemini-pro-latest',
+          'gemini-4-hydrogen',
+          'gemini-3.8-flash',
+          'gemini-flash-latest'
+        ];
+        const base = isPaid ? paidOrder : freeOrder;
+        return base.filter((m, idx, arr) => m && m !== primaryModel && arr.indexOf(m) === idx);
+      }
+
       async function runOuterWebSearchPassClient(apiKey, model, searchPrompt) {
         if (!searchPrompt) return null;
-        try {
-          const ctrl = new AbortController();
-          const tid = setTimeout(() => ctrl.abort(), 32000);
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-          const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ role: 'user', parts: [{ text: searchPrompt }] }],
-              tools: [{ google_search: {} }],
-              generationConfig: { temperature: 0.2, maxOutputTokens: 1200 }
-            }),
-            signal: ctrl.signal
-          });
-          clearTimeout(tid);
-          if (!res.ok) return null;
-          const json = await res.json().catch(() => ({}));
-          const cand = json?.candidates?.[0];
-          const summaryText = (cand?.content?.parts || []).map((p) => p.text || '').join('\n').trim();
-          const gm = cand?.groundingMetadata || {};
-          const queries = Array.isArray(gm.webSearchQueries) ? gm.webSearchQueries.slice(0, 6) : [];
-          const sources = Array.isArray(gm.groundingChunks)
-            ? gm.groundingChunks.map((c) => ({ title: c?.web?.title || '', uri: c?.web?.uri || '' })).filter((x) => x.title || x.uri).slice(0, 6)
-            : [];
-          if (!summaryText) return null;
-          return { usedLiveSearch: true, summary: summaryText.slice(0, 2600), queries, sources, usage: json?.usageMetadata || null };
-        } catch (_) {
-          return null;
+        const searchPool = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.6-flash', 'gemini-flash-lite-latest', model]
+          .filter((v, i, a) => v && a.indexOf(v) === i);
+        for (const sModel of searchPool.slice(0, 3)) {
+          try {
+            const ctrl = new AbortController();
+            const tid = setTimeout(() => ctrl.abort(), 22000);
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(sModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+            const res = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: searchPrompt }] }],
+                tools: [{ google_search: {} }],
+                generationConfig: { temperature: 0.2, maxOutputTokens: 1200 }
+              }),
+              signal: ctrl.signal
+            });
+            clearTimeout(tid);
+            if (!res.ok) continue;
+            const json = await res.json().catch(() => ({}));
+            const cand = json?.candidates?.[0];
+            const summaryText = (cand?.content?.parts || []).map((p) => p.text || '').join('\n').trim();
+            const gm = cand?.groundingMetadata || {};
+            const queries = Array.isArray(gm.webSearchQueries) ? gm.webSearchQueries.slice(0, 6) : [];
+            const sources = Array.isArray(gm.groundingChunks)
+              ? gm.groundingChunks.map((c) => ({ title: c?.web?.title || '', uri: c?.web?.uri || '' })).filter((x) => x.title || x.uri).slice(0, 6)
+              : [];
+            if (summaryText) {
+              return { usedLiveSearch: true, summary: summaryText.slice(0, 2600), queries, sources, usage: json?.usageMetadata || null };
+            }
+          } catch (_) {}
         }
+        return null;
       }
 
       function buildPromptForMode(jobType, includeConstitutionForChat = false) {
@@ -7518,7 +7570,7 @@ STRICT RULES:
           const sinceHb = Math.floor((Date.now() - state.lastHeartbeatAt) / 1000);
           const currentPct = parseFloat(els.b2ProgressFill.style.width) || 60;
           setB2Progress(Math.min(93, currentPct + 0.55), `${baseLabel} (${sec}s)`);
-          if (sinceHb >= 35 || sec >= 130) syncBackgroundJobState(true);
+          if (sinceHb >= 45 || sec >= 210) syncBackgroundJobState(true);
         }, 1200);
       }
 
@@ -7594,40 +7646,55 @@ STRICT RULES:
         els.b2Progress.classList.remove('show');
         if (els.backupDrawer) els.backupDrawer.open = true;
 
+        const curKind = state.activeJobType || 'jury';
         const isProFreeQuota = String(errMsg || '').startsWith('PRO_FREE_TIER_QUOTA::');
-        const cleanMsg = String(errMsg || '').replace('PRO_FREE_TIER_QUOTA::', '');
+        const isHighDemandAll = String(errMsg || '').startsWith('HIGH_DEMAND_ALL_BUSY::') || isTransientHighDemandErr(0, errMsg);
+        const cleanMsg = String(errMsg || '').replace(/^(PRO_FREE_TIER_QUOTA|HIGH_DEMAND_ALL_BUSY)::/, '');
 
         if (isProFreeQuota) {
-          const curKind = state.activeJobType || 'jury';
           showB2Error(
             `🔒 <strong>Paid-Only Model Quota (limit: 0) on Free API Key:</strong> ${escapeHtml(cleanMsg)}<br/><br/>` +
-            `<strong>Quick Options:</strong><br/>` +
-            `1. <strong>Run Free Right Now:</strong> Use our <strong>Super-Hydrogen Engine</strong> (₹0 Free Tier + 10s Heatmap + Google Search).<br/>` +
-            `2. <strong>Or Upgrade in Gemini App (Neon/Pro):</strong> Copy the prompt below and paste into Gemini App.<br/><br/>` +
             `<div class="btn-row">` +
             `<button type="button" class="btn btn-gold btn-sm" id="btnErrRunDeepFlash">⚡ Run Free Gemini 4 Hydrogen Now</button>` +
             `<button type="button" class="btn btn-cyan btn-sm" id="btnErrCopyProPrompt">📋 Copy Prompt for Gemini App</button>` +
             `</div>`
           );
-          setTimeout(() => {
-            const bCopy = $('btnErrCopyProPrompt');
-            const bFlash = $('btnErrRunDeepFlash');
-            if (bCopy) {
-              bCopy.addEventListener('click', async () => {
-                const pkt = buildPromptForMode(curKind, true);
-                const ok = await copyTextSafe(pkt);
-                showToast(ok ? '📋 Prompt copied! Paste into Gemini App (Neon/Pro).' : 'Copy failed.', 3800);
-              });
-            }
-            if (bFlash) {
-              bFlash.addEventListener('click', () => runEngineJob(curKind, 'gemini-4-hydrogen'));
-            }
-          }, 30);
+        } else if (isHighDemandAll) {
+          showB2Error(
+            `⏳ <strong>Temporary Peak Demand Across Google Servers:</strong> The app already auto-retried and checked backup models, but Google is experiencing a brief global traffic spike.<br/>` +
+            `<span style="font-size:0.8rem; opacity:0.85;">${escapeHtml(cleanMsg)}</span><br/><br/>` +
+            `<div class="btn-row">` +
+            `<button type="button" class="btn btn-gold btn-sm" id="btnErrRetryNow">🔄 Retry Now (Auto-Cascade)</button>` +
+            `<button type="button" class="btn btn-cyan btn-sm" id="btnErrRunLiteBackup">⚡ Run Fast High-Capacity Flash-Lite</button>` +
+            `<button type="button" class="btn btn-ghost btn-sm" id="btnErrCopyProPrompt">📋 Copy Prompt for Gemini App</button>` +
+            `</div>`
+          );
         } else {
           showB2Error(
-            `❌ <strong>Audit Failed:</strong> ${escapeHtml(cleanMsg)}<br/><br/>💡 <strong>Quick Fix:</strong> Retry or use <strong>⚙️ Backup</strong> above to copy the prompt into Gemini App.`
+            `❌ <strong>Audit Failed:</strong> ${escapeHtml(cleanMsg)}<br/><br/>` +
+            `<div class="btn-row">` +
+            `<button type="button" class="btn btn-gold btn-sm" id="btnErrRetryNow">🔄 Retry Audit Now</button>` +
+            `<button type="button" class="btn btn-cyan btn-sm" id="btnErrCopyProPrompt">📋 Copy Prompt for Gemini App</button>` +
+            `</div>`
           );
         }
+
+        setTimeout(() => {
+          const bCopy = $('btnErrCopyProPrompt');
+          const bFlash = $('btnErrRunDeepFlash');
+          const bRetry = $('btnErrRetryNow');
+          const bLite = $('btnErrRunLiteBackup');
+          if (bCopy) {
+            bCopy.addEventListener('click', async () => {
+              const pkt = buildPromptForMode(curKind, true);
+              const ok = await copyTextSafe(pkt);
+              showToast(ok ? '📋 Prompt copied! Paste into Gemini App (Neon/Pro).' : 'Copy failed.', 3800);
+            });
+          }
+          if (bFlash) bFlash.addEventListener('click', () => runEngineJob(curKind, 'gemini-4-hydrogen'));
+          if (bRetry) bRetry.addEventListener('click', () => runEngineJob(curKind));
+          if (bLite) bLite.addEventListener('click', () => runEngineJob(curKind, 'gemini-flash-lite-latest'));
+        }, 30);
         syncActionButtons();
       }
 
@@ -7664,7 +7731,7 @@ STRICT RULES:
       }
 
             async function syncBackgroundJobState(fromWatchdog = false) {
-        const activeKey = `latest_${state.activeJobType || 'script'}`;
+        const activeKey = `latest_${state.activeJobType || 'jury'}`;
         const rec = await getJobRecordById(activeKey);
 
         if (state.activeJobId && rec && rec.jobId === state.activeJobId) {
@@ -7798,7 +7865,7 @@ STRICT RULES:
 
           // Always full deep reasoning & 16,384 output tokens for detailed reports & easy solutions
           const genCfg = {
-            temperature: kind === 'script' ? 0.35 : 0.22,
+            temperature: kind === 'fixrecipe' ? 0.25 : 0.22,
             maxOutputTokens: 16384,
             responseMimeType: 'application/json'
           };
@@ -7809,10 +7876,8 @@ STRICT RULES:
             generationConfig: genCfg
           };
 
-          // Smart same-tier fallback on 404/503 (never silently downgrade Paid Frontier to weak models)
-          const fallbackModels = /(neon|carbon|pro)/i.test(model)
-            ? ['gemini-4-neon', 'gemini-4-carbon', 'gemini-3.1-pro-preview'].filter((m) => m !== model)
-            : ['gemini-4-hydrogen', 'gemini-3.8-flash'].filter((m) => m !== model);
+          // Permanent Anti-503 Resilient Fallback Cascade (quality-ordered Free/Paid + auto-discovered models)
+          const fallbackModels = buildResilientFallbackCascade(model);
 
           const webSearchPrompt = buildOuterWebSearchPrompt(kind);
 
@@ -7868,30 +7933,81 @@ STRICT RULES:
             } finally { clearTimeout(tid); }
           };
 
-          let { res: genRes, json: genJson } = await callDirect(activeModel, payload);
-          const directErrMsg = genJson?.error?.message || '';
-          if (!genRes.ok && (genRes.status === 404 || genRes.status === 503 || /no longer available|not found|overloaded/i.test(directErrMsg))) {
-            for (const fb of fallbackModels) {
-              setB2Progress(70, `2/3 ${fb} वर Pro सखोल विश्लेषण सुरू आहे...`);
-              ({ res: genRes, json: genJson } = await callDirect(fb, payload));
-              if (genRes.ok) { activeModel = fb; break; }
+          const modelQueue = [activeModel, ...fallbackModels].filter((m, i, a) => m && a.indexOf(m) === i);
+          let genRes = null, genJson = null, lastStatus = 0, lastMsg = '';
+
+          for (let mIdx = 0; mIdx < modelQueue.length; mIdx++) {
+            const candidateModel = modelQueue[mIdx];
+            const isPrimary = mIdx === 0;
+            const maxAttempts = isPrimary ? 3 : 2;
+            const backoffMs = isPrimary ? [2200, 4800] : [2200];
+
+            for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+              if (!state.isAuditing) return;
+              const pctNow = Math.min(90, 68 + mIdx * 4 + attempt * 2);
+              const statusTxt = isPrimary && attempt === 1
+                ? `Pass 2/2 ${candidateModel} — ${labelNow}...`
+                : (attempt > 1
+                    ? `⏳ High demand on ${candidateModel} — auto-retrying (${attempt}/${maxAttempts})...`
+                    : `🔄 ${modelQueue[mIdx - 1]} busy — auto-switching to ${candidateModel}...`);
+              setB2Progress(pctNow, statusTxt);
+
+              try {
+                ({ res: genRes, json: genJson } = await callDirect(candidateModel, payload));
+              } catch (netErr) {
+                genRes = { ok: false, status: 504 };
+                genJson = { error: { message: netErr?.message || 'Timeout' } };
+              }
+
+              if (!genRes.ok && isYT && genRes.status === 400 && /mime/i.test(genJson?.error?.message || '')) {
+                payload.contents[0].parts[0].fileData.mimeType = 'video/mp4';
+                ({ res: genRes, json: genJson } = await callDirect(candidateModel, payload));
+              }
+
+              if (genRes.ok) {
+                activeModel = candidateModel;
+                break;
+              }
+
+              lastStatus = genRes.status;
+              lastMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
+
+              if (lastStatus === 401 || lastStatus === 403 || (lastStatus === 400 && !isModelMissingErr(lastStatus, lastMsg))) break;
+              if (isPrimary && isQuotaZeroErr(lastStatus, lastMsg) && /(pro|neon|carbon|argon)/i.test(candidateModel)) break;
+              if (isModelMissingErr(lastStatus, lastMsg)) break;
+
+              if (isTransientHighDemandErr(lastStatus, lastMsg) || lastStatus === 429) {
+                if (attempt < maxAttempts) {
+                  const baseWait = lastStatus === 429 ? 4000 : (backoffMs[attempt - 1] || 3000);
+                  const waitMs = baseWait + Math.floor(Math.random() * 1200);
+                  setB2Progress(pctNow, `⏳ Google server busy on ${candidateModel} — waiting ${(waitMs / 1000).toFixed(1)}s before retry (${attempt + 1}/${maxAttempts})...`);
+                  await sleepMs(waitMs);
+                  continue;
+                }
+                break;
+              }
+              break;
             }
+
+            if (genRes && genRes.ok) break;
+            if (lastStatus === 401 || lastStatus === 403 || (lastStatus === 400 && !isModelMissingErr(lastStatus, lastMsg))) break;
+            if (mIdx === 0 && isQuotaZeroErr(lastStatus, lastMsg) && /(pro|neon|carbon|argon)/i.test(candidateModel)) break;
           }
-          if (!genRes.ok && isYT && genRes.status === 400 && /mime/i.test(genJson?.error?.message || '')) {
-            payload.contents[0].parts[0].fileData.mimeType = 'video/mp4';
-            ({ res: genRes, json: genJson } = await callDirect(activeModel, payload));
-          }
-          if (!genRes.ok) {
-            const rawMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
-            if (genRes.status === 429 && /(pro|neon|carbon)/i.test(activeModel)) {
-              throw new Error(`PRO_FREE_TIER_QUOTA::${activeModel} साठी तुमच्या Google Free Tier API चा कोटा शून्य (limit: 0) किंवा संपलेला आहे (${rawMsg.slice(0, 140)}).`);
+
+          if (!genRes || !genRes.ok) {
+            const rawMsg = lastMsg || `HTTP ${lastStatus || 503}`;
+            if (lastStatus === 429 && /(pro|neon|carbon|argon)/i.test(activeModel)) {
+              throw new Error(`PRO_FREE_TIER_QUOTA::${activeModel} has zero quota (limit: 0) on your Free Tier API key (${rawMsg.slice(0, 140)}).`);
+            }
+            if (isTransientHighDemandErr(lastStatus, rawMsg)) {
+              throw new Error(`HIGH_DEMAND_ALL_BUSY::Google servers are experiencing peak demand across all ${modelQueue.length} models (${rawMsg.slice(0, 140)}).`);
             }
             throw new Error(rawMsg);
           }
 
           const cand = genJson?.candidates?.[0];
           const reportText = (cand?.content?.parts || []).map((p) => p.text || '').join('\n').trim();
-          if (!reportText) throw new Error(`निकाल तयार झाला नाही (कारण: ${cand?.finishReason || 'EMPTY'}).`);
+          if (!reportText) throw new Error(`No output returned from Gemini (Reason: ${cand?.finishReason || 'EMPTY'}).`);
 
           const elapsedSec = Math.round((Date.now() - t0) / 1000);
           const u1 = webGrounding?.usage || null;
@@ -7929,7 +8045,7 @@ STRICT RULES:
           if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
           if (state.activeJobId === jobId) {
             const msg = err?.name === 'AbortError'
-              ? 'Pro सर्व्हर प्रतिसादास खूप वेळ लागला (Timeout). कृपया इंटरनेट तपासून पुन्हा प्रयत्न करा.'
+              ? 'Server response timed out. Please check your connection and tap Retry.'
               : (err?.message || 'अज्ञात त्रुटी');
             finishJobError(msg);
           }
@@ -8132,7 +8248,7 @@ STRICT RULES:
         const meta = getCurrentSongMeta();
         const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const out = [
-          `MAESTRO AUDITOR v23 — OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE`,
+          `MAESTRO AUDITOR v24 — OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE`,
           `Song: ${meta.title} | ${meta.sourceLine}`,
           `Generated: ${meta.nowStr}`,
           ``
@@ -8302,7 +8418,7 @@ STRICT RULES:
         const allDefects = collectAllConsolidatedDefects();
         const parts = [
           `Act as a World-Class Grammy+ Music Director, Chief Mastering Engineer, Vocal Arranger, and Suno AI Master Architect.`,
-          `Below is the COMPLETE, END-TO-END 10,000x Forensic Audit Report generated by Maestro Auditor v23 for my song "${meta.title}" (I am attaching my original audio file + my 4 Master Reference PDFs).`,
+          `Below is the COMPLETE, END-TO-END 10,000x Forensic Audit Report generated by Maestro Auditor v24 for my song "${meta.title}" (I am attaching my original audio file + my 4 Master Reference PDFs).`,
           `Use BOTH my 4 Master Reference PDFs (GOD Volume) AND your absolute highest Pro/Neon global music intelligence to eliminate EVERY SINGLE DEFECT listed below — including ANY AI/machine/robotic sound in the vocals — and produce a 100% VERIFIED, ZERO-DEFECT, WORLD-CLASS Suno AI Remix/Cover/Replace blueprint (Style Box, Exclude Box, Tightened Lyrics <3:55 with natural human vocal delivery/Alaps, Anti Tug-of-War Sliders, and 5-Min BandLab/OBRA Polish).`,
           ``,
           `=== 1. SONG METADATA ===`,
@@ -8422,7 +8538,7 @@ STRICT RULES:
         const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const mTag = modelId ? `${formatFriendlyModelName(modelId)} (${resolveTierForModel(modelId, tier)})` : '';
         const out = [
-          `MAESTRO AUDITOR v23 — COMPLETE 10,000x INTERNATIONAL JURY, AI-VOCAL FIXATION & GENERATIONAL REVIEW`,
+          `MAESTRO AUDITOR v24 — COMPLETE 10,000x INTERNATIONAL JURY, AI-VOCAL FIXATION & GENERATIONAL REVIEW`,
           ...(mTag ? [`Model & Tier: ${mTag}`] : []),
           `Total Score: ${d.total_score ?? '—'}/100 | Verdict: ${d.verdict || '—'} | AI/Machine Suspicion: ${d.ai_suspicion_pct ?? '—'}%`
         ];
@@ -8838,8 +8954,8 @@ STRICT RULES:
 
         const sections = [];
         const docHeading = scope === 'fixrecipe'
-          ? 'MAESTRO AUDITOR v23 • OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE'
-          : 'MAESTRO AUDITOR v23 • COMPLETE END-TO-END 10,000x FORENSIC FINAL REPORT';
+          ? 'MAESTRO AUDITOR v24 • OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE'
+          : 'MAESTRO AUDITOR v24 • COMPLETE END-TO-END 10,000x FORENSIC FINAL REPORT';
 
         sections.push(`
           <div class="pdf-cover">
@@ -8998,7 +9114,7 @@ STRICT RULES:
           `);
         }
 
-        sections.push(`<div class="pdf-footer">MAESTRO AUDITOR v23 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GOOGLE SEARCH + 4-PDF GOD VOLUME) • Generated: ${escapeHtml(meta.nowStr)}</div>`);
+        sections.push(`<div class="pdf-footer">MAESTRO AUDITOR v24 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GOOGLE SEARCH + 4-PDF GOD VOLUME) • Generated: ${escapeHtml(meta.nowStr)}</div>`);
         return `<div class="pdf-doc">${sections.join('')}</div>`;
       }
 
