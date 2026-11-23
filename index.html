@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Maestro Auditor" />
   <meta name="application-name" content="Maestro Auditor" />
-  <meta name="description" content="MAESTRO AUDITOR v26 — 10,000x Deep Audio Forensics, AI-Vocal Fixation, Offline+Online EQ & Noise Fix Recipe, Generational Appeal % & Master Gemini Report" />
+  <meta name="description" content="MAESTRO AUDITOR v27 — 10,000x Deep Audio Forensics, AI-Vocal Fixation, Offline+Online EQ & Noise Fix Recipe, Generational Appeal % & Master Gemini Report" />
   <title>MAESTRO AUDITOR — Audio Microscope &amp; Strict Guru Judge</title>
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
@@ -3144,7 +3144,7 @@
           </svg>
         </div>
         <div style="min-width:0">
-          <div class="brand-title">MAESTRO AUDITOR v26</div>
+          <div class="brand-title">MAESTRO AUDITOR v27</div>
           <div class="brand-sub">10,000x Forensic Audio Audit • AI-Vocal Fixation • Master Gemini Handoff</div>
         </div>
       </div>
@@ -3171,7 +3171,7 @@
 
     <!-- Status Strip -->
     <div class="mode-strip">
-      <span class="mode-badge">👑 SUPER-ENGINE v26 • Always-On Google Search + 4-PDF GOD Volume + 10s DSP Heatmap + AI-Vocal Fixation</span>
+      <span class="mode-badge">👑 SUPER-ENGINE v27 • Always-On Google Search + 4-PDF GOD Volume + 10s DSP Heatmap + AI-Vocal Fixation</span>
       <span class="mode-meta">Clean Zero-Clutter Auditor • 100% English Token-Saver • Complete Gemini + Suno Handoff</span>
     </div>
 
@@ -3672,7 +3672,7 @@
     </section>
 
     <div class="footer-note">
-      MAESTRO AUDITOR v26 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GENERATIONAL APPEAL % • GOOGLE SEARCH + 4-PDF GOD VOLUME)
+      MAESTRO AUDITOR v27 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GENERATIONAL APPEAL % • GOOGLE SEARCH + 4-PDF GOD VOLUME)
     </div>
   </main>
 
@@ -6662,11 +6662,18 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
             }
           }
 
-          if (buffer.trim().startsWith('data:')) {
+          const tailLines = buffer.split(/\r?\n/);
+          for (const rawTail of tailLines) {
+            const tl = rawTail.trim();
+            if (!tl.startsWith('data:')) continue;
+            const jStr = tl.slice(5).trim();
+            if (!jStr || jStr === '[DONE]') continue;
             try {
-              const obj = JSON.parse(buffer.trim().slice(5).trim());
+              const obj = JSON.parse(jStr);
               if (obj?.usageMetadata) usage = obj.usageMetadata;
-              const parts = obj?.candidates?.[0]?.content?.parts || [];
+              const cand = obj?.candidates?.[0];
+              if (cand?.finishReason) finishReason = cand.finishReason;
+              const parts = cand?.content?.parts || [];
               for (const p of parts) { if (!p.thought && p.text) textOut += p.text; }
             } catch (_) {}
           }
@@ -6736,47 +6743,29 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
 
         if (isFixOnly) {
           const fixSchema = `
-CRITICAL OUTPUT FORMAT — RETURN STRICT VALID JSON ONLY (NO EXTRA TEXT OUTSIDE JSON!):
+CRITICAL OUTPUT FORMAT — RETURN ONE COMPLETE, STRICT VALID JSON OBJECT ONLY (NO MARKDOWN, NO EXTRA TEXT OUTSIDE JSON!):
 You are an elite Grammy+ Mastering Engineer & AI-Vocal Forensic Fix Specialist.
 Combine Brain 1's Offline DSP + 10-Second Heatmap + Inner 4-PDF GOD Volume + Pass 1 Live Google Search Outer Intelligence to deliver an exact, surgical OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE.
+Compute EVERY value freshly from the actual uploaded audio — NEVER use generic filler.
 
 RETURN THIS EXACT JSON STRUCTURE:
 {
   "report_kind": "fixrecipe",
-  "recommended_path": "5-Min Stereo WAV Polish OR Suno Cover + BandLab Polish",
-  "summary": "2–3 crisp sentences summarizing the exact noise, frequency, and AI/machine-vocal defects heard and whether DAW EQ alone fixes it or a Suno Cover/Replace pass is required.",
+  "recommended_path": "Choose exact best path for THIS song (e.g. 5-Min Stereo WAV Polish OR Suno Cover + BandLab Polish)",
+  "summary": "2-3 concise sentences summarizing exact noise, frequency, and AI/machine-vocal issues heard in THIS track.",
   "ai_vocal_fixation": {
-    "machine_sound_detected": true,
-    "severity": "Mild",
-    "affected_timestamps": ["0:42", "1:28"],
-    "detected_artifacts": ["1.2 kHz nasal honk in chorus", "6.5 kHz metallic AI vocal shimmer"],
-    "suno_fixation_steps": [
-      "Add to Suno Exclude Box: robotic voice, machine sound, vocoder, autotune, nasal vocals, metallic shimmer",
-      "Use Suno Cover (Audio 75–80%, Style 45–55%, Weirdness 15–25%, Variety 0%) with warm chest-resonance human vocal front-loading"
-    ],
-    "gemini_lyric_vowel_fix": [
-      "Replace pinched vowels on high peak notes with open vowels (Aa, Oh, Eh) and add natural breath commas"
-    ],
-    "daw_eq_deess_fix": [
-      "BandLab Graphic EQ: -1.5 dB at 1–1.8 kHz (nasal) and -2.0 dB at 6–7.5 kHz (AI shimmer) + subtle De-Esser"
-    ]
+    "machine_sound_detected": false,
+    "severity": "Clean | Mild | Moderate | Severe",
+    "affected_timestamps": ["actual MM:SS timestamps from THIS audio, or empty array [] if clean"],
+    "detected_artifacts": ["Exact vocal artifacts heard in THIS song, or 'None - natural human vocal'"],
+    "suno_fixation_steps": ["Actionable Suno Exclude / Cover / Replace steps tailored to THIS track"],
+    "gemini_lyric_vowel_fix": ["Actionable open-vowel or breathing adjustment if needed"],
+    "daw_eq_deess_fix": ["Exact Hz/dB EQ & De-Esser moves matching Brain 1 + ear audit"]
   },
-  "bandlab_steps": [
-    "Step 1: Import lossless WAV in BandLab -> FX -> Graphic EQ -> exact Hz/dB cuts based on Brain 1 + ear audit",
-    "Step 2: Denoise / Noise Gate / De-Esser settings without cutting natural vocal breaths",
-    "Step 3: Mastering preset Clarity/Universal/Tape (AVOID Fire) -> export 24-bit WAV"
-  ],
-  "obra_steps": [
-    "Step 1: Upload WAV to obra.art -> exact Bass / Warmth / Brightness slider guidance",
-    "Step 2: Set -14 LUFS (Streaming) or -11 LUFS (Competition) -> download lossless WAV"
-  ],
-  "garageband_steps": [
-    "Step 1: iPad GarageBand Track Controls -> Plug-ins & EQ -> Visual EQ exact Hz/dB moves",
-    "Step 2: Optional subtle Noise Gate or Stem Split/Mute -> Share -> Uncompressed WAV"
-  ],
-  "suno_cleanup_guidance": [
-    "Exact Suno Cover / Replace Section guidance if noise or machine vocal sound is baked deep into the track"
-  ],
+  "bandlab_steps": ["Step 1 with exact Hz/dB cuts", "Step 2 Denoise/De-Esser", "Step 3 Clarity/Universal/Tape (avoid Fire) -> WAV"],
+  "obra_steps": ["Step 1 obra.art Bass/Warmth/Brightness moves", "Step 2 -14 or -11 LUFS WAV export"],
+  "garageband_steps": ["Step 1 iPad Visual EQ moves", "Step 2 Uncompressed WAV export"],
+  "suno_cleanup_guidance": ["Exact Suno Cover/Replace guidance if defects are baked in"],
   "export_spec": "Spotify/DistroKid: 24-bit / 44.1 kHz WAV (-14 LUFS, -1.0 dBTP) • YouTube/Reels: 24-bit / 48 kHz WAV"
 }
 `;
@@ -6795,145 +6784,123 @@ RETURN THIS EXACT JSON STRUCTURE:
 
         // FULL 10,000x DEEP JURY AUDIT + AI-VOCAL FIXATION + GENERATIONAL APPEAL % + INLINE ONLINE EQ/NOISE FIX RECIPE
         const jurySchema = `
-CRITICAL OUTPUT FORMAT — RETURN STRICT VALID JSON ONLY (NO EXTRA TEXT OUTSIDE JSON!):
+CRITICAL OUTPUT FORMAT — RETURN ONE COMPLETE, STRICT VALID JSON OBJECT ONLY (NO MARKDOWN FENCES, NO TEXT OUTSIDE JSON!):
 You are the 10,000x DEEP 3-JUDGE INTERNATIONAL GRAMMY+ JURY PANEL + AI-VOCAL FORENSIC ENGINEER.
-Listen to EVERY SINGLE SECOND from 0:00 to the end, cross-check Brain 1's 10-Second Forensic DSP Heatmap + Inner 4-PDF GOD Volume + Pass 1 Live Google Search Outer Intelligence, and expose EVERY SINGLE DEFECT (bad intro, background noise, mud, bass masking, AI/machine/robotic sound in vocals, nasal honk, AI shimmer, length drag, flat chorus, weak hooks/Alaps, generational disconnects) with complete Gemini + Suno AI + BandLab/OBRA fixation plans.
+Listen carefully to EVERY SECOND of THIS uploaded song from 0:00 to the end, cross-check Brain 1's 10-Second DSP Heatmap + Inner 4-PDF GOD Volume + Pass 1 Live Google Search Outer Intelligence, and compute FRESH, HONEST scores, timestamps, critiques, and Gemini + Suno AI + BandLab/OBRA fixes strictly for THIS song. Keep each string crisp and high-impact so the entire JSON completes cleanly without truncation.
 
-RETURN THIS EXACT JSON STRUCTURE:
+REQUIRED JSON KEYS & TYPES (compute ALL numbers and MM:SS timestamps freshly from THIS song):
 {
   "report_kind": "jury",
-  "total_score": 84,
-  "verdict": "5-Min Polish",
-  "ai_suspicion_pct": 14,
-  "ai_suspicion_reason": "Specific 2-sentence forensic breakdown citing exact timestamps where vocals/instruments sound human vs synthetic, robotic, machine-like, nasal, or metallic.",
+  "total_score": 0,
+  "verdict": "Release Ready | 5-Min Polish | Suno Cover | Regenerate",
+  "ai_suspicion_pct": 0,
+  "ai_suspicion_reason": "2 concise forensic sentences citing actual MM:SS timestamps from THIS audio.",
   "ai_vocal_fixation": {
-    "machine_sound_detected": true,
-    "severity": "Mild",
-    "affected_timestamps": ["0:45", "1:32"],
-    "detected_artifacts": [
-      "Exact machine/AI vocal artifact #1 (e.g., robotic pitch-warble / vocoder sheen / 1–1.8 kHz nasal honk / 6–7.5 kHz metallic AI shimmer / unnatural breathless run)",
-      "Exact machine/AI vocal artifact #2 (or 'None — 100% organic human vocal' if clean)"
-    ],
-    "suno_fixation_steps": [
-      "Exact Suno Exclude Box anti-robot shields (e.g., robotic voice, machine sound, vocoder, autotune, nasal vocals, metallic AI shimmer)",
-      "Exact Suno Cover/Replace slider & Style Box human-vocal anchor (e.g., Cover Audio 75–80%, Style 45–55%, Weirdness 15–25%, Variety 0% + warm chest resonance, audible breath)"
-    ],
-    "gemini_lyric_vowel_fix": [
-      "Exact Gemini prompt/lyric adjustment: anchor high peak syllables on open vowels (Aa, Oh, Eh), cut overcrowded syllables, insert natural breath pauses"
-    ],
-    "daw_eq_deess_fix": [
-      "Exact BandLab/OBRA/GarageBand fix: e.g., -1.5 dB @ 1–1.8 kHz nasal dip, -2.0 dB @ 6–7.5 kHz shimmer cut + subtle De-Esser"
-    ]
+    "machine_sound_detected": false,
+    "severity": "Clean | Mild | Moderate | Severe",
+    "affected_timestamps": ["actual MM:SS from audio or []"],
+    "detected_artifacts": ["Exact vocal artifacts heard in THIS song (or 'None - natural human vocal')"],
+    "suno_fixation_steps": ["Exact Suno Exclude Box & Cover/Replace slider step for THIS song"],
+    "gemini_lyric_vowel_fix": ["Exact lyric/open-vowel/breath fix for THIS song"],
+    "daw_eq_deess_fix": ["Exact BandLab/OBRA/GarageBand Hz/dB & De-Esser fix for THIS song"]
   },
   "online_fix_recipe": {
-    "recommended_path": "5-Min Stereo WAV Polish OR Suno Cover + BandLab Polish",
-    "summary": "2-sentence unified offline+online EQ, noise & vocal cleanup summary.",
-    "bandlab_steps": [
-      "Step 1: BandLab Graphic EQ exact Hz/dB adjustments",
-      "Step 2: Denoise / De-Esser / Clarity mastering preset (AVOID Fire)"
-    ],
-    "obra_steps": [
-      "Step 1: obra.art Bass / Warmth / Brightness exact guidance + -14/-11 LUFS WAV export"
-    ],
-    "garageband_steps": [
-      "Step 1: iPad GarageBand Visual EQ exact Hz/dB moves + Uncompressed WAV export"
-    ],
-    "suno_cleanup_guidance": [
-      "Exact Suno Cover/Replace command if baked-in noise or AI vocal artifacts exceed EQ limits"
-    ],
+    "recommended_path": "Exact best mastering/cleanup path for THIS song",
+    "summary": "2 concise sentences summarizing EQ, noise & vocal cleanup.",
+    "bandlab_steps": ["Step 1 exact Hz/dB Graphic EQ", "Step 2 Denoise/De-Esser & Clarity preset (avoid Fire)"],
+    "obra_steps": ["Step 1 obra.art Bass/Warmth/Brightness + -14/-11 LUFS WAV export"],
+    "garageband_steps": ["Step 1 iPad Visual EQ Hz/dB + Uncompressed WAV export"],
+    "suno_cleanup_guidance": ["Exact Suno Cover/Replace step if noise/AI artifacts exceed EQ limits"],
     "export_spec": "Spotify/DistroKid: 24-bit / 44.1 kHz WAV (-14 LUFS, -1.0 dBTP) • YouTube/Reels: 24-bit / 48 kHz WAV"
   },
-  "consensus_summary": "3-sentence unified verdict from all 3 judges: strongest world-class elements, exact defects blocking 95+ Grammy tier, and fastest Gemini+Suno path to zero defects.",
-  "red_flags": ["Example deal-breaker or empty array [] if none"],
+  "consensus_summary": "3 sharp sentences uniting all 3 judges: best strengths, top defects blocking 95+ Grammy tier, and fastest Gemini+Suno fix.",
+  "red_flags": ["Actual deal-breaker(s) or empty array [] if none"],
   "generational_appeal": {
-    "overall_pct": 78,
-    "summary": "1–2 sentences summarizing cross-generational appeal and replay longevity.",
+    "overall_pct": 0,
+    "summary": "1-2 sentences on cross-generational appeal and replay longevity.",
     "groups": [
-      { "name": "Small Children (Ages 4–12 / Gen Alpha)", "pct": 72, "reason": "Honest reason why kids love or tune out.", "boost_tip": "Exact 1-line tweak to raise appeal." },
-      { "name": "Gen Z (Ages 13–24)", "pct": 76, "reason": "Honest reason (7s intro hook, groove, vocal texture, Reels replayability).", "boost_tip": "Exact 1-line tweak." },
-      { "name": "Young Adults (Ages 22–32)", "pct": 84, "reason": "Honest reason (emotional depth, modern polish, vibe).", "boost_tip": "Exact 1-line tweak." },
-      { "name": "Millennials (Ages 28–44)", "pct": 86, "reason": "Honest reason (melodic soul, authenticity, lyric depth, fatigue-free mix).", "boost_tip": "Exact 1-line tweak." },
-      { "name": "Gen X & Elders (Ages 45+)", "pct": 81, "reason": "Honest reason (vocal purity, organic acoustic instruments, diction).", "boost_tip": "Exact 1-line tweak." }
+      { "name": "Small Children (Ages 4–12 / Gen Alpha)", "pct": 0, "reason": "Honest reason for THIS song.", "boost_tip": "1-line boost tip." },
+      { "name": "Gen Z (Ages 13–24)", "pct": 0, "reason": "Honest reason for THIS song.", "boost_tip": "1-line boost tip." },
+      { "name": "Young Adults (Ages 22–32)", "pct": 0, "reason": "Honest reason for THIS song.", "boost_tip": "1-line boost tip." },
+      { "name": "Millennials (Ages 28–44)", "pct": 0, "reason": "Honest reason for THIS song.", "boost_tip": "1-line boost tip." },
+      { "name": "Gen X & Elders (Ages 45+)", "pct": 0, "reason": "Honest reason for THIS song.", "boost_tip": "1-line boost tip." }
     ]
   },
   "judges": [
     {
       "role": "Judge 1: Global Music Director",
       "focus": "Concept, 7s intro hook, pacing (<4:00), groove pocket, Vol 3 effects, chorus lift & timelessness",
-      "score": 85,
-      "statement": "3–4 sharp, honest sentences analyzing intro, arrangement, climax, and memorability.",
-      "strengths": ["Specific strength with timestamp"],
-      "problems_found": ["Exact defect 1 with timestamp", "Exact defect 2 with timestamp"],
-      "easy_solution": ["Step 1: Exact Gemini + Suno Remix/Replace action", "Step 2: Exact slider/structural fix"]
+      "score": 0,
+      "statement": "3 sharp honest sentences evaluating THIS track's intro, arrangement, climax, and memorability.",
+      "strengths": ["Specific strength with actual MM:SS"],
+      "problems_found": ["Specific defect with actual MM:SS"],
+      "easy_solution": ["Step 1: Exact Gemini + Suno action", "Step 2: Exact slider/structural fix"]
     },
     {
       "role": "Judge 2: Vocal Acting, AI-Voice & Diction Chief",
       "focus": "0% AI/machine vocal purity, nasal/robotic scan, Alap/meend emotion, legato & native diction",
-      "score": 82,
-      "statement": "3–4 sharp sentences auditing human vocal authenticity, machine artifacts, breathing, and emotion.",
+      "score": 0,
+      "statement": "3 sharp sentences auditing THIS track's human vocal authenticity, machine artifacts, breathing, and emotion.",
       "strengths": ["Specific vocal strength"],
-      "problems_found": ["Exact vocal/machine/diction defect with timestamp"],
+      "problems_found": ["Specific vocal/machine/diction defect with actual MM:SS"],
       "easy_solution": ["Step 1: Exact Suno Exclude/Style & Gemini vocal/vowel fix", "Step 2: Verification check"]
     },
     {
       "role": "Judge 3: Grammy+ Sound & Mastering Chief",
       "focus": "4-floor live organic instruments, 10s DSP heatmap defects, noise, bass-vocal balance & mastering",
-      "score": 85,
-      "statement": "3–4 sharp sentences auditing mix clarity, noise, mud, shimmer, and headroom.",
+      "score": 0,
+      "statement": "3 sharp sentences auditing THIS track's mix clarity, noise, mud, shimmer, and headroom.",
       "strengths": ["Specific mix strength"],
-      "problems_found": ["Exact frequency/noise/masking defect with Hz & timestamp"],
-      "easy_solution": ["Step 1: Exact Suno Cover/Exclude OR BandLab/OBRA/GarageBand Hz/dB setting", "Step 2: LUFS & -1.0 dBTP check"]
+      "problems_found": ["Specific frequency/noise/masking defect with Hz & actual MM:SS"],
+      "easy_solution": ["Step 1: Exact Suno Cover/Exclude OR BandLab/OBRA/GarageBand Hz/dB cut", "Step 2: LUFS & -1.0 dBTP check"]
     }
   ],
   "parameters": [
-    { "name": "Concept, Originality & Hook (15)", "score": 13, "max": 15, "note": "Clear reason.", "how_to_improve": "Actionable Gemini/Suno upgrade." },
-    { "name": "0% AI / Machine Vocal & Sonic Purity (20)", "score": 16, "max": 20, "note": "Clear reason.", "how_to_improve": "Actionable fixation." },
-    { "name": "Vocal Acting, Alaps & Diction (15)", "score": 13, "max": 15, "note": "Clear reason.", "how_to_improve": "Actionable fixation." },
-    { "name": "4-Floor Organic Instruments & Groove (15)", "score": 13, "max": 15, "note": "Clear reason.", "how_to_improve": "Actionable fixation." },
-    { "name": "Melody, Legato & Lexicon Purity (10)", "score": 8, "max": 10, "note": "Clear reason.", "how_to_improve": "Actionable fixation." },
-    { "name": "3D Mix Clarity, Noise & Bass Control (10)", "score": 8, "max": 10, "note": "Clear reason.", "how_to_improve": "Actionable fixation." },
-    { "name": "Dynamic Waves, Effects & Goosebumps (10)", "score": 9, "max": 10, "note": "Clear reason.", "how_to_improve": "Actionable fixation." },
-    { "name": "Timelessness, <4:00 Length & Replayability (5)", "score": 4, "max": 5, "note": "Clear reason.", "how_to_improve": "Actionable fixation." }
+    { "name": "Concept, Originality & Hook (15)", "score": 0, "max": 15, "note": "Concise reason.", "how_to_improve": "Actionable Gemini/Suno upgrade." },
+    { "name": "0% AI / Machine Vocal & Sonic Purity (20)", "score": 0, "max": 20, "note": "Concise reason.", "how_to_improve": "Actionable fixation." },
+    { "name": "Vocal Acting, Alaps & Diction (15)", "score": 0, "max": 15, "note": "Concise reason.", "how_to_improve": "Actionable fixation." },
+    { "name": "4-Floor Organic Instruments & Groove (15)", "score": 0, "max": 15, "note": "Concise reason.", "how_to_improve": "Actionable fixation." },
+    { "name": "Melody, Legato & Lexicon Purity (10)", "score": 0, "max": 10, "note": "Concise reason.", "how_to_improve": "Actionable fixation." },
+    { "name": "3D Mix Clarity, Noise & Bass Control (10)", "score": 0, "max": 10, "note": "Concise reason.", "how_to_improve": "Actionable fixation." },
+    { "name": "Dynamic Waves, Effects & Goosebumps (10)", "score": 0, "max": 10, "note": "Concise reason.", "how_to_improve": "Actionable fixation." },
+    { "name": "Timelessness, <4:00 Length & Replayability (5)", "score": 0, "max": 5, "note": "Concise reason.", "how_to_improve": "Actionable fixation." }
   ],
   "detailed_solutions": [
     {
-      "problem_title": "Exact Defect Title with Timestamp (e.g., 0:00–0:18 Weak/Noisy Intro OR 1:25 Robotic Vocal Shimmer)",
+      "problem_title": "Exact Defect Title with actual MM:SS from THIS song",
       "severity": "high",
       "tool_path": "Gemini + Suno Remix / Cover / Replace / BandLab Polish",
-      "why_it_happens": "Root cause in Suno generation or audio physics.",
-      "easy_steps": [
-        "Step 1: Exact Gemini prompt instruction / Suno Exclude or Style cue / Replace timestamp",
-        "Step 2: Exact Suno sliders or BandLab/OBRA Hz/dB adjustment",
-        "Step 3: Playback verification check"
-      ],
-      "expected_result": "Audible jump toward 95+ zero-defect Grammy quality."
+      "why_it_happens": "Root cause in audio/Suno physics.",
+      "easy_steps": ["Step 1 exact action", "Step 2 exact sliders or Hz/dB", "Step 3 verification check"],
+      "expected_result": "Audible improvement."
     }
   ],
   "verified_adaptability": [
     {
-      "idea": "Unique Outside-the-Manual Iconic Variation #1",
+      "idea": "Outside-the-Manual Iconic Variation #1",
       "verdict": "IN FAVOR",
-      "proof": "Verified technical & musical proof why this elevates this track cleanly in Suno AI.",
-      "how_to_apply": "Exact Suno cue / Gemini instruction / BandLab Stem Cut."
+      "proof": "Concise technical & musical proof for THIS track.",
+      "how_to_apply": "Exact Suno/Gemini/BandLab step."
     },
     {
       "idea": "Outside-the-Manual Variation #2",
       "verdict": "NOT IN FAVOR",
-      "proof": "Honest proof why this risks Suno distortion, noise, or breaking song identity.",
+      "proof": "Honest proof why it risks hurting THIS track.",
       "how_to_apply": "Safer alternative."
     }
   ],
   "timeline": [
-    { "time": "0:10", "severity": "red", "note": "Specific forensic defect at this second.", "quick_fix": "Exact Gemini/Suno/BandLab fix." }
+    { "time": "0:00", "severity": "red | yellow | green", "note": "Specific forensic observation at this second.", "quick_fix": "Exact Gemini/Suno/BandLab fix." }
   ]
 }
 
 STRICT RULES:
+- Return ONLY complete, valid JSON. Close every bracket and brace cleanly.
 - "verdict" MUST be one of: "Release Ready" | "5-Min Polish" | "Suno Cover" | "Regenerate".
-- Sum of the 8 "parameters" MUST equal "total_score" (0–100).
-- "ai_vocal_fixation" MUST thoroughly inspect the vocals for ANY robotic, machine, metallic, vocoder, nasal, pitch-warble, or breathless AI artifacts and give exact fixation steps.
-- "generational_appeal.groups" MUST include all 5 generations with realistic, honest 0–100 percentages.
-- Provide 4–7 deep cards in "detailed_solutions", 2–3 in "verified_adaptability", and 6–10 clickable moments in "timeline".
+- Replace ALL 0 placeholders with real computed scores! Sum of the 8 "parameters" MUST equal "total_score" (0–100).
+- "judges" MUST contain all 3 judges with real scores (0–100) and detailed statements.
+- "generational_appeal.groups" MUST contain all 5 generations with real 0–100 percentages.
+- Include 4–5 cards in "detailed_solutions", 2 in "verified_adaptability", and 6–8 clickable timestamps in "timeline".
 `;
         return [
           includeConstitutionForChat ? compactGodSummary + '\n\n' : '',
@@ -8013,6 +7980,7 @@ STRICT RULES:
         const t0 = Date.now();
         let uploaded = null;
         const attemptLog = [];
+        window._bestPartialMaestro = null;
 
         try {
           // Kick off Pass 1 (Always-On Live Google Search Grounding) IN PARALLEL with audio upload! (0s added wait!)
@@ -8063,15 +8031,23 @@ STRICT RULES:
             promptText += `\n\n=== PASS 1: LIVE GOOGLE SEARCH VERIFIED OUTER INTELLIGENCE ===\n${webGrounding.summary}\n(Use these live outer insights alongside the 4-PDF Inner GOD Volume rules!)`;
           }
 
-          // Lean 8,192 maxOutputTokens = faster generation, lower 503 risk, full rich JSON output!
-          const payload = {
-            systemInstruction: { parts: [{ text: STRICT_GURU_CONSTITUTION }] },
-            contents: [{ role: 'user', parts: [mediaPart, { text: promptText }] }],
-            generationConfig: {
+          // PERMANENT FIX FOR TRUNCATED JSON (v27):
+          // Thinking models count internal thoughts against maxOutputTokens!
+          // Cap thinkingBudget at 1536 + raise maxOutputTokens to 24576 -> guarantees 23,000+ visible JSON tokens!
+          const buildModelPayload = (budgetTokens = 1536, maxOut = 24576, extraReminder = '') => {
+            const cfg = {
               temperature: kind === 'fixrecipe' ? 0.25 : 0.22,
-              maxOutputTokens: 8192,
+              maxOutputTokens: maxOut,
               responseMimeType: 'application/json'
+            };
+            if (budgetTokens !== null) {
+              cfg.thinkingConfig = { thinkingBudget: budgetTokens };
             }
+            return {
+              systemInstruction: { parts: [{ text: STRICT_GURU_CONSTITUTION }] },
+              contents: [{ role: 'user', parts: [mediaPart, { text: extraReminder ? (promptText + '\n\n' + extraReminder) : promptText }] }],
+              generationConfig: cfg
+            };
           };
 
           const fallbackModels = buildResilientFallbackCascade(model);
@@ -8104,24 +8080,72 @@ STRICT RULES:
                         : `🔄 Auto-switching to ${candidateModel}...`));
               setB2Progress(basePct, statusTxt);
 
-              streamResult = await callGeminiStreaming(apiKey, candidateModel, payload, (charsSoFar) => {
+              const onStreamProgress = (charsSoFar) => {
                 if (!state.isAuditing) return;
                 const livePct = Math.min(96, basePct + Math.min(28, Math.floor(charsSoFar / 260)));
                 setB2Progress(livePct, `⚡ Live Streaming ${candidateModel}... (${charsSoFar.toLocaleString()} chars received)`);
-              });
+              };
 
+              let reqPayload = buildModelPayload(1536, 24576);
+              streamResult = await callGeminiStreaming(apiKey, candidateModel, reqPayload, onStreamProgress);
+
+              // Auto-adapt if model rejects thinkingConfig or maxOutputTokens > 8192 with HTTP 400
+              if (!streamResult.ok && streamResult.status === 400 && /thinking|budget/i.test(streamResult.error || '')) {
+                reqPayload = buildModelPayload(null, 24576);
+                streamResult = await callGeminiStreaming(apiKey, candidateModel, reqPayload, onStreamProgress);
+              }
+              if (!streamResult.ok && streamResult.status === 400 && /maxOutputTokens|max_output_tokens|token/i.test(streamResult.error || '')) {
+                reqPayload = buildModelPayload(0, 8192);
+                streamResult = await callGeminiStreaming(apiKey, candidateModel, reqPayload, onStreamProgress);
+              }
               if (!streamResult.ok && isYT && streamResult.status === 400 && /mime/i.test(streamResult.error || '')) {
-                payload.contents[0].parts[0].fileData.mimeType = 'video/mp4';
-                streamResult = await callGeminiStreaming(apiKey, candidateModel, payload, (charsSoFar) => {
-                  if (!state.isAuditing) return;
-                  setB2Progress(Math.min(96, basePct + Math.min(28, Math.floor(charsSoFar / 260))), `⚡ Live Streaming ${candidateModel}... (${charsSoFar.toLocaleString()} chars)`);
-                });
+                mediaPart.fileData.mimeType = 'video/mp4';
+                reqPayload = buildModelPayload(1536, 24576);
+                streamResult = await callGeminiStreaming(apiKey, candidateModel, reqPayload, onStreamProgress);
               }
 
-              if (streamResult.ok && streamResult.text) {
+              // STRICT JSON COMPLETENESS CHECK (NEVER accept truncated half-JSON like "gemini_lyric_vowel"!)
+              const isCompleteStructuredOutput = (sr) => {
+                if (!sr || !sr.ok || !sr.text) return false;
+                const parsed = parseJsonSafe(sr.text, false);
+                if (!parsed) return false;
+                if (kind === 'jury') {
+                  return Array.isArray(parsed.judges) && parsed.judges.length >= 2;
+                }
+                return Boolean(parsed.recommended_path || parsed.bandlab_steps || parsed.summary);
+              };
+
+              if (streamResult.ok && streamResult.text && !isCompleteStructuredOutput(streamResult)) {
+                // Model hit MAX_TOKENS or truncated JSON -> immediately re-run with thinkingBudget: 0 so 100% of tokens go to complete JSON!
+                setB2Progress(Math.min(92, basePct + 8), `🔧 ${candidateModel} truncated (${streamResult.finishReason || 'incomplete JSON'}) — auto-regenerating complete Jury JSON...`);
+                const retryPayload = buildModelPayload(
+                  0,
+                  24576,
+                  'IMPORTANT: Return the COMPLETE valid JSON object including all 3 judges, all 8 parameters, all 5 generational_appeal groups, ai_vocal_fixation, online_fix_recipe, detailed_solutions, verified_adaptability, and timeline. Keep each sentence concise so the JSON finishes completely.'
+                );
+                let retryRes = await callGeminiStreaming(apiKey, candidateModel, retryPayload, onStreamProgress);
+                if (!retryRes.ok && retryRes.status === 400 && /thinking|budget/i.test(retryRes.error || '')) {
+                  retryRes = await callGeminiStreaming(apiKey, candidateModel, buildModelPayload(null, 16384), onStreamProgress);
+                }
+                if (isCompleteStructuredOutput(retryRes)) {
+                  streamResult = retryRes;
+                } else if (retryRes.ok && retryRes.text && retryRes.text.length > (streamResult.text || '').length) {
+                  streamResult = retryRes;
+                }
+              }
+
+              if (isCompleteStructuredOutput(streamResult)) {
                 activeModel = candidateModel;
                 autoSwitchedToFree = skipPaidModels && !isPaidOnlyModelClient(candidateModel);
                 break;
+              }
+              // If still truncated on this model, try next model in cascade (keep best partial as safety backup)
+              if (streamResult.ok && streamResult.text) {
+                attemptLog.push(`${candidateModel} (try ${attempt}): Truncated JSON (${streamResult.finishReason || 'incomplete'}, ${streamResult.text.length} chars)`);
+                if (!window._bestPartialMaestro || streamResult.text.length > window._bestPartialMaestro.text.length) {
+                  window._bestPartialMaestro = { ...streamResult, model: candidateModel };
+                }
+                streamResult = { ok: false, status: 503, error: `Incomplete JSON (${streamResult.finishReason || 'truncated'})` };
               }
 
               lastStatus = streamResult.status || 0;
@@ -8165,6 +8189,11 @@ STRICT RULES:
             if (streamResult && streamResult.ok && streamResult.text) break;
             if (lastStatus === 401 || lastStatus === 403 || (lastStatus === 400 && !isModelMissingErr(lastStatus, lastMsg))) break;
             if (networkDropsCount >= 3) break;
+          }
+
+          if ((!streamResult || !streamResult.ok || !streamResult.text) && window._bestPartialMaestro && parseJsonSafe(window._bestPartialMaestro.text, true)) {
+            streamResult = window._bestPartialMaestro;
+            activeModel = window._bestPartialMaestro.model || activeModel;
           }
 
           if (!streamResult || !streamResult.ok || !streamResult.text) {
@@ -8238,11 +8267,92 @@ STRICT RULES:
       // =========================================================================
       // SEPARATE NATIVE DASHBOARD RENDERERS: SCRIPT DOCTOR vs INTERNATIONAL JURY
       // =========================================================================
-      function parseJsonSafe(raw) {
+      function repairTruncatedJson(rawStr) {
+        if (!rawStr) return null;
+        let s = String(rawStr).trim();
+        const start = s.indexOf('{');
+        if (start === -1) return null;
+        s = s.slice(start);
+        // Strip markdown fences if unclosed
+        s = s.replace(/```$/g, '').trim();
+
+        // Walk characters to track open strings, escapes, and container stack
+        const closeIfBalanced = (candidate) => {
+          let inStr = false, esc = false;
+          const stack = [];
+          for (let i = 0; i < candidate.length; i++) {
+            const ch = candidate[i];
+            if (inStr) {
+              if (esc) { esc = false; continue; }
+              if (ch === '\\') { esc = true; continue; }
+              if (ch === '"') inStr = false;
+              continue;
+            }
+            if (ch === '"') { inStr = true; continue; }
+            if (ch === '{') stack.push('}');
+            else if (ch === '[') stack.push(']');
+            else if (ch === '}' || ch === ']') {
+              if (stack.length && stack[stack.length - 1] === ch) stack.pop();
+            }
+          }
+          let out = candidate;
+          if (inStr) {
+            if (esc) out = out.slice(0, -1);
+            out += '"';
+          }
+          // Remove dangling incomplete property/key or trailing comma/colon (e.g. `, "gemini_lyric_vowel"` or `"key":`)
+          out = out.replace(/,\s*"[^"]*"\s*:\s*$/s, '');
+          out = out.replace(/,\s*"[^"]*"\s*$/s, '');
+          out = out.replace(/\{\s*"[^"]*"\s*$/s, '{');
+          out = out.replace(/,\s*$/s, '');
+          out = out.replace(/:\s*$/s, ': null');
+          // Re-scan cleanly for unclosed brackets
+          inStr = false; esc = false;
+          const stack2 = [];
+          for (let i = 0; i < out.length; i++) {
+            const ch = out[i];
+            if (inStr) {
+              if (esc) { esc = false; continue; }
+              if (ch === '\\') { esc = true; continue; }
+              if (ch === '"') inStr = false;
+              continue;
+            }
+            if (ch === '"') { inStr = true; continue; }
+            if (ch === '{') stack2.push('}');
+            else if (ch === '[') stack2.push(']');
+            else if (ch === '}' || ch === ']') {
+              if (stack2.length && stack2[stack2.length - 1] === ch) stack2.pop();
+            }
+          }
+          while (stack2.length) out += stack2.pop();
+          try {
+            const parsed = JSON.parse(out);
+            return (parsed && typeof parsed === 'object') ? parsed : null;
+          } catch (_) {
+            return null;
+          }
+        };
+
+        // Try direct repair first, then progressively trim back to last safe comma/newline
+        let res = closeIfBalanced(s);
+        if (res) return res;
+        let cut = s;
+        for (let tries = 0; tries < 18; tries++) {
+          const lastDelim = Math.max(cut.lastIndexOf(','), cut.lastIndexOf('\n'));
+          if (lastDelim <= 1) break;
+          cut = cut.slice(0, lastDelim).trim();
+          res = closeIfBalanced(cut);
+          if (res) return res;
+        }
+        return null;
+      }
+
+      function parseJsonSafe(raw, allowRepair = true) {
         if (!raw) return null;
         let text = String(raw).trim();
         const fm = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
         if (fm) text = fm[1].trim();
+        else text = text.replace(/^```(?:json)?\s*/i, '').replace(/```$/i, '').trim();
         try {
           const obj = JSON.parse(text);
           if (obj && typeof obj === 'object') return obj;
@@ -8253,6 +8363,9 @@ STRICT RULES:
             const obj = JSON.parse(text.slice(a, b + 1));
             if (obj && typeof obj === 'object') return obj;
           } catch (_) {}
+        }
+        if (allowRepair) {
+          return repairTruncatedJson(text);
         }
         return null;
       }
@@ -8427,7 +8540,7 @@ STRICT RULES:
         const meta = getCurrentSongMeta();
         const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const out = [
-          `MAESTRO AUDITOR v26 — OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE`,
+          `MAESTRO AUDITOR v27 — OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE`,
           `Song: ${meta.title} | ${meta.sourceLine}`,
           `Generated: ${meta.nowStr}`,
           ``
@@ -8597,7 +8710,7 @@ STRICT RULES:
         const allDefects = collectAllConsolidatedDefects();
         const parts = [
           `Act as a World-Class Grammy+ Music Director, Chief Mastering Engineer, Vocal Arranger, and Suno AI Master Architect.`,
-          `Below is the COMPLETE, END-TO-END 10,000x Forensic Audit Report generated by Maestro Auditor v26 for my song "${meta.title}" (I am attaching my original audio file + my 4 Master Reference PDFs).`,
+          `Below is the COMPLETE, END-TO-END 10,000x Forensic Audit Report generated by Maestro Auditor v27 for my song "${meta.title}" (I am attaching my original audio file + my 4 Master Reference PDFs).`,
           `Use BOTH my 4 Master Reference PDFs (GOD Volume) AND your absolute highest Pro/Neon global music intelligence to eliminate EVERY SINGLE DEFECT listed below — including ANY AI/machine/robotic sound in the vocals — and produce a 100% VERIFIED, ZERO-DEFECT, WORLD-CLASS Suno AI Remix/Cover/Replace blueprint (Style Box, Exclude Box, Tightened Lyrics <3:55 with natural human vocal delivery/Alaps, Anti Tug-of-War Sliders, and 5-Min BandLab/OBRA Polish).`,
           ``,
           `=== 1. SONG METADATA ===`,
@@ -8717,7 +8830,7 @@ STRICT RULES:
         const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const mTag = modelId ? `${formatFriendlyModelName(modelId)} (${resolveTierForModel(modelId, tier)})` : '';
         const out = [
-          `MAESTRO AUDITOR v26 — COMPLETE 10,000x INTERNATIONAL JURY, AI-VOCAL FIXATION & GENERATIONAL REVIEW`,
+          `MAESTRO AUDITOR v27 — COMPLETE 10,000x INTERNATIONAL JURY, AI-VOCAL FIXATION & GENERATIONAL REVIEW`,
           ...(mTag ? [`Model & Tier: ${mTag}`] : []),
           `Total Score: ${d.total_score ?? '—'}/100 | Verdict: ${d.verdict || '—'} | AI/Machine Suspicion: ${d.ai_suspicion_pct ?? '—'}%`
         ];
@@ -9133,8 +9246,8 @@ STRICT RULES:
 
         const sections = [];
         const docHeading = scope === 'fixrecipe'
-          ? 'MAESTRO AUDITOR v26 • OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE'
-          : 'MAESTRO AUDITOR v26 • COMPLETE END-TO-END 10,000x FORENSIC FINAL REPORT';
+          ? 'MAESTRO AUDITOR v27 • OFFLINE + ONLINE EQ, NOISE & AI-VOCAL FIX RECIPE'
+          : 'MAESTRO AUDITOR v27 • COMPLETE END-TO-END 10,000x FORENSIC FINAL REPORT';
 
         sections.push(`
           <div class="pdf-cover">
@@ -9293,7 +9406,7 @@ STRICT RULES:
           `);
         }
 
-        sections.push(`<div class="pdf-footer">MAESTRO AUDITOR v26 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GOOGLE SEARCH + 4-PDF GOD VOLUME) • Generated: ${escapeHtml(meta.nowStr)}</div>`);
+        sections.push(`<div class="pdf-footer">MAESTRO AUDITOR v27 (10,000x FORENSIC AUDITOR • AI-VOCAL FIXATION • OFFLINE+ONLINE FIX RECIPE • GOOGLE SEARCH + 4-PDF GOD VOLUME) • Generated: ${escapeHtml(meta.nowStr)}</div>`);
         return `<div class="pdf-doc">${sections.join('')}</div>`;
       }
 
