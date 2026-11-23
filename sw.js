@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maestro-auditor-v20';
+const CACHE_NAME = 'maestro-auditor-v22';
 const APP_SHELL = [
   './',
   './index.html',
@@ -63,11 +63,12 @@ function upsertRunSW(list, runObj) {
   return arr;
 }
 
-async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishedAt, activeModel, usageMetadata, tierLabel) {
+async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishedAt, activeModel, usageMetadata, tierLabel, webGrounding) {
   if (!songId || !reportText) return;
   try {
     const parsed = parseJsonSafeSW(reportText);
     if (!parsed) return;
+    if (webGrounding) parsed._webGrounding = webGrounding;
     const mdl = activeModel || 'gemini-4-hydrogen';
     const tier = resolveTierSW(mdl, tierLabel);
     const runKey = `${mdl}__${tier}`;
@@ -77,6 +78,7 @@ async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishe
       tier,
       data: parsed,
       usage: usageMetadata || null,
+      webGrounding: webGrounding || null,
       rawSummary: '',
       generatedAt: finishedAt
     };
@@ -95,7 +97,7 @@ async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishe
         if (kind === 'jury') {
           let prevRuns = Array.isArray(existing.juryRuns) ? [...existing.juryRuns] : [];
           if (!prevRuns.length && existing.juryData) {
-            const pm = existing.juryModel || 'gemini-3.1-pro-preview';
+            const pm = existing.juryModel || 'gemini-4-hydrogen';
             const pt = existing.juryTier || resolveTierSW(pm, null);
             prevRuns.push({
               key: `${pm}__${pt}`,
@@ -117,7 +119,7 @@ async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishe
         } else {
           let prevRuns = Array.isArray(existing.scriptRuns) ? [...existing.scriptRuns] : [];
           if (!prevRuns.length && existing.scriptData) {
-            const pm = existing.scriptModel || 'gemini-3.1-pro-preview';
+            const pm = existing.scriptModel || 'gemini-4-hydrogen';
             const pt = existing.scriptTier || resolveTierSW(pm, null);
             prevRuns.push({
               key: `${pm}__${pt}`,
@@ -137,6 +139,8 @@ async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishe
           existing.scriptTier = tier;
           existing.scriptUsage = usageMetadata || null;
         }
+        existing.savedReportExplicitly = true;
+        existing.savedReportAt = finishedAt;
         existing.updatedAt = finishedAt;
         store.put(existing);
       };
@@ -199,17 +203,17 @@ function extractQuickNotificationSummary(rawText, jobType) {
       if (jobType === 'script') {
         const mode = obj.suno_fix?.mode || 'Suno Script';
         const ai = obj.suno_fix?.audio_influence !== undefined ? `Audio ${obj.suno_fix.audio_influence}%` : '';
-        return `🛠️ ${mode} तयार! ${ai} • कॉपी करण्यासाठी टच करा.`.trim();
+        return `🛠️ ${mode} Ready! ${ai} • Tap to open & copy.`.trim();
       }
-      const sc = obj.total_score !== undefined ? `${obj.total_score}/100 गुण` : '';
+      const sc = obj.total_score !== undefined ? `${obj.total_score}/100` : '';
       const vd = obj.verdict ? `• ${obj.verdict}` : '';
-      const ai = obj.ai_suspicion_pct !== undefined ? `• AI संशय: ${obj.ai_suspicion_pct}%` : '';
+      const ai = obj.ai_suspicion_pct !== undefined ? `• AI Suspicion: ${obj.ai_suspicion_pct}%` : '';
       return `${sc} ${vd} ${ai}`.trim();
     }
   } catch (_) {}
   return jobType === 'script'
-    ? 'तुमची सविस्तर Pro Suno स्क्रिप्ट तयार आहे! पाहण्यासाठी टच करा.'
-    : 'तुमच्या गाण्याचा सविस्तर Pro ज्युरी निकाल व उपाय तयार आहेत! पाहण्यासाठी टच करा.';
+    ? 'Your verified Suno Remix Script is ready! Tap to open.'
+    : 'Your 10,000x Deep Jury Review & Generational Score is ready! Tap to open.';
 }
 
 async function deleteUploadedQuietly(fileName, apiKey) {
@@ -228,7 +232,7 @@ async function fetchWithTimeout(url, options, timeoutMs = 155000) {
     return await fetch(url, { ...options, signal: ctrl.signal });
   } catch (err) {
     if (err && err.name === 'AbortError') {
-      throw new Error('Pro सर्व्हर प्रतिसादास खूप वेळ लागला (Timeout). कृपया इंटरनेट तपासून पुन्हा प्रयत्न करा.');
+      throw new Error('Server response timed out. Please check your connection and try again.');
     }
     throw err;
   } finally {
@@ -236,14 +240,66 @@ async function fetchWithTimeout(url, options, timeoutMs = 155000) {
   }
 }
 
+// Always-On Pass 1: Live Google Search Grounding (Outer Verified Internet Database)
+async function runOuterWebSearchPassSW(apiKey, model, searchPrompt) {
+  if (!searchPrompt) return null;
+  try {
+    const searchModel = /(hydrogen|3\.8-flash|3-flash|2\.5-flash|neon|carbon|pro)/i.test(model) ? model : 'gemini-4-hydrogen';
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(searchModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+    const body = {
+      contents: [{ role: 'user', parts: [{ text: searchPrompt }] }],
+      tools: [{ google_search: {} }],
+      generationConfig: { temperature: 0.2, maxOutputTokens: 1200 }
+    };
+    const res = await fetchWithTimeout(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    }, 35000);
+    if (!res.ok) return null;
+    const json = await res.json().catch(() => ({}));
+    const cand = json?.candidates?.[0];
+    const summaryText = (cand?.content?.parts || []).map((p) => p.text || '').join('\n').trim();
+    const gm = cand?.groundingMetadata || {};
+    const queries = Array.isArray(gm.webSearchQueries) ? gm.webSearchQueries.slice(0, 6) : [];
+    const chunks = Array.isArray(gm.groundingChunks)
+      ? gm.groundingChunks
+          .map((c) => ({ title: c?.web?.title || '', uri: c?.web?.uri || '' }))
+          .filter((x) => x.title || x.uri)
+          .slice(0, 6)
+      : [];
+    if (!summaryText) return null;
+    return {
+      usedLiveSearch: true,
+      summary: summaryText.slice(0, 2600),
+      queries,
+      sources: chunks,
+      usage: json?.usageMetadata || null
+    };
+  } catch (_) {
+    return null;
+  }
+}
+
+function mergeUsageMeta(u1, u2) {
+  if (!u1) return u2 || null;
+  if (!u2) return u1;
+  return {
+    promptTokenCount: (Number(u1.promptTokenCount) || 0) + (Number(u2.promptTokenCount) || 0),
+    cachedContentTokenCount: (Number(u1.cachedContentTokenCount) || 0) + (Number(u2.cachedContentTokenCount) || 0),
+    candidatesTokenCount: (Number(u1.candidatesTokenCount) || 0) + (Number(u2.candidatesTokenCount) || 0),
+    thoughtsTokenCount: (Number(u1.thoughtsTokenCount) || 0) + (Number(u2.thoughtsTokenCount) || 0)
+  };
+}
+
 async function runBackgroundAuditJob(msg) {
-  const { jobId, jobType, songId, tierLabel, apiKey, model, fallbackModels, payload, songTitle, isYT, uploadedName } = msg;
+  const { jobId, jobType, songId, tierLabel, apiKey, model, fallbackModels, payload, webSearchPrompt, songTitle, isYT, uploadedName } = msg;
   const kind = jobType === 'jury' ? 'jury' : 'script';
   const dbKey = `latest_${kind}`;
   const startedAt = Date.now();
   const labelAction = kind === 'jury'
-    ? 'Pro सखोल आंतरराष्ट्रीय ज्युरी व उपाय तयार होत आहेत'
-    : 'Pro सखोल God Volume Suno स्क्रिप्ट तयार होत आहे';
+    ? '10,000x Deep Jury Review & Generational Audit'
+    : 'Verified Suno Remix/Cover Master Script';
 
   await saveJobRecord({
     id: dbKey,
@@ -276,16 +332,35 @@ async function runBackgroundAuditJob(msg) {
     });
   }, 4500);
 
-  await broadcastToClients({
-    type: 'BG_AUDIT_PROGRESS',
-    jobId,
-    jobType: kind,
-    pct: 62,
-    text: `2/3 ${model} — ${labelAction}...`
-  });
-
+  let webGrounding = null;
   try {
     let activeModel = model;
+
+    // PASS 1 (ALWAYS-ON): Outer Verified Internet Database via Google Search Grounding
+    if (webSearchPrompt) {
+      await broadcastToClients({
+        type: 'BG_AUDIT_PROGRESS',
+        jobId,
+        jobType: kind,
+        pct: 58,
+        text: `Pass 1/2 Google Search: Fetching live verified studio & Suno benchmarks...`
+      });
+      webGrounding = await runOuterWebSearchPassSW(apiKey, activeModel, webSearchPrompt);
+      if (webGrounding && webGrounding.summary && payload?.contents?.[0]?.parts) {
+        const textPart = payload.contents[0].parts.find((p) => typeof p.text === 'string');
+        if (textPart) {
+          textPart.text += `\n\n=== PASS 1: LIVE GOOGLE SEARCH VERIFIED OUTER INTELLIGENCE ===\n${webGrounding.summary}\n(Incorporate these live verified outer insights alongside the 4-PDF Inner GOD Volume rules!)`;
+        }
+      }
+    }
+
+    await broadcastToClients({
+      type: 'BG_AUDIT_PROGRESS',
+      jobId,
+      jobType: kind,
+      pct: 68,
+      text: `Pass 2/2 ${activeModel} — ${labelAction}...`
+    });
 
     const callModel = async (mdl, bodyObj) => {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mdl)}:generateContent?key=${encodeURIComponent(apiKey)}`;
@@ -306,7 +381,7 @@ async function runBackgroundAuditJob(msg) {
       ({ res: genRes, json: genJson } = await callModel(activeModel, payload));
     }
 
-    // Retry ONLY alternative Pro models on 404 (retired) or 503 (overloaded) — NEVER silently downgrade Pro to Flash!
+    // Same-tier fallback on 404/503 only
     const firstErrMsg = genJson?.error?.message || '';
     if (!genRes.ok && (genRes.status === 404 || genRes.status === 503 || /no longer available|not found|overloaded/i.test(firstErrMsg))) {
       const list = Array.isArray(fallbackModels) ? fallbackModels : [];
@@ -316,8 +391,8 @@ async function runBackgroundAuditJob(msg) {
           type: 'BG_AUDIT_PROGRESS',
           jobId,
           jobType: kind,
-          pct: 70,
-          text: `2/3 ${fb} वर Pro सखोल विश्लेषण सुरू आहे...`
+          pct: 74,
+          text: `Pass 2/2 Switching to ${fb} for ${labelAction}...`
         });
         ({ res: genRes, json: genJson } = await callModel(fb, payload));
         if (genRes.ok) {
@@ -340,13 +415,13 @@ async function runBackgroundAuditJob(msg) {
       const isProQuotaZero = genRes.status === 429 && /(pro|neon|carbon)/i.test(activeModel);
       let errText = rawMsg;
       if (isProQuotaZero) {
-        errText = `PRO_FREE_TIER_QUOTA::${activeModel} साठी तुमच्या Google Free Tier API चा कोटा शून्य (limit: 0) किंवा संपलेला आहे (${rawMsg.slice(0, 140)}).`;
+        errText = `PRO_FREE_TIER_QUOTA::${activeModel} has zero quota (limit: 0) on your Free Tier API key (${rawMsg.slice(0, 140)}).`;
       } else if (genRes.status === 429) {
-        errText = `API कोटा / वेग मर्यादा (429): ${rawMsg}`;
+        errText = `API Quota / Rate Limit (429): ${rawMsg}`;
       } else if (isYT && (genRes.status === 400 || genRes.status === 403 || /youtube|video|private|unavailable|duration/i.test(rawMsg))) {
-        errText = `YouTube व्हिडिओ वाचता आला नाही (${genRes.status}): ${rawMsg}. खात्री करा की व्हिडिओ Public आहे व खूप लांब नाही.`;
+        errText = `Could not read YouTube video (${genRes.status}): ${rawMsg}. Make sure the video is Public and not too long.`;
       } else if (genRes.status === 400 || genRes.status === 403) {
-        errText = `API Key किंवा मॉडेल त्रुटी (${genRes.status}): ${rawMsg}`;
+        errText = `API Key or Model Error (${genRes.status}): ${rawMsg}`;
       }
       throw new Error(errText);
     }
@@ -357,12 +432,16 @@ async function runBackgroundAuditJob(msg) {
     const reportText = parts.map((p) => p.text || '').join('\n').trim();
     if (!reportText) {
       const blockReason = genJson?.promptFeedback?.blockReason || finishReason || 'EMPTY';
-      throw new Error(`Gemini Pro कडून निकाल तयार झाला नाही (कारण: ${blockReason}). कृपया पुन्हा प्रयत्न करा.`);
+      throw new Error(`No output returned from Gemini (Reason: ${blockReason}). Please try again.`);
     }
 
     const finishedAt = Date.now();
-    const usageMetadata = genJson?.usageMetadata || null;
+    const usageMetadata = mergeUsageMeta(webGrounding?.usage || null, genJson?.usageMetadata || null);
     const resolvedTier = resolveTierSW(activeModel, tierLabel);
+    const cleanWebMeta = webGrounding
+      ? { usedLiveSearch: true, queries: webGrounding.queries || [], sources: webGrounding.sources || [], summary: webGrounding.summary || '' }
+      : { usedLiveSearch: false, queries: [], sources: [], summary: '' };
+
     await saveJobRecord({
       id: dbKey,
       jobId,
@@ -373,13 +452,14 @@ async function runBackgroundAuditJob(msg) {
       activeModel,
       tierLabel: resolvedTier,
       usageMetadata,
+      webGrounding: cleanWebMeta,
       reportText,
       startedAt,
       finishedAt,
       updatedAt: finishedAt
     });
     if (songId) {
-      await patchSongVaultFromSW(songId, kind, reportText, songTitle, finishedAt, activeModel, usageMetadata, resolvedTier);
+      await patchSongVaultFromSW(songId, kind, reportText, songTitle, finishedAt, activeModel, usageMetadata, resolvedTier, cleanWebMeta);
     }
 
     await broadcastToClients({
@@ -389,6 +469,7 @@ async function runBackgroundAuditJob(msg) {
       activeModel,
       tierLabel: resolvedTier,
       usageMetadata,
+      webGrounding: cleanWebMeta,
       songTitle,
       reportText,
       elapsedSec: Math.round((finishedAt - startedAt) / 1000)
@@ -396,12 +477,12 @@ async function runBackgroundAuditJob(msg) {
 
     const summaryLine = extractQuickNotificationSummary(reportText, kind);
     await notifyIfBackground(
-      kind === 'script' ? '🛠️ Pro Suno स्क्रिप्ट तयार!' : '🏆 Pro ज्युरी निकाल व उपाय तयार!',
+      kind === 'script' ? '🛠️ Verified Suno Script Ready!' : '🏆 Deep Jury & Generational Review Ready!',
       `${songTitle ? songTitle + ' — ' : ''}${summaryLine}`,
       jobId
     );
   } catch (err) {
-    const errMsg = err?.message || 'अज्ञात त्रुटी';
+    const errMsg = err?.message || 'Unknown error';
     const now = Date.now();
     await saveJobRecord({
       id: dbKey,
@@ -423,7 +504,7 @@ async function runBackgroundAuditJob(msg) {
     });
 
     await notifyIfBackground(
-      `⚠️ Maestro Auditor थांबले`,
+      `⚠️ Maestro Auditor Stopped`,
       errMsg.replace('PRO_FREE_TIER_QUOTA::', '').slice(0, 120),
       jobId
     );
