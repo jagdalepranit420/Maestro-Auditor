@@ -1,4 +1,4 @@
-const CACHE_NAME = 'maestro-auditor-v14';
+const CACHE_NAME = 'maestro-auditor-v20';
 const APP_SHELL = [
   './',
   './index.html',
@@ -8,20 +8,143 @@ const APP_SHELL = [
 ];
 
 const DB_NAME = 'MaestroAuditorDB';
+const DB_VERSION = 2;
 const DB_STORE = 'jobs';
+const SONGS_STORE = 'songs';
 
 function openJobDB() {
   return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, 1);
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
     req.onupgradeneeded = () => {
       const db = req.result;
       if (!db.objectStoreNames.contains(DB_STORE)) {
         db.createObjectStore(DB_STORE, { keyPath: 'id' });
       }
+      if (!db.objectStoreNames.contains(SONGS_STORE)) {
+        db.createObjectStore(SONGS_STORE, { keyPath: 'id' });
+      }
     };
     req.onsuccess = () => resolve(req.result);
     req.onerror = () => reject(req.error);
   });
+}
+
+function parseJsonSafeSW(raw) {
+  try {
+    let s = String(raw || '').trim();
+    const fm = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+    if (fm) s = fm[1].trim();
+    const obj = JSON.parse(s);
+    if (obj && typeof obj === 'object') return obj;
+  } catch (_) {}
+  try {
+    const txt = String(raw || '');
+    const a = txt.indexOf('{'), b = txt.lastIndexOf('}');
+    if (a !== -1 && b > a) {
+      const obj = JSON.parse(txt.slice(a, b + 1));
+      if (obj && typeof obj === 'object') return obj;
+    }
+  } catch (_) {}
+  return null;
+}
+
+function resolveTierSW(modelId, requestedTier) {
+  const id = String(modelId || '').toLowerCase();
+  const isPaidOnly = /(carbon|neon|pro)/i.test(id) && !/hydrogen/i.test(id);
+  if (isPaidOnly) return 'Paid Tier';
+  if (requestedTier === 'Paid Tier' || requestedTier === 'Free Tier') return requestedTier;
+  if (/(hydrogen|3\.8-flash|3-flash|2\.5-flash|flash-lite)/i.test(id)) return 'Free Tier';
+  return 'Paid Tier';
+}
+
+function upsertRunSW(list, runObj) {
+  const arr = Array.isArray(list) ? list.filter((x) => x && x.key !== runObj.key) : [];
+  arr.unshift(runObj);
+  return arr;
+}
+
+async function patchSongVaultFromSW(songId, kind, reportText, songTitle, finishedAt, activeModel, usageMetadata, tierLabel) {
+  if (!songId || !reportText) return;
+  try {
+    const parsed = parseJsonSafeSW(reportText);
+    if (!parsed) return;
+    const mdl = activeModel || 'gemini-4-hydrogen';
+    const tier = resolveTierSW(mdl, tierLabel);
+    const runKey = `${mdl}__${tier}`;
+    const runObj = {
+      key: runKey,
+      model: mdl,
+      tier,
+      data: parsed,
+      usage: usageMetadata || null,
+      rawSummary: '',
+      generatedAt: finishedAt
+    };
+
+    const db = await openJobDB();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction(SONGS_STORE, 'readwrite');
+      const store = tx.objectStore(SONGS_STORE);
+      const getReq = store.get(songId);
+      getReq.onsuccess = () => {
+        const existing = getReq.result || {
+          id: songId,
+          title: songTitle || 'Song',
+          createdAt: finishedAt
+        };
+        if (kind === 'jury') {
+          let prevRuns = Array.isArray(existing.juryRuns) ? [...existing.juryRuns] : [];
+          if (!prevRuns.length && existing.juryData) {
+            const pm = existing.juryModel || 'gemini-3.1-pro-preview';
+            const pt = existing.juryTier || resolveTierSW(pm, null);
+            prevRuns.push({
+              key: `${pm}__${pt}`,
+              model: pm,
+              tier: pt,
+              data: existing.juryData,
+              usage: existing.juryUsage || null,
+              rawSummary: existing.rawJurySummary || '',
+              generatedAt: existing.juryGeneratedAt || existing.updatedAt || finishedAt
+            });
+          }
+          existing.juryRuns = upsertRunSW(prevRuns, runObj);
+          existing.activeJuryKey = runKey;
+          existing.juryData = parsed;
+          existing.juryGeneratedAt = finishedAt;
+          existing.juryModel = mdl;
+          existing.juryTier = tier;
+          existing.juryUsage = usageMetadata || null;
+        } else {
+          let prevRuns = Array.isArray(existing.scriptRuns) ? [...existing.scriptRuns] : [];
+          if (!prevRuns.length && existing.scriptData) {
+            const pm = existing.scriptModel || 'gemini-3.1-pro-preview';
+            const pt = existing.scriptTier || resolveTierSW(pm, null);
+            prevRuns.push({
+              key: `${pm}__${pt}`,
+              model: pm,
+              tier: pt,
+              data: existing.scriptData,
+              usage: existing.scriptUsage || null,
+              rawSummary: existing.rawScriptSummary || '',
+              generatedAt: existing.scriptGeneratedAt || existing.updatedAt || finishedAt
+            });
+          }
+          existing.scriptRuns = upsertRunSW(prevRuns, runObj);
+          existing.activeScriptKey = runKey;
+          existing.scriptData = parsed;
+          existing.scriptGeneratedAt = finishedAt;
+          existing.scriptModel = mdl;
+          existing.scriptTier = tier;
+          existing.scriptUsage = usageMetadata || null;
+        }
+        existing.updatedAt = finishedAt;
+        store.put(existing);
+      };
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  } catch (_) {}
 }
 
 async function saveJobRecord(record) {
@@ -85,8 +208,8 @@ function extractQuickNotificationSummary(rawText, jobType) {
     }
   } catch (_) {}
   return jobType === 'script'
-    ? 'तुमची तयार Suno स्क्रिप्ट व स्लाइडर्स तयार आहेत! पाहण्यासाठी टच करा.'
-    : 'तुमच्या गाण्याचा आंतरराष्ट्रीय ज्युरी निकाल तयार आहे! पाहण्यासाठी टच करा.';
+    ? 'तुमची सविस्तर Pro Suno स्क्रिप्ट तयार आहे! पाहण्यासाठी टच करा.'
+    : 'तुमच्या गाण्याचा सविस्तर Pro ज्युरी निकाल व उपाय तयार आहेत! पाहण्यासाठी टच करा.';
 }
 
 async function deleteUploadedQuietly(fileName, apiKey) {
@@ -98,14 +221,14 @@ async function deleteUploadedQuietly(fileName, apiKey) {
   } catch (_) {}
 }
 
-async function fetchWithTimeout(url, options, timeoutMs = 110000) {
+async function fetchWithTimeout(url, options, timeoutMs = 155000) {
   const ctrl = new AbortController();
   const tid = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     return await fetch(url, { ...options, signal: ctrl.signal });
   } catch (err) {
     if (err && err.name === 'AbortError') {
-      throw new Error('सर्व्हर प्रतिसादास खूप वेळ लागला (Timeout). कृपया "⚡ झटपट मोड (Fast)" वापरून पुन्हा प्रयत्न करा.');
+      throw new Error('Pro सर्व्हर प्रतिसादास खूप वेळ लागला (Timeout). कृपया इंटरनेट तपासून पुन्हा प्रयत्न करा.');
     }
     throw err;
   } finally {
@@ -114,11 +237,13 @@ async function fetchWithTimeout(url, options, timeoutMs = 110000) {
 }
 
 async function runBackgroundAuditJob(msg) {
-  const { jobId, jobType, apiKey, model, fallbackModels, payload, songTitle, isYT, uploadedName } = msg;
+  const { jobId, jobType, songId, tierLabel, apiKey, model, fallbackModels, payload, songTitle, isYT, uploadedName } = msg;
   const kind = jobType === 'jury' ? 'jury' : 'script';
   const dbKey = `latest_${kind}`;
   const startedAt = Date.now();
-  const labelAction = kind === 'jury' ? 'आंतरराष्ट्रीय ज्युरी तपासत आहेत' : 'God Volume Suno स्क्रिप्ट तयार होत आहे';
+  const labelAction = kind === 'jury'
+    ? 'Pro सखोल आंतरराष्ट्रीय ज्युरी व उपाय तयार होत आहेत'
+    : 'Pro सखोल God Volume Suno स्क्रिप्ट तयार होत आहे';
 
   await saveJobRecord({
     id: dbKey,
@@ -155,19 +280,20 @@ async function runBackgroundAuditJob(msg) {
     type: 'BG_AUDIT_PROGRESS',
     jobId,
     jobType: kind,
-    pct: 64,
+    pct: 62,
     text: `2/3 ${model} — ${labelAction}...`
   });
 
   try {
     let activeModel = model;
+
     const callModel = async (mdl, bodyObj) => {
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mdl)}:generateContent?key=${encodeURIComponent(apiKey)}`;
       const res = await fetchWithTimeout(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyObj)
-      }, 115000);
+      }, 155000);
       const json = await res.json().catch(() => ({}));
       return { res, json };
     };
@@ -180,21 +306,19 @@ async function runBackgroundAuditJob(msg) {
       ({ res: genRes, json: genJson } = await callModel(activeModel, payload));
     }
 
-    // Smart automatic fallback if selected model is retired / 404
-    if (!genRes.ok && (genRes.status === 404 || /no longer available|not found/i.test(genJson?.error?.message || ''))) {
-      const list = Array.isArray(fallbackModels) ? fallbackModels : ['gemini-2.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-pro-preview'];
+    // Retry ONLY alternative Pro models on 404 (retired) or 503 (overloaded) — NEVER silently downgrade Pro to Flash!
+    const firstErrMsg = genJson?.error?.message || '';
+    if (!genRes.ok && (genRes.status === 404 || genRes.status === 503 || /no longer available|not found|overloaded/i.test(firstErrMsg))) {
+      const list = Array.isArray(fallbackModels) ? fallbackModels : [];
       for (const fb of list) {
-        if (fb === activeModel) continue;
+        if (!fb || fb === activeModel) continue;
         await broadcastToClients({
           type: 'BG_AUDIT_PROGRESS',
           jobId,
           jobType: kind,
-          pct: 72,
-          text: `2/3 आपोआप ${fb} वर स्विच करून काम सुरू आहे...`
+          pct: 70,
+          text: `2/3 ${fb} वर Pro सखोल विश्लेषण सुरू आहे...`
         });
-        if (!/2\.5-flash/i.test(fb) && payload?.generationConfig?.thinkingConfig) {
-          delete payload.generationConfig.thinkingConfig;
-        }
         ({ res: genRes, json: genJson } = await callModel(fb, payload));
         if (genRes.ok) {
           activeModel = fb;
@@ -213,9 +337,12 @@ async function runBackgroundAuditJob(msg) {
 
     if (!genRes.ok) {
       const rawMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
+      const isProQuotaZero = genRes.status === 429 && /(pro|neon|carbon)/i.test(activeModel);
       let errText = rawMsg;
-      if (genRes.status === 429) {
-        errText = `API कोटा / वेग मर्यादा (429): ${rawMsg}. उपाय: "⚡ झटपट मोड (Fast)" निवडा किंवा "Copy Prompt for Gemini Chat" वापरा!`;
+      if (isProQuotaZero) {
+        errText = `PRO_FREE_TIER_QUOTA::${activeModel} साठी तुमच्या Google Free Tier API चा कोटा शून्य (limit: 0) किंवा संपलेला आहे (${rawMsg.slice(0, 140)}).`;
+      } else if (genRes.status === 429) {
+        errText = `API कोटा / वेग मर्यादा (429): ${rawMsg}`;
       } else if (isYT && (genRes.status === 400 || genRes.status === 403 || /youtube|video|private|unavailable|duration/i.test(rawMsg))) {
         errText = `YouTube व्हिडिओ वाचता आला नाही (${genRes.status}): ${rawMsg}. खात्री करा की व्हिडिओ Public आहे व खूप लांब नाही.`;
       } else if (genRes.status === 400 || genRes.status === 403) {
@@ -230,28 +357,38 @@ async function runBackgroundAuditJob(msg) {
     const reportText = parts.map((p) => p.text || '').join('\n').trim();
     if (!reportText) {
       const blockReason = genJson?.promptFeedback?.blockReason || finishReason || 'EMPTY';
-      throw new Error(`Gemini कडून निकाल तयार झाला नाही (कारण: ${blockReason}). कृपया "⚡ झटपट मोड" मध्ये पुन्हा प्रयत्न करा.`);
+      throw new Error(`Gemini Pro कडून निकाल तयार झाला नाही (कारण: ${blockReason}). कृपया पुन्हा प्रयत्न करा.`);
     }
 
     const finishedAt = Date.now();
+    const usageMetadata = genJson?.usageMetadata || null;
+    const resolvedTier = resolveTierSW(activeModel, tierLabel);
     await saveJobRecord({
       id: dbKey,
       jobId,
       jobType: kind,
+      songId: songId || null,
       status: 'done',
       songTitle: songTitle || 'Song',
       activeModel,
+      tierLabel: resolvedTier,
+      usageMetadata,
       reportText,
       startedAt,
       finishedAt,
       updatedAt: finishedAt
     });
+    if (songId) {
+      await patchSongVaultFromSW(songId, kind, reportText, songTitle, finishedAt, activeModel, usageMetadata, resolvedTier);
+    }
 
     await broadcastToClients({
       type: 'BG_AUDIT_DONE',
       jobId,
       jobType: kind,
       activeModel,
+      tierLabel: resolvedTier,
+      usageMetadata,
       songTitle,
       reportText,
       elapsedSec: Math.round((finishedAt - startedAt) / 1000)
@@ -259,7 +396,7 @@ async function runBackgroundAuditJob(msg) {
 
     const summaryLine = extractQuickNotificationSummary(reportText, kind);
     await notifyIfBackground(
-      kind === 'script' ? '🛠️ Suno स्क्रिप्ट तयार!' : '🏆 आंतरराष्ट्रीय ज्युरी निकाल तयार!',
+      kind === 'script' ? '🛠️ Pro Suno स्क्रिप्ट तयार!' : '🏆 Pro ज्युरी निकाल व उपाय तयार!',
       `${songTitle ? songTitle + ' — ' : ''}${summaryLine}`,
       jobId
     );
@@ -287,7 +424,7 @@ async function runBackgroundAuditJob(msg) {
 
     await notifyIfBackground(
       `⚠️ Maestro Auditor थांबले`,
-      errMsg.slice(0, 120),
+      errMsg.replace('PRO_FREE_TIER_QUOTA::', '').slice(0, 120),
       jobId
     );
   } finally {

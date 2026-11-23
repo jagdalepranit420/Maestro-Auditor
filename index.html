@@ -1231,53 +1231,144 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* Speed Mode & Background Execution Controls */
+    /* Always-On Pro Deep Mode Strip & Detailed Jury Solution Cards */
     .speed-bg-bar {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 14px;
-      padding: 12px;
+      padding: 12px 14px;
       border-radius: var(--radius-sm);
       background: var(--bg-subtle);
-      border: 1px solid var(--border);
+      border: 1.5px solid var(--border-strong);
     }
 
-    .speed-switch {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 4px;
-      border-radius: 11px;
-      background: #FFFFFF;
-      border: 1px solid var(--border);
-    }
-
-    .speed-btn {
-      min-height: 44px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: var(--font-sans);
-      font-size: 0.83rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.16s ease;
-      text-align: center;
-      line-height: 1.25;
-    }
-    .speed-btn small {
-      display: block;
-      font-size: 0.71rem;
-      font-weight: 600;
-      opacity: 0.85;
-      margin-top: 2px;
-    }
-    .speed-btn.active {
+    .pro-lock-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 9px 12px;
+      border-radius: 10px;
       background: #111318;
       color: #FFFFFF;
+      font-size: 0.83rem;
+      font-weight: 800;
+    }
+    .pro-lock-banner small {
+      font-size: 0.74rem;
+      font-weight: 600;
+      opacity: 0.86;
+    }
+
+    /* Detailed Sub-Blocks Inside Each Judge Card */
+    .judge-subblock {
+      border-radius: 9px;
+      padding: 9px 11px;
+      font-size: 0.83rem;
+      line-height: 1.55;
+    }
+    .judge-subblock.good {
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      color: #065F46;
+    }
+    .judge-subblock.bad {
+      background: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: #991B1B;
+    }
+    .judge-subblock.sol {
+      background: #FFFFFF;
+      border: 1.5px solid #111318;
+      color: var(--text);
+    }
+    .judge-subblock ul, .judge-subblock ol {
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+    .judge-subblock li { margin-bottom: 3px; }
+
+    /* Dedicated Deep Problem -> Step-by-Step Easy Solution Cards */
+    .solution-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(16, 24, 40, 0.04);
+    }
+    .solution-card-head {
+      padding: 12px 14px;
+      background: var(--red-bg);
+      border-bottom: 1px solid var(--red-border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .solution-card-head.medium {
+      background: var(--yellow-bg);
+      border-bottom-color: var(--yellow-border);
+    }
+    .solution-card-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .solution-card-body {
+      padding: 13px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .solution-why {
+      padding: 8px 11px;
+      border-radius: 9px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+    .solution-steps {
+      margin: 0;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .solution-result {
+      padding: 8px 11px;
+      border-radius: 9px;
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .param-improve {
+      margin-top: 2px;
+      padding: 7px 9px;
+      border-radius: 8px;
+      background: var(--blue-bg);
+      border: 1px solid var(--blue-border);
+      color: #1E3A8A;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+    .tl-fix {
+      margin-top: 5px;
+      padding: 6px 9px;
+      border-radius: 7px;
+      background: var(--bg-subtle);
+      border-left: 3px solid #111318;
+      font-size: 0.8rem;
+      color: var(--text);
     }
 
     .bg-status-row {
@@ -1927,7 +2018,7 @@
 
     @media (min-width: 768px) {
       .jury-nav { grid-template-columns: repeat(4, 1fr); }
-      .judges-cards-grid { grid-template-columns: repeat(3, 1fr); }
+      .judges-cards-grid { grid-template-columns: 1fr; }
       .param-grid { grid-template-columns: repeat(2, 1fr); }
       .suno-sliders-grid { grid-template-columns: repeat(4, 1fr); }
       .polish-grid { grid-template-columns: repeat(3, 1fr); }
@@ -2072,6 +2163,597 @@
       .eq-grid { grid-template-columns: repeat(3, 1fr); }
       .metrics-grid { grid-template-columns: repeat(4, 1fr); }
     }
+
+    /* All-in-One Clean Studio PDF Export Bar & A4 Print Engine */
+    .pdf-export-bar {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 15px;
+      background: #FFFFFF;
+      border: 2px solid #111318;
+      box-shadow: 0 6px 20px rgba(17, 19, 24, 0.09);
+      flex-direction: column;
+      gap: 11px;
+    }
+    .pdf-export-bar.show { display: flex; animation: fadeIn 0.25s ease; }
+
+    .pdf-export-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pdf-export-title {
+      font-size: 0.98rem;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .pdf-included-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* PDF Preview Modal (Clean A4 Reading View) */
+    .pdf-preview-sheet {
+      width: 100%;
+      max-width: 880px;
+      margin: 12px auto 40px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .pdf-preview-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      background: #111318;
+      color: #FFFFFF;
+    }
+    .pdf-preview-body {
+      padding: 20px 18px 28px;
+      background: #FFFFFF;
+      color: #111318;
+    }
+
+    /* Shared Studio PDF Document Typography (Used in BOTH Preview Modal & Print-to-PDF) */
+    #pdfPrintSheet {
+      display: none;
+    }
+
+    .pdf-doc {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", "Kohinoor Devanagari", sans-serif;
+      color: #111318;
+      background: #FFFFFF;
+      font-size: 13.5px;
+      line-height: 1.62;
+    }
+    .pdf-cover {
+      border: 2px solid #111318;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      background: #F8FAFC;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .pdf-brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #CBD5E1;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    .pdf-brand-name {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #111318;
+    }
+    .pdf-date {
+      font-size: 11px;
+      color: #475569;
+      font-weight: 600;
+    }
+    .pdf-song-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #0F172A;
+      margin: 0 0 6px;
+      word-break: break-word;
+    }
+    .pdf-meta-line {
+      font-size: 12px;
+      color: #475569;
+      margin: 0 0 12px;
+    }
+    .pdf-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    @media (min-width: 600px), print {
+      .pdf-kpi-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .pdf-kpi {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .pdf-kpi-lbl {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #64748B;
+      display: block;
+    }
+    .pdf-kpi-val {
+      font-size: 15px;
+      font-weight: 900;
+      color: #0F172A;
+      margin-top: 2px;
+      display: block;
+    }
+
+    .pdf-sec {
+      margin-bottom: 20px;
+    }
+    .pdf-sec-title {
+      font-size: 15.5px;
+      font-weight: 900;
+      color: #FFFFFF;
+      background: #111318;
+      padding: 8px 13px;
+      border-radius: 8px;
+      margin: 0 0 12px;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    .pdf-subhead {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0F172A;
+      margin: 14px 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 1.5px solid #E2E8F0;
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+    .pdf-callout {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      border-left: 4px solid #111318;
+      background: #F8FAFC;
+      margin-bottom: 10px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .pdf-callout.green { background: #ECFDF5; border-color: #A7F3D0; border-left-color: #059669; color: #065F46; }
+    .pdf-callout.yellow { background: #FFFBEB; border-color: #FCD34D; border-left-color: #D97706; color: #78350F; }
+    .pdf-callout.red { background: #FEF2F2; border-color: #FECACA; border-left-color: #DC2626; color: #991B1B; }
+
+    .pdf-card {
+      border: 1px solid #CBD5E1;
+      border-left: 4px solid #111318;
+      border-radius: 10px;
+      padding: 11px 13px;
+      margin-bottom: 10px;
+      background: #FFFFFF;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    .pdf-card.green { border-left-color: #10B981; }
+    .pdf-card.yellow { border-left-color: #F59E0B; }
+    .pdf-card.red { border-left-color: #EF4444; }
+    .pdf-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .pdf-card-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0F172A;
+    }
+    .pdf-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 10.5px;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid #CBD5E1;
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+    .pdf-pill.green { background: #ECFDF5; border-color: #A7F3D0; color: #047857; }
+    .pdf-pill.yellow { background: #FFFBEB; border-color: #FCD34D; color: #B45309; }
+    .pdf-pill.red { background: #FEF2F2; border-color: #FECACA; color: #B91C1C; }
+
+    .pdf-list {
+      margin: 4px 0 6px;
+      padding-left: 19px;
+    }
+    .pdf-list li {
+      margin-bottom: 3px;
+    }
+
+    .pdf-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+    .pdf-table th, .pdf-table td {
+      border: 1px solid #CBD5E1;
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .pdf-table th {
+      background: #F1F5F9;
+      color: #0F172A;
+      font-weight: 800;
+    }
+    .pdf-table tr {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .pdf-code {
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #0F172A;
+      margin: 4px 0 10px;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .pdf-footer {
+      margin-top: 18px;
+      padding-top: 8px;
+      border-top: 1px solid #CBD5E1;
+      font-size: 11px;
+      color: #64748B;
+      text-align: center;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 13mm 11mm;
+      }
+      html, body {
+        background: #FFFFFF !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body > *:not(#pdfPrintSheet) {
+        display: none !important;
+      }
+      #pdfPrintSheet {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .pdf-doc {
+        font-size: 12.2px !important;
+      }
+    }
+
+    /* Per-Song Vault / Library (Zero Double-Payment Memory) */
+    .vault-card {
+      border-color: var(--border-strong);
+      background: #FFFFFF;
+    }
+    .vault-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .vault-search-wrap {
+      display: none;
+      margin-bottom: 10px;
+    }
+    .vault-search-wrap.show { display: block; }
+    .vault-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 9px;
+      max-height: 340px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    @media (min-width: 820px) {
+      .vault-list { grid-template-columns: repeat(2, 1fr); }
+    }
+    .vault-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-subtle);
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      cursor: pointer;
+    }
+    .vault-item:hover {
+      border-color: var(--border-strong);
+      background: #FFFFFF;
+    }
+    .vault-item.active {
+      border-color: #111318;
+      background: #FFFFFF;
+      box-shadow: 0 3px 12px rgba(17, 19, 24, 0.10);
+    }
+    .vault-item-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .vault-item-title {
+      font-size: 0.91rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .vault-item-date {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+    .vault-item-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .vault-item-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-top: 4px;
+      border-top: 1px dashed var(--border);
+    }
+    .vault-restored-banner {
+      display: none;
+      margin-top: 10px;
+      padding: 11px 13px;
+      border-radius: 11px;
+      background: var(--green-bg);
+      border: 1.5px solid var(--green-border);
+      color: var(--green);
+      font-size: 0.83rem;
+      line-height: 1.5;
+    }
+    .vault-restored-banner.show { display: block; animation: fadeIn 0.2s ease; }
+    .autosave-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+
+    /* v19 Live ₹ Cost Meter Strip & Cost Badges */
+    .cost-meter-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-strong);
+      font-size: 0.81rem;
+      line-height: 1.48;
+      color: var(--text);
+    }
+    .cost-meter-strip.free-mode {
+      background: var(--green-bg);
+      border-color: var(--green-border);
+      color: #065F46;
+    }
+    .cost-meter-strip.exact-mode {
+      background: var(--blue-bg);
+      border-color: var(--blue-border);
+      color: #1E3A8A;
+    }
+    .cost-badge-inline {
+      display: none;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--gold-bg);
+      color: var(--gold);
+      border: 1px solid var(--gold-border);
+      font-family: var(--font-mono);
+    }
+    .cost-badge-inline.show { display: inline-flex; }
+    .cost-badge-inline.free {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green-border);
+    }
+
+    /* v20 Model + Tier Provenance Bar & Multi-Version Switcher Pills */
+    .provenance-strip {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      padding: 11px 14px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+    .provenance-strip.show { display: flex; }
+
+    .provenance-active-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .provenance-tags {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .model-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.77rem;
+      font-weight: 800;
+      background: #111318;
+      color: #FFFFFF;
+      letter-spacing: 0.01em;
+    }
+    .tier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+    .tier-pill.free {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1.5px solid var(--green-border);
+    }
+    .tier-pill.paid {
+      background: var(--gold-bg);
+      color: var(--gold);
+      border: 1.5px solid var(--gold-border);
+    }
+    .tier-pill.chat {
+      background: var(--blue-bg);
+      color: var(--blue);
+      border: 1.5px solid var(--blue-border);
+    }
+    .provenance-time {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .versions-bar {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding-top: 7px;
+      border-top: 1px dashed var(--border-strong);
+    }
+    .versions-bar.show { display: flex; }
+    .versions-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-right: 2px;
+    }
+    .ver-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 32px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border-strong);
+      background: #FFFFFF;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .ver-chip:hover {
+      border-color: #111318;
+      background: var(--bg-hover);
+    }
+    .ver-chip.active {
+      background: #111318;
+      color: #FFFFFF;
+      border-color: #111318;
+      box-shadow: 0 2px 8px rgba(17, 19, 24, 0.16);
+    }
+    .ver-chip .ver-tier-dot {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+    .ver-chip.active .ver-tier-dot.free { background: #059669; color: #FFFFFF; }
+    .ver-chip.active .ver-tier-dot.paid { background: #D97706; color: #FFFFFF; }
+    .ver-chip.active .ver-tier-dot.chat { background: #2563EB; color: #FFFFFF; }
+    .ver-chip:not(.active) .ver-tier-dot.free { background: var(--green-bg); color: var(--green); }
+    .ver-chip:not(.active) .ver-tier-dot.paid { background: var(--gold-bg); color: var(--gold); }
+    .ver-chip:not(.active) .ver-tier-dot.chat { background: var(--blue-bg); color: var(--blue); }
+    .ver-del-x {
+      margin-left: 3px;
+      opacity: 0.65;
+      font-weight: 900;
+      padding: 0 3px;
+      border-radius: 4px;
+    }
+    .ver-del-x:hover { opacity: 1; background: rgba(239, 68, 68, 0.22); color: #FCA5A5; }
+    .chip.paid-tier {
+      background: var(--gold-bg);
+      color: var(--gold);
+      border-color: var(--gold-border);
+    }
+    .chip.free-tier {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green-border);
+    }
   </style>
 </head>
 <body>
@@ -2094,6 +2776,9 @@
       <div class="header-actions">
         <button class="icon-pill" id="btnInstallApp" type="button" style="display:none; background:#111318; color:#FFFFFF; border-color:#111318;" title="Full-Screen App Install करा">
           <span>📲 Install</span>
+        </button>
+        <button class="icon-pill" id="btnJumpVault" type="button" title="सेव्ह केलेली गाणी पहा">
+          <span>📚 लायब्ररी (<span id="hdrVaultCount">0</span>)</span>
         </button>
         <button class="icon-pill" id="btnToggleBible" type="button" title="Volume 1 &amp; 2 नियम पहा">
           <span>📜 संहिता</span>
@@ -2132,24 +2817,36 @@
         </div>
 
         <div class="field">
-          <label for="modelSelect">Gemini मॉडेल निवडा</label>
+          <label for="modelSelect">Gemini मॉडेल निवडा (नवीन मॉडेल्स आपोआप अपडेट होतात)</label>
           <select id="modelSelect">
-            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview (नवीन सर्वोत्तम कठोर गुरू ★)</option>
-            <option value="gemini-2.5-flash">Gemini 2.5 Flash (जलद / मोफत कोटा)</option>
-            <option value="gemini-3-flash-preview">Gemini 3 Flash Preview (वेगवान)</option>
+            <option value="gemini-4-hydrogen">Gemini 4 Hydrogen (मोफत Free Tier — रोजच्या कामासाठी ★)</option>
+            <option value="gemini-4-neon">Gemini 4 Neon (Paid — सखोल स्टुडिओ Pro)</option>
+            <option value="gemini-4-carbon">Gemini 4 Carbon (Paid — सर्वोच्च World-Class फायनल ज्युरी)</option>
+            <option value="gemini-3.8-flash">Gemini 3.8 Flash (मोफत पर्यायी मॉडेल)</option>
+            <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro Preview (पर्यायी Pro मॉडेल)</option>
             <option value="custom">इतर / नवीन मॉडेल (Custom ID)</option>
           </select>
-          <input type="text" id="customModelInput" placeholder="उदा. gemini-3.1-pro-preview" style="display:none; margin-top:6px;" />
-          <p class="helper-text">💡 "API Key तपासा" दाबल्यावर तुमच्या खात्यात उपलब्ध असलेली सर्व मॉडेल्स आपोआप लोड होतात.</p>
+          <input type="text" id="customModelInput" placeholder="उदा. gemini-4-carbon किंवा भविष्यातील Gemini 5 ID" style="display:none; margin-top:6px;" />
+          <p class="helper-text">✨ भविष्यातील सर्व नवीन Higher Gemini मॉडेल्स (4, 5, 6...) अ‍ॅप उघडताच किंवा "API Key तपासा" दाबल्यावर आपोआप यादीत येतात.</p>
         </div>
 
         <div class="field">
           <label for="langSelect">ऑडिट रिपोर्टची भाषा</label>
           <select id="langSelect">
+            <option value="en">English (30–40% कमी खर्च • International Judge Mode ★)</option>
             <option value="mr">सोपे मराठी (Marathi + English Tech Tags)</option>
-            <option value="en">English (International Judge Mode)</option>
           </select>
         </div>
+      </div>
+
+      <div class="field" style="margin-top:12px;">
+        <label for="accountTierSelect">🏷️ तुमचे API खाते (Free Tier / Paid Tier लेबल)</label>
+        <select id="accountTierSelect">
+          <option value="auto">🎯 ऑटो-ओळख (Hydrogen/Flash = Free Tier • Neon/Carbon/Pro = Paid Tier)</option>
+          <option value="free">🟢 Free Tier (₹0 मोफत API खाते)</option>
+          <option value="paid">💳 Paid Tier (Google Cloud Billing सुरू आहे — Hydrogen सुद्धा Paid लेबलने सेव्ह)</option>
+        </select>
+        <p class="helper-text">प्रत्येक गाण्यासाठी <strong>Free Tier</strong> आणि <strong>Paid Tier</strong> चे सर्व रिपोर्ट्स वेगवेगळ्या लेबलसह स्वतंत्र सेव्ह राहतात — त्यामुळे Hydrogen (Free) व Neon/Carbon (Paid) ची तुलना करता येते!</p>
       </div>
 
       <div class="btn-row" style="margin-top:14px;">
@@ -2158,6 +2855,33 @@
         <button class="btn btn-danger btn-sm" id="btnClearKey" type="button">🗑️ Key हटवा</button>
       </div>
       <div id="keyTestResult" class="helper-text" style="margin-top:8px;"></div>
+    </section>
+
+    <!-- SAVED SONGS VAULT / LIBRARY (All Prompts, X-Ray, Refined Script & Jury Saved Per Song!) -->
+    <section class="card vault-card" id="songVaultSection">
+      <div class="card-header" style="margin-bottom:10px;">
+        <h2 class="card-title">
+          <span class="step-badge green">लायब्ररी</span>
+          📚 सेव्ह केलेली गाणी (<span id="vaultCountBadge">0</span>)
+        </h2>
+        <div class="btn-row" style="gap:7px;">
+          <button type="button" class="btn btn-gold btn-sm" id="btnSaveSongNow" style="min-height:36px; padding:5px 12px;" disabled>💾 गाणे सेव्ह करा</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnNewSongBlank" style="min-height:36px; padding:5px 12px;">➕ नवीन गाणे</button>
+        </div>
+      </div>
+
+      <div class="vault-toolbar">
+        <p class="helper-text" style="flex:1;">प्रत्येक गाण्याची सर्व माहिती (मूळ Style Box, Exclude, Lyrics, अपेक्षित बदल, X-Ray, तयार स्क्रिप्ट व ज्युरी निकाल) येथे आपोआप सेव्ह राहते — पुन्हा पैसे खर्च करायची गरज नाही!</p>
+        <span class="autosave-pill" id="autoSaveIndicator" style="display:none;">✓ ऑटो-सेव्ह झाले</span>
+      </div>
+
+      <div class="vault-search-wrap" id="vaultSearchWrap">
+        <input type="text" id="vaultSearchInput" style="min-height:42px; padding:8px 12px; font-size:0.88rem;" placeholder="🔍 सेव्ह केलेले गाणे शोधा (नावाने सर्च करा)..." />
+      </div>
+
+      <div class="vault-list" id="songVaultList">
+        <div class="empty-state" style="padding:16px;">अजून कोणतेही गाणे सेव्ह नाही. खाली गाणे निवडून तपासताच ते येथे आपोआप सेव्ह होईल!</div>
+      </div>
     </section>
 
     <!-- STEP 1: Audio Upload OR YouTube Link -->
@@ -2184,6 +2908,9 @@
           <div class="drop-title">येथे टच करून गाणे निवडा (WAV / MP3)</div>
           <div class="drop-sub">Motorola Android आणि iPad Safari साठी सुरक्षित — 40 ते 60 MB WAV सुद्धा सहज स्कॅन होते.</div>
         </label>
+
+        <!-- Restored Saved Song Notice (Shown when loaded from Library without re-picking WAV file) -->
+        <div class="vault-restored-banner" id="vaultRestoredBanner"></div>
 
         <!-- Selected File & Audio Player -->
         <div class="file-bar" id="fileBar">
@@ -2256,6 +2983,7 @@
           Web Audio Microscope (गणिती X-Ray)
         </h2>
         <div class="btn-row">
+          <button class="btn btn-gold btn-sm" id="btnPdfBrain1" type="button" style="display:none;">📄 X-Ray PDF</button>
           <button class="btn btn-ghost btn-sm" id="btnRescan" type="button" style="display:none;">🔄 पुन्हा स्कॅन</button>
         </div>
       </div>
@@ -2449,7 +3177,7 @@
           <span class="step-badge">मेंदू २</span>
           स्वतंत्र कृती निवडा (Suno स्क्रिप्ट किंवा ज्युरी निकाल)
         </h2>
-        <span class="step-badge green">2x वेगवान • क्रॅश-फ्री</span>
+        <span class="step-badge green">ALWAYS PRO • सविस्तर रिपोर्ट</span>
       </div>
 
       <p class="helper-text" style="margin-bottom:12px; font-size:0.85rem; color:var(--text-muted);">
@@ -2467,21 +3195,20 @@
         </div>
       </div>
 
-      <!-- Audit Speed Mode & Background Execution Controls -->
+      <!-- Always-On Pro Deep Mode Strip + Live ₹ Cost Meter + Background Notification -->
       <div class="speed-bg-bar">
-        <div class="speed-switch" role="tablist" aria-label="वेग मोड">
-          <button type="button" class="speed-btn active" id="btnSpeedFast" role="tab" aria-selected="true">
-            ⚡ झटपट मोड (Fast)
-            <small>~8–18 सेकंद • 6x लहान अपलोड</small>
-          </button>
-          <button type="button" class="speed-btn" id="btnSpeedDeep" role="tab" aria-selected="false">
-            🧠 सखोल Pro मोड
-            <small>~35–55 सेकंद • सर्वोच्च खोली</small>
-          </button>
+        <div class="pro-lock-banner">
+          <span>👑 कायमस्वरूपी PRO DEEP MODE सक्रिय (सविस्तर स्टुडिओ रिपोर्ट + सोपे उपाय)</span>
+          <small id="activeModelChip" style="cursor:pointer; text-decoration:underline;" title="मॉडेल बदलण्यासाठी टच करा">Model: gemini-4-hydrogen</small>
+        </div>
+
+        <div class="cost-meter-strip free-mode" id="liveCostStrip">
+          <span id="liveCostText">💰 <strong>gemini-4-hydrogen</strong> — Free Tier वर <strong>₹0 (मोफत!)</strong> • Paid असल्यास अंदाजे ~₹4.50–₹7.25 प्रति बटण</span>
+          <button type="button" class="bg-pill-btn" id="btnSwitchModelQuick" style="min-height:32px; padding:3px 10px; font-size:0.74rem;">🎛️ मॉडेल बदला</button>
         </div>
 
         <div class="bg-status-row">
-          <span id="bgModeHint">🔄 <strong>बॅकग्राऊंड मोड तयार:</strong> काम सुरू करून तुम्ही Suno/WhatsApp वापरू शकता — पूर्ण झाल्यावर अलर्ट येईल!</span>
+          <span id="bgModeHint">🔄 <strong>बॅकग्राऊंड मोड तयार:</strong> सखोल Pro तपासणी सुरू करून तुम्ही Suno/WhatsApp वापरू शकता — पूर्ण झाल्यावर अलर्ट येईल!</span>
           <button type="button" class="bg-pill-btn" id="btnEnableNotif">🔔 बॅकग्राऊंड अलर्ट सुरू करा</button>
         </div>
       </div>
@@ -2494,8 +3221,8 @@
         </button>
 
         <button class="engine-action-btn jury-btn" id="btnRunJury" type="button" disabled>
-          <span>🏆 International Jury Judgement</span>
-          <small>३ जागतिक जज + ८-निकष १०० गुण + Award Tier + AI संशय मीटर</small>
+          <span>🏆 International Jury Judgement (सविस्तर)</span>
+          <small>३ जजचे सखोल मत + प्रत्येक समस्येचा सोपा उपाय + ८-निकष १०० गुण</small>
         </button>
       </div>
 
@@ -2551,16 +3278,29 @@
             <div class="verdict-title" id="scriptBannerTitle">🛠️ तयार Suno दुरुस्ती स्क्रिप्ट</div>
           </div>
           <div class="btn-row">
-            <button class="btn btn-ghost btn-sm" id="btnCopyScriptAll" type="button">📋 संपूर्ण कॉपी</button>
-            <button class="btn btn-ghost btn-sm" id="btnSaveScriptAll" type="button">💾 सेव्ह</button>
+            <button class="btn btn-gold btn-sm" id="btnPdfScript" type="button">📄 PDF सेव्ह</button>
+            <button class="btn btn-ghost btn-sm" id="btnCopyScriptAll" type="button">📋 कॉपी</button>
+            <button class="btn btn-ghost btn-sm" id="btnSaveScriptAll" type="button">💾 TXT</button>
           </div>
+        </div>
+
+        <!-- Script Model + Tier Provenance & Multi-Version Switcher -->
+        <div class="provenance-strip" id="scriptProvenanceStrip">
+          <div class="provenance-active-row">
+            <div class="provenance-tags" id="scriptProvenanceTags"></div>
+            <span class="provenance-time" id="scriptProvenanceTime"></span>
+          </div>
+          <div class="versions-bar" id="scriptVersionsBar"></div>
         </div>
 
         <!-- Script Quick Summary Strip -->
         <div class="jury-hero" id="scriptHero">
           <div class="jury-top-row">
             <span class="award-pill grammy" id="sunoModePill">🎛️ Suno Cover</span>
-            <span class="chip ok" id="sunoLockBadge">Rhythm &amp; Tune Lock: 75%</span>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;">
+              <span class="chip ok" id="sunoLockBadge">Rhythm &amp; Tune Lock: 75%</span>
+              <span class="cost-badge-inline" id="scriptCostBadge"></span>
+            </div>
           </div>
           <div class="consensus-strip" id="sunoModeReason"></div>
           <div class="suno-sliders-grid" id="sunoSlidersGrid"></div>
@@ -2711,15 +3451,28 @@
             <div class="verdict-title" id="verdictText">🏆 आंतरराष्ट्रीय ज्युरी निकाल</div>
           </div>
           <div class="btn-row">
-            <button class="btn btn-ghost btn-sm" id="btnCopyReport" type="button">📋 सारांश कॉपी</button>
-            <button class="btn btn-ghost btn-sm" id="btnSaveReport" type="button">💾 सेव्ह</button>
+            <button class="btn btn-gold btn-sm" id="btnPdfJury" type="button">📄 PDF सेव्ह</button>
+            <button class="btn btn-ghost btn-sm" id="btnCopyReport" type="button">📋 कॉपी</button>
+            <button class="btn btn-ghost btn-sm" id="btnSaveReport" type="button">💾 TXT</button>
           </div>
+        </div>
+
+        <!-- Jury Model + Tier Provenance & Multi-Version Switcher -->
+        <div class="provenance-strip" id="juryProvenanceStrip">
+          <div class="provenance-active-row">
+            <div class="provenance-tags" id="juryProvenanceTags"></div>
+            <span class="provenance-time" id="juryProvenanceTime"></span>
+          </div>
+          <div class="versions-bar" id="juryVersionsBar"></div>
         </div>
 
         <!-- TOP PROMINENT JURY HERO: Award Tier + Total Score + AI Suspicion Meter + Consensus + Red Flags -->
         <div class="jury-hero" id="juryHero" style="display:none;">
           <div class="jury-top-row">
-            <div class="award-pill" id="awardTierBadge">🏆 Award Tier</div>
+            <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-start;">
+              <div class="award-pill" id="awardTierBadge">🏆 Award Tier</div>
+              <span class="cost-badge-inline" id="juryCostBadge"></span>
+            </div>
             <div class="jury-score-box">
               <span class="jury-score-num" id="juryTotalScore">—</span>
               <span class="jury-score-den">/ 100 गुण</span>
@@ -2745,36 +3498,40 @@
           <div class="redflags-strip" id="redFlagsStrip"></div>
         </div>
 
-        <!-- 2 Clean Jury Tabs -->
-        <div class="jury-nav-2" id="juryNav" style="display:none;">
+        <!-- 3 Clean Detailed Jury Tabs -->
+        <div class="script-nav" id="juryNav" style="display:none;">
           <button type="button" class="jury-tab-btn active" data-jtab="jpaneJudges">⚖️ ३ जज व ८ गुण</button>
-          <button type="button" class="jury-tab-btn" data-jtab="jpaneJuryXray">⏱️ ज्युरी X-Ray व ९५+ सल्ला</button>
+          <button type="button" class="jury-tab-btn" data-jtab="jpaneSolutions">🛠️ सविस्तर उपाय</button>
+          <button type="button" class="jury-tab-btn" data-jtab="jpaneJuryXray">⏱️ सविस्तर X-Ray</button>
         </div>
 
         <!-- Tabbed Jury Stage -->
         <div class="jury-stage" id="juryStage" style="display:none;">
-          <!-- JURY TAB 1: 3 Independent Judge Statement Cards + 8-Parameter Visual Scoreboard -->
+          <!-- JURY TAB 1: 3 Detailed Judge Statement Cards (with Problems & Easy Solutions!) + 8-Parameter Scoreboard -->
           <div class="jury-pane active" id="jpaneJudges">
             <div class="sub-block-title">
-              <span>⚖️ ३ आंतरराष्ट्रीय ज्युरींचे स्वतंत्र मत (3 Judges Panel)</span>
+              <span>⚖️ ३ आंतरराष्ट्रीय ज्युरींचे सविस्तर मत, समस्या व सोपे उपाय</span>
             </div>
             <div class="judges-cards-grid" id="judgesCardsGrid"></div>
 
             <div class="sub-block-title" style="margin-top:6px;">
-              <span>📊 ८-निकष जागतिक गुणपत्रक (एकूण १०० गुण)</span>
+              <span>📊 ८-निकष सविस्तर गुणपत्रक व सुधारणा सल्ला (एकूण १०० गुण)</span>
             </div>
             <div class="param-grid" id="paramScoreGrid"></div>
           </div>
 
-          <!-- JURY TAB 2: Clickable Jury Timeline + Top 3 Priorities to Reach 95+ Grammy Level -->
+          <!-- JURY TAB 2: Detailed Problem-by-Problem Step-by-Step Easy Solutions -->
+          <div class="jury-pane" id="jpaneSolutions">
+            <div class="sub-block-title">
+              <span>🛠️ ज्युरींनी दाखवलेल्या सर्व समस्यांचे सविस्तर व सोपे उपाय (Step-by-Step)</span>
+            </div>
+            <div class="mistake-grid" id="jurySolutionsGrid"></div>
+          </div>
+
+          <!-- JURY TAB 3: Clickable Detailed Jury Timeline -->
           <div class="jury-pane" id="jpaneJuryXray">
             <div class="sub-block-title">
-              <span>🎯 ९५+ Grammy पातळी गाठण्यासाठी ३ मुख्य सुधारणा</span>
-            </div>
-            <div class="mistake-grid" id="juryPrioritiesGrid"></div>
-
-            <div class="sub-block-title" style="margin-top:6px;">
-              <span>⏱️ ज्युरींनी ऐकलेले महत्त्वाचे क्षण (वेळेवर टच करून ऐका)</span>
+              <span>⏱️ सेकंद-दर-सेकंद सविस्तर ज्युरी X-Ray (वेळेवर टच करून ऐका)</span>
             </div>
             <div class="timeline-list" id="juryTimelineList"></div>
           </div>
@@ -2783,10 +3540,25 @@
         <!-- Safe Fallback View -->
         <div class="report-body" id="reportBody"></div>
       </div>
+
+      <!-- ALL-IN-ONE COMPLETE SONG PDF EXPORT BAR -->
+      <div class="pdf-export-bar" id="allInOnePdfBar">
+        <div class="pdf-export-head">
+          <div>
+            <div class="pdf-export-title">📄 या गाण्याचा संपूर्ण PDF रिपोर्ट सेव्ह करा</div>
+            <p class="helper-text" style="margin-top:2px;">स्वच्छ A4 मांडणीत वाचण्यास अतिशय सोपा — सर्व तपासलेले विभाग एकाच PDF फाईलमध्ये!</p>
+          </div>
+          <div class="pdf-included-chips" id="pdfIncludedChips"></div>
+        </div>
+        <div class="btn-row">
+          <button type="button" class="btn btn-gold btn-sm" id="btnExportFullPdf" style="flex:1; min-height:46px;">📄 संपूर्ण PDF सेव्ह करा (Save as PDF)</button>
+          <button type="button" class="btn btn-cyan btn-sm" id="btnPreviewFullPdf" style="min-height:46px;">👁️ PDF प्रिव्ह्यू पहा</button>
+        </div>
+      </div>
     </section>
 
     <div class="footer-note">
-      MAESTRO AUDITOR v14 • GOD VOLUME (Vol 1 + Vol 2 + Vol 3 + GOD Control Manual) • 100% Crash-Free Mobile Studio
+      MAESTRO AUDITOR v20 (GEMINI 4 + FREE/PAID TIER HISTORY + COST METER) • GOD VOLUME (Vol 1 + Vol 2 + Vol 3 + GOD Control Manual) • 100% Crash-Free Mobile Studio
     </div>
   </main>
 
@@ -2962,6 +3734,24 @@
     </div>
   </div>
 
+  <!-- Clean A4 PDF Preview Modal -->
+  <div class="modal-backdrop" id="pdfPreviewModal" role="dialog" aria-modal="true" aria-label="Song Report PDF Preview">
+    <div class="pdf-preview-sheet">
+      <div class="pdf-preview-toolbar">
+        <strong style="font-size:0.9rem;">📄 PDF रिपोर्ट प्रिव्ह्यू (Clean A4)</strong>
+        <div class="btn-row" style="gap:7px;">
+          <button type="button" class="btn btn-sm" id="btnPrintFromPreview" style="min-height:38px; padding:6px 13px; background:#FFFFFF; color:#111318;">📄 आता PDF सेव्ह करा</button>
+          <button type="button" class="btn btn-sm" id="btnDownloadHtmlReport" style="min-height:38px; padding:6px 12px; background:#272C38; color:#FFFFFF; border:1px solid #475569;">💾 HTML कॉपी</button>
+          <button type="button" class="btn btn-sm" id="btnClosePdfPreview" style="min-height:38px; padding:6px 11px; background:#334155; color:#FFFFFF;">✕</button>
+        </div>
+      </div>
+      <div class="pdf-preview-body" id="pdfPreviewBody"></div>
+    </div>
+  </div>
+
+  <!-- Dedicated Print-to-PDF Mount (Hidden on screen, clean full-page A4 in @media print) -->
+  <div id="pdfPrintSheet" aria-hidden="true"></div>
+
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
@@ -3056,7 +3846,6 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
       // =========================================================================
       const state = {
         sourceMode: 'file', // 'file' | 'youtube'
-        speedMode: 'fast',  // 'fast' | 'deep'
         file: null,
         wavInfo: null,      // Streaming WAV header metadata (Zero RAM!)
         lastHeartbeatAt: 0,
@@ -3068,9 +3857,27 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         wakeLock: null,
         auditTimerId: null,
         auditStartedAt: 0,
+        activeSongId: null,
+        activeSongMeta: null, // { name, size, type } for restored local files
         activeJobType: 'script', // 'script' | 'jury'
+        vaultSongs: [],
         lastSavedScript: null,
         lastSavedJury: null,
+        scriptData: null,
+        scriptModel: null,
+        scriptTier: null,
+        scriptUsage: null,
+        scriptGeneratedAt: null,
+        scriptRuns: [],
+        activeScriptKey: null,
+        juryData: null,
+        juryModel: null,
+        juryTier: null,
+        juryUsage: null,
+        juryGeneratedAt: null,
+        juryRuns: [],
+        activeJuryKey: null,
+        b1AutoTips: [],
         rawScriptSummary: '',
         rawJurySummary: '',
         isScanning: false,
@@ -3090,6 +3897,7 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         modelSelect: $('modelSelect'),
         customModelInput: $('customModelInput'),
         langSelect: $('langSelect'),
+        accountTierSelect: $('accountTierSelect'),
         btnSaveSettings: $('btnSaveSettings'),
         btnTestKey: $('btnTestKey'),
         btnClearKey: $('btnClearKey'),
@@ -3159,8 +3967,20 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         removeInstrumentsInput: $('removeInstrumentsInput'),
         desiredModInput: $('desiredModInput'),
 
-        btnSpeedFast: $('btnSpeedFast'),
-        btnSpeedDeep: $('btnSpeedDeep'),
+        activeModelChip: $('activeModelChip'),
+        liveCostStrip: $('liveCostStrip'),
+        liveCostText: $('liveCostText'),
+        btnSwitchModelQuick: $('btnSwitchModelQuick'),
+        scriptCostBadge: $('scriptCostBadge'),
+        juryCostBadge: $('juryCostBadge'),
+        scriptProvenanceStrip: $('scriptProvenanceStrip'),
+        scriptProvenanceTags: $('scriptProvenanceTags'),
+        scriptProvenanceTime: $('scriptProvenanceTime'),
+        scriptVersionsBar: $('scriptVersionsBar'),
+        juryProvenanceStrip: $('juryProvenanceStrip'),
+        juryProvenanceTags: $('juryProvenanceTags'),
+        juryProvenanceTime: $('juryProvenanceTime'),
+        juryVersionsBar: $('juryVersionsBar'),
         btnEnableNotif: $('btnEnableNotif'),
         bgModeHint: $('bgModeHint'),
         savedResultBar: $('savedResultBar'),
@@ -3218,11 +4038,37 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         juryStage: $('juryStage'),
         judgesCardsGrid: $('judgesCardsGrid'),
         paramScoreGrid: $('paramScoreGrid'),
-        juryPrioritiesGrid: $('juryPrioritiesGrid'),
+        jurySolutionsGrid: $('jurySolutionsGrid'),
         juryTimelineList: $('juryTimelineList'),
         reportBody: $('reportBody'),
         btnCopyReport: $('btnCopyReport'),
         btnSaveReport: $('btnSaveReport'),
+
+        btnPdfBrain1: $('btnPdfBrain1'),
+        btnPdfScript: $('btnPdfScript'),
+        btnPdfJury: $('btnPdfJury'),
+        allInOnePdfBar: $('allInOnePdfBar'),
+        pdfIncludedChips: $('pdfIncludedChips'),
+        btnExportFullPdf: $('btnExportFullPdf'),
+        btnPreviewFullPdf: $('btnPreviewFullPdf'),
+        pdfPreviewModal: $('pdfPreviewModal'),
+        pdfPreviewBody: $('pdfPreviewBody'),
+        btnPrintFromPreview: $('btnPrintFromPreview'),
+        btnDownloadHtmlReport: $('btnDownloadHtmlReport'),
+        btnClosePdfPreview: $('btnClosePdfPreview'),
+        pdfPrintSheet: $('pdfPrintSheet'),
+
+        btnJumpVault: $('btnJumpVault'),
+        hdrVaultCount: $('hdrVaultCount'),
+        songVaultSection: $('songVaultSection'),
+        vaultCountBadge: $('vaultCountBadge'),
+        btnSaveSongNow: $('btnSaveSongNow'),
+        btnNewSongBlank: $('btnNewSongBlank'),
+        autoSaveIndicator: $('autoSaveIndicator'),
+        vaultSearchWrap: $('vaultSearchWrap'),
+        vaultSearchInput: $('vaultSearchInput'),
+        songVaultList: $('songVaultList'),
+        vaultRestoredBanner: $('vaultRestoredBanner'),
 
         bibleModal: $('bibleModal'),
         btnToggleBible: $('btnToggleBible'),
@@ -3302,32 +4148,460 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         model: 'maestro_auditor_model',
         customModel: 'maestro_auditor_custom_model',
         lang: 'maestro_auditor_lang',
-        speed: 'maestro_auditor_speed_mode'
+        accountTier: 'maestro_auditor_account_tier',
+        discoveredModels: 'maestro_auditor_discovered_models'
       };
+
+      // =========================================================================
+      // v19: LIVE ₹ COST ENGINE + AUTO-DISCOVERY FOR FUTURE HIGHER GEMINI MODELS
+      // =========================================================================
+      const USD_TO_INR = 92.60;
+
+      function getModelRateInfo(modelId) {
+        const id = String(modelId || '').toLowerCase();
+        const isBeforeDec1 = Date.now() < new Date('2026-12-01T00:00:00Z').getTime();
+        if (id.includes('carbon')) {
+          return {
+            inUsd: isBeforeDec1 ? 2.00 : 4.00,
+            outUsd: isBeforeDec1 ? 10.00 : 20.00,
+            freeTier: false,
+            tierLabel: 'Paid (World-Class)'
+          };
+        }
+        if (id.includes('neon')) {
+          return { inUsd: 3.00, outUsd: 15.00, freeTier: false, tierLabel: 'Paid (Frontier Pro)' };
+        }
+        if (id.includes('hydrogen')) {
+          return { inUsd: 1.50, outUsd: 7.50, freeTier: true, tierLabel: 'Free Tier ✓ / Paid' };
+        }
+        if (id.includes('3.8-flash') || id.includes('3-flash')) {
+          return { inUsd: 0.50, outUsd: 3.00, freeTier: true, tierLabel: 'Free Tier ✓ / Paid' };
+        }
+        if (id.includes('2.5-flash') || id.includes('flash-lite')) {
+          return { inUsd: 0.30, outUsd: 2.50, freeTier: true, tierLabel: 'Free Tier ✓' };
+        }
+        if (id.includes('pro')) {
+          return { inUsd: 2.00, outUsd: 12.00, freeTier: false, tierLabel: 'Paid (Pro)' };
+        }
+        // Future unknown higher Gemini model (Gemini 5 / 6 etc.)
+        return { inUsd: 3.00, outUsd: 15.00, freeTier: false, tierLabel: 'Auto-Updated Model' };
+      }
+
+      function formatFriendlyModelName(modelId) {
+        const raw = String(modelId || 'Gemini').trim();
+        const low = raw.toLowerCase();
+        if (low === 'gemini-4-hydrogen') return 'Gemini 4 Hydrogen';
+        if (low === 'gemini-4-neon') return 'Gemini 4 Neon';
+        if (low === 'gemini-4-carbon') return 'Gemini 4 Carbon';
+        if (low === 'gemini-3.8-flash') return 'Gemini 3.8 Flash';
+        if (low === 'gemini-3.1-pro-preview') return 'Gemini 3.1 Pro';
+        if (low === 'gemini-2.5-pro') return 'Gemini 2.5 Pro';
+        if (low === 'gemini-2.5-flash') return 'Gemini 2.5 Flash';
+        if (low === 'chat-import') return 'Gemini Chat Import';
+        return raw.replace(/^gemini-/i, 'Gemini ').replace(/-/g, ' ');
+      }
+
+      function formatShortModelTag(modelId) {
+        const low = String(modelId || '').toLowerCase();
+        if (low.includes('hydrogen')) return 'Hydrogen';
+        if (low.includes('carbon')) return 'Carbon';
+        if (low.includes('neon')) return 'Neon';
+        if (low.includes('3.8-flash')) return '3.8 Flash';
+        if (low.includes('3.1-pro')) return '3.1 Pro';
+        if (low.includes('2.5-pro')) return '2.5 Pro';
+        if (low.includes('2.5-flash')) return '2.5 Flash';
+        if (low === 'chat-import') return 'Chat';
+        return String(modelId || 'Gemini').replace(/^gemini-/i, 'G-');
+      }
+
+      function getAccountTierPref() {
+        return (els.accountTierSelect?.value || localStorage.getItem(LS_KEYS.accountTier) || 'auto');
+      }
+
+      function resolveTierForModel(modelId, explicitTier = null) {
+        if (explicitTier === 'Free Tier' || explicitTier === 'Paid Tier' || explicitTier === 'Chat Import') {
+          return explicitTier;
+        }
+        const rate = getModelRateInfo(modelId);
+        // Paid-only models (Neon, Carbon, Pro, etc.) are ALWAYS Paid Tier
+        if (!rate.freeTier) return 'Paid Tier';
+        const pref = getAccountTierPref();
+        if (pref === 'paid') return 'Paid Tier';
+        return 'Free Tier';
+      }
+
+      function tierCssClass(tier) {
+        if (tier === 'Paid Tier') return 'paid';
+        if (tier === 'Chat Import') return 'chat';
+        return 'free';
+      }
+
+      function tierIconLabel(tier) {
+        if (tier === 'Paid Tier') return '💳 Paid Tier';
+        if (tier === 'Chat Import') return '📋 Chat Import';
+        return '🟢 Free Tier';
+      }
+
+      function makeRunKey(modelId, tier) {
+        return `${modelId || 'gemini-4-hydrogen'}__${tier || 'Free Tier'}`;
+      }
+
+      function upsertRunInList(list, runObj) {
+        const arr = Array.isArray(list) ? list.filter((x) => x && x.key !== runObj.key) : [];
+        arr.unshift(runObj);
+        return arr;
+      }
+
+      function normalizeRunsFromRecord(rec, kind) {
+        if (!rec) return [];
+        const runsField = kind === 'jury' ? rec.juryRuns : rec.scriptRuns;
+        if (Array.isArray(runsField) && runsField.length > 0) {
+          return runsField.map((r) => {
+            const mdl = r.model || 'gemini-4-hydrogen';
+            const tier = resolveTierForModel(mdl, r.tier);
+            return {
+              ...r,
+              model: mdl,
+              tier,
+              key: r.key || makeRunKey(mdl, tier)
+            };
+          });
+        }
+        // Backward compatibility with v18/v19 single-run song records
+        const legacyData = kind === 'jury' ? rec.juryData : rec.scriptData;
+        if (legacyData) {
+          const mdl = (kind === 'jury' ? rec.juryModel : rec.scriptModel) || 'gemini-3.1-pro-preview';
+          const tier = resolveTierForModel(mdl, kind === 'jury' ? rec.juryTier : rec.scriptTier);
+          return [{
+            key: makeRunKey(mdl, tier),
+            model: mdl,
+            tier,
+            data: legacyData,
+            usage: (kind === 'jury' ? rec.juryUsage : rec.scriptUsage) || null,
+            rawSummary: (kind === 'jury' ? rec.rawJurySummary : rec.rawScriptSummary) || '',
+            generatedAt: (kind === 'jury' ? rec.juryGeneratedAt : rec.scriptGeneratedAt) || rec.updatedAt || Date.now()
+          }];
+        }
+        return [];
+      }
+
+      function calculateExactCostINR(modelId, usage) {
+        if (!usage || typeof usage !== 'object') return null;
+        const rate = getModelRateInfo(modelId);
+        const promptTotal = Number(usage.promptTokenCount || 0);
+        const cachedIn = Number(usage.cachedContentTokenCount || 0);
+        const normalIn = Math.max(0, promptTotal - cachedIn);
+        const outTokens = Number(usage.candidatesTokenCount || 0) + Number(usage.thoughtsTokenCount || 0);
+        if (promptTotal === 0 && outTokens === 0) return null;
+        // Implicit cache gets 95% discount (0.05x rate)
+        const usd = ((normalIn * rate.inUsd) + (cachedIn * rate.inUsd * 0.05) + (outTokens * rate.outUsd)) / 1000000;
+        return {
+          inr: usd * USD_TO_INR,
+          inTokens: promptTotal,
+          cachedIn,
+          outTokens,
+          freeTier: rate.freeTier
+        };
+      }
+
+      function formatCostChipText(modelId, usage, explicitTier = null) {
+        const tier = resolveTierForModel(modelId, explicitTier);
+        const info = calculateExactCostINR(modelId, usage);
+        const shortMdl = formatShortModelTag(modelId);
+        if (!info) return modelId ? `${tierIconLabel(tier)} • ${shortMdl}` : '';
+        if (tier === 'Free Tier') {
+          return `🟢 Free Tier (₹0) • ${shortMdl}`;
+        }
+        if (tier === 'Chat Import') {
+          return `📋 Chat Import (₹0)`;
+        }
+        return `💳 Paid Tier • ${shortMdl} • ~₹${info.inr.toFixed(2)}`;
+      }
+
+      function renderBadgeCost(badgeEl, modelId, usage, explicitTier = null) {
+        if (!badgeEl) return;
+        const txt = formatCostChipText(modelId, usage, explicitTier);
+        if (!txt) {
+          badgeEl.className = 'cost-badge-inline';
+          badgeEl.textContent = '';
+          return;
+        }
+        const tier = resolveTierForModel(modelId, explicitTier);
+        badgeEl.className = `cost-badge-inline show${tier === 'Free Tier' ? ' free' : ''}`;
+        badgeEl.textContent = txt;
+      }
+
+      function renderProvenanceAndVersions(kind) {
+        const isJury = kind === 'jury';
+        const stripEl = isJury ? els.juryProvenanceStrip : els.scriptProvenanceStrip;
+        const tagsEl = isJury ? els.juryProvenanceTags : els.scriptProvenanceTags;
+        const timeEl = isJury ? els.juryProvenanceTime : els.scriptProvenanceTime;
+        const barEl = isJury ? els.juryVersionsBar : els.scriptVersionsBar;
+        const runs = isJury ? state.juryRuns : state.scriptRuns;
+        const activeKey = isJury ? state.activeJuryKey : state.activeScriptKey;
+        const curModel = isJury ? state.juryModel : state.scriptModel;
+        const curTier = resolveTierForModel(curModel, isJury ? state.juryTier : state.scriptTier);
+        const curUsage = isJury ? state.juryUsage : state.scriptUsage;
+        const curTs = isJury ? state.juryGeneratedAt : state.scriptGeneratedAt;
+
+        if (!stripEl || (!curModel && !runs.length)) {
+          if (stripEl) stripEl.classList.remove('show');
+          return;
+        }
+
+        const friendlyMdl = formatFriendlyModelName(curModel);
+        const tCls = tierCssClass(curTier);
+        const costInfo = calculateExactCostINR(curModel, curUsage);
+        let costChipHtml = '';
+        if (curTier === 'Free Tier') {
+          costChipHtml = `<span class="chip free-tier">💰 ₹0 (Free)</span>`;
+        } else if (curTier === 'Chat Import') {
+          costChipHtml = `<span class="chip">💰 ₹0 (Chat)</span>`;
+        } else if (costInfo) {
+          costChipHtml = `<span class="chip paid-tier">💰 खर्च: ~₹${costInfo.inr.toFixed(2)}</span>`;
+        }
+
+        tagsEl.innerHTML = `
+          <span class="model-pill">🤖 ${escapeHtml(friendlyMdl)}</span>
+          <span class="tier-pill ${tCls}">${tierIconLabel(curTier)}</span>
+          ${costChipHtml}
+        `;
+        timeEl.textContent = curTs ? `सेव्ह: ${formatVaultDate(curTs)}` : '';
+        stripEl.classList.add('show');
+
+        // Render clickable Version Switcher Pills whenever 1+ saved runs exist (makes Free vs Paid & Hydrogen vs Neon/Carbon comparison effortless!)
+        if (runs.length > 0) {
+          const labelTxt = runs.length > 1
+            ? `📚 या गाण्याचे ${runs.length} सेव्ह मॉडेल्स (तुलना करण्यासाठी टच करा):`
+            : `💾 सेव्ह आवृत्ती (वेगळे Higher मॉडेल चालवल्यास ते याच्या शेजारी सेव्ह होईल):`;
+          barEl.innerHTML = `<span class="versions-label">${labelTxt}</span>` + runs.map((r) => {
+            const isAct = r.key === activeKey;
+            const rTierCls = tierCssClass(r.tier);
+            const rTierShort = r.tier === 'Paid Tier' ? 'Paid' : (r.tier === 'Chat Import' ? 'Chat' : 'Free');
+            const scoreBit = isJury && r.data?.total_score !== undefined ? ` • ${r.data.total_score}/100` : '';
+            return `
+              <button type="button" class="ver-chip ${isAct ? 'active' : ''}" data-vkind="${kind}" data-vkey="${escapeHtml(r.key)}">
+                <span>${escapeHtml(formatShortModelTag(r.model))}${scoreBit}</span>
+                <span class="ver-tier-dot ${rTierCls}">${rTierShort}</span>
+                ${runs.length > 1 ? `<span class="ver-del-x" data-vdel-kind="${kind}" data-vdel-key="${escapeHtml(r.key)}" title="ही आवृत्ती हटवा">×</span>` : ''}
+              </button>
+            `;
+          }).join('');
+          barEl.classList.add('show');
+
+          barEl.querySelectorAll('.ver-chip').forEach((btn) => {
+            btn.addEventListener('click', (e) => {
+              const delBtn = e.target.closest('[data-vdel-key]');
+              if (delBtn) {
+                e.stopPropagation();
+                deleteSavedRunVersion(delBtn.dataset.vdelKind, delBtn.dataset.vdelKey);
+                return;
+              }
+              switchActiveRunVersion(btn.dataset.vkind, btn.dataset.vkey);
+            });
+          });
+        } else {
+          barEl.classList.remove('show');
+          barEl.innerHTML = '';
+        }
+      }
+
+      async function switchActiveRunVersion(kind, key) {
+        const isJury = kind === 'jury';
+        const runs = isJury ? state.juryRuns : state.scriptRuns;
+        const found = runs.find((r) => r.key === key);
+        if (!found) return;
+
+        if (isJury) {
+          state.activeJuryKey = found.key;
+          state.juryData = found.data;
+          state.juryModel = found.model;
+          state.juryTier = found.tier;
+          state.juryUsage = found.usage || null;
+          state.juryGeneratedAt = found.generatedAt || null;
+          state.rawJurySummary = found.rawSummary || buildPlainJurySummary(found.data, found.model, found.tier);
+          renderJuryDashboard(found.data, true);
+          renderBadgeCost(els.juryCostBadge, state.juryModel, state.juryUsage, state.juryTier);
+          renderProvenanceAndVersions('jury');
+        } else {
+          state.activeScriptKey = found.key;
+          state.scriptData = found.data;
+          state.scriptModel = found.model;
+          state.scriptTier = found.tier;
+          state.scriptUsage = found.usage || null;
+          state.scriptGeneratedAt = found.generatedAt || null;
+          state.rawScriptSummary = found.rawSummary || buildPlainScriptSummary(found.data, found.model, found.tier);
+          renderScriptDashboard(found.data, true);
+          renderBadgeCost(els.scriptCostBadge, state.scriptModel, state.scriptUsage, state.scriptTier);
+          renderProvenanceAndVersions('script');
+        }
+        updatePdfExportBar();
+        if (state.activeSongId) await persistActiveSongToVault(true);
+        showToast(`🔄 ${formatFriendlyModelName(found.model)} (${found.tier}) आवृत्ती उघडली!`);
+      }
+
+      async function deleteSavedRunVersion(kind, key) {
+        const isJury = kind === 'jury';
+        const runs = isJury ? state.juryRuns : state.scriptRuns;
+        const target = runs.find((r) => r.key === key);
+        if (!target) return;
+        if (!confirm(`"${formatFriendlyModelName(target.model)} (${target.tier})" ची ही सेव्ह आवृत्ती हटवायची का?`)) return;
+
+        const remaining = runs.filter((r) => r.key !== key);
+        if (isJury) {
+          state.juryRuns = remaining;
+          if (remaining.length > 0) {
+            await switchActiveRunVersion('jury', remaining[0].key);
+          } else {
+            state.activeJuryKey = null;
+            state.juryData = null;
+            state.juryModel = null;
+            state.juryTier = null;
+            state.juryUsage = null;
+            state.juryGeneratedAt = null;
+            state.rawJurySummary = '';
+            els.reportBox.classList.remove('show');
+          }
+        } else {
+          state.scriptRuns = remaining;
+          if (remaining.length > 0) {
+            await switchActiveRunVersion('script', remaining[0].key);
+          } else {
+            state.activeScriptKey = null;
+            state.scriptData = null;
+            state.scriptModel = null;
+            state.scriptTier = null;
+            state.scriptUsage = null;
+            state.scriptGeneratedAt = null;
+            state.rawScriptSummary = '';
+            els.scriptBox.classList.remove('show');
+          }
+        }
+        updatePdfExportBar();
+        if (state.activeSongId) await persistActiveSongToVault(true);
+        showToast('🗑️ निवडलेली मॉडेल आवृत्ती हटवली.');
+      }
+
+      function updateEstimatedCostStrip() {
+        if (!els.liveCostStrip || !els.liveCostText) return;
+        const mdl = getActiveModel();
+        const rate = getModelRateInfo(mdl);
+        const resolvedTier = resolveTierForModel(mdl);
+        const durSec = state.analysis?.duration || 210; // ~3.5 min default when no audio yet
+        const isMarathi = (els.langSelect.value === 'mr');
+        const estIn = Math.round(durSec * 32 + 3800);
+        const estOutLow = isMarathi ? 6000 : 4500;
+        const estOutHigh = isMarathi ? 10500 : 8000;
+        const inrLow = (((estIn * rate.inUsd) + (estOutLow * rate.outUsd)) / 1000000) * USD_TO_INR;
+        const inrHigh = (((estIn * rate.inUsd) + (estOutHigh * rate.outUsd)) / 1000000) * USD_TO_INR;
+        const durNote = state.analysis?.duration ? `${formatTime(state.analysis.duration)} गाण्यासाठी` : '३.५ मि. गाण्यासाठी';
+
+        els.liveCostStrip.classList.remove('exact-mode', 'free-mode');
+        if (resolvedTier === 'Free Tier') {
+          els.liveCostStrip.classList.add('free-mode');
+          els.liveCostText.innerHTML = `💰 <strong>${escapeHtml(formatFriendlyModelName(mdl))}</strong> • <strong>🟢 Free Tier (₹0 मोफत!)</strong> <span style="opacity:0.85;">(${durNote} • Paid असल्यास ~₹${inrLow.toFixed(1)}–₹${inrHigh.toFixed(1)})</span>`;
+        } else {
+          els.liveCostText.innerHTML = `💰 <strong>${escapeHtml(formatFriendlyModelName(mdl))}</strong> • <strong>💳 Paid Tier</strong> (${durNote}, १ बटण): अंदाजे <strong>₹${inrLow.toFixed(1)}–₹${inrHigh.toFixed(1)}</strong>`;
+        }
+      }
+
+      function showExactCostInStrip(modelId, usage, explicitTier = null) {
+        if (!els.liveCostStrip || !els.liveCostText) return;
+        const tier = resolveTierForModel(modelId, explicitTier);
+        const info = calculateExactCostINR(modelId, usage);
+        if (!info) {
+          updateEstimatedCostStrip();
+          return;
+        }
+        els.liveCostStrip.classList.remove('free-mode');
+        els.liveCostStrip.classList.add('exact-mode');
+        const costTxt = tier === 'Free Tier' ? '₹0 (🟢 Free Tier)' : `₹${info.inr.toFixed(2)} (💳 Paid Tier + लागू GST)`;
+        const cacheNote = info.cachedIn > 0 ? ` • ⚡Cache बचत!` : '';
+        els.liveCostText.innerHTML = `✅ <strong>${escapeHtml(formatFriendlyModelName(modelId))}:</strong> <strong>${costTxt}</strong>${cacheNote} <span style="opacity:0.85;">(${info.inTokens.toLocaleString()} in / ${info.outTokens.toLocaleString()} out)</span>`;
+      }
+
+      function injectDiscoveredModelsIntoDropdown(modelIds) {
+        if (!Array.isArray(modelIds) || !modelIds.length) return;
+        const customOpt = els.modelSelect.querySelector('option[value="custom"]');
+        modelIds.forEach((mId) => {
+          if (!mId || [...els.modelSelect.options].some((o) => o.value === mId)) return;
+          const opt = document.createElement('option');
+          opt.value = mId;
+          opt.textContent = `${mId} (ऑटो-अपडेट नवीन मॉडेल ★)`;
+          if (customOpt) els.modelSelect.insertBefore(opt, customOpt);
+          else els.modelSelect.appendChild(opt);
+        });
+      }
+
+      async function autoDiscoverFutureModels(silent = true) {
+        const key = getActiveApiKey();
+        if (!key) return [];
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(key)}`);
+          if (!res.ok) return [];
+          const data = await res.json().catch(() => ({}));
+          const valid = (data.models || [])
+            .filter((m) =>
+              (m.supportedGenerationMethods || []).includes('generateContent') &&
+              /^models\/gemini-/i.test(m.name || '') &&
+              !/embed|aqa|imagen|veo|tts|robotics|1\.0|1\.5|2\.0|gemma/i.test(m.name || '')
+            )
+            .map((m) => m.name.replace(/^models\//, ''))
+            .sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+
+          if (valid.length > 0) {
+            injectDiscoveredModelsIntoDropdown(valid.slice(0, 18));
+            localStorage.setItem(LS_KEYS.discoveredModels, JSON.stringify(valid.slice(0, 18)));
+            // Re-apply saved model if it was a future model just discovered
+            const savedModel = localStorage.getItem(LS_KEYS.model);
+            if (savedModel && [...els.modelSelect.options].some((o) => o.value === savedModel)) {
+              els.modelSelect.value = savedModel;
+            }
+            updateActiveModelChip();
+            updateEstimatedCostStrip();
+            if (!silent) showToast(`✨ ${valid.length} नवीन Gemini मॉडेल्स आपोआप अपडेट झाली!`);
+          }
+          return valid;
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function updateActiveModelChip() {
+        if (els.activeModelChip) {
+          const mdl = getActiveModel();
+          const tier = resolveTierForModel(mdl);
+          const tShort = tier === 'Paid Tier' ? '💳 Paid' : '🟢 Free';
+          els.activeModelChip.textContent = `${formatShortModelTag(mdl)} (${tShort}) ▾`;
+        }
+      }
 
       function loadSettings() {
         const savedKey = localStorage.getItem(LS_KEYS.apiKey) || '';
-        let savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-3.1-pro-preview';
-        // Automatically upgrade retired gemini-2.5-pro to Google's recommended gemini-3.1-pro-preview
-        if (savedModel === 'gemini-2.5-pro') {
-          savedModel = 'gemini-3.1-pro-preview';
-          localStorage.setItem(LS_KEYS.model, savedModel);
-        }
+        const savedModel = localStorage.getItem(LS_KEYS.model) || 'gemini-4-hydrogen';
         const savedCustom = localStorage.getItem(LS_KEYS.customModel) || '';
-        const savedLang = localStorage.getItem(LS_KEYS.lang) || 'mr';
+        const savedLang = localStorage.getItem(LS_KEYS.lang) || 'en';
+        const savedTier = localStorage.getItem(LS_KEYS.accountTier) || 'auto';
+
+        // Restore previously auto-discovered future models immediately before setting dropdown value
+        try {
+          const cachedDisc = JSON.parse(localStorage.getItem(LS_KEYS.discoveredModels) || '[]');
+          injectDiscoveredModelsIntoDropdown(cachedDisc);
+        } catch (_) {}
 
         els.apiKeyInput.value = savedKey;
         if ([...els.modelSelect.options].some((o) => o.value === savedModel)) {
           els.modelSelect.value = savedModel;
         } else {
-          els.modelSelect.value = 'gemini-3.1-pro-preview';
+          els.modelSelect.value = 'gemini-4-hydrogen';
         }
         els.customModelInput.value = savedCustom;
         els.customModelInput.style.display = els.modelSelect.value === 'custom' ? 'block' : 'none';
         els.langSelect.value = savedLang;
+        if (els.accountTierSelect) els.accountTierSelect.value = savedTier;
 
-        const savedSpeed = localStorage.getItem(LS_KEYS.speed) || 'fast';
-        setSpeedMode(savedSpeed);
+        updateActiveModelChip();
+        updateEstimatedCostStrip();
         updateNotifButtonState();
         updateApiDot();
       }
@@ -3338,37 +4612,10 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
 
       function getActiveModel() {
         if (els.modelSelect.value === 'custom') {
-          return (els.customModelInput.value || '').trim() || 'gemini-3.1-pro-preview';
+          return (els.customModelInput.value || '').trim() || 'gemini-4-hydrogen';
         }
-        return els.modelSelect.value || 'gemini-3.1-pro-preview';
+        return els.modelSelect.value || 'gemini-4-hydrogen';
       }
-
-      function getAuditModelForSpeed() {
-        const chosen = getActiveModel();
-        if (state.speedMode === 'fast') {
-          // If user already chose a Flash model or custom ID, respect it; otherwise pick fast Flash!
-          if (els.modelSelect.value === 'custom' || /flash/i.test(chosen)) return chosen;
-          return 'gemini-2.5-flash';
-        }
-        // Deep Pro mode: prefer Pro model
-        if (els.modelSelect.value === 'custom' || /pro/i.test(chosen)) return chosen;
-        return 'gemini-3.1-pro-preview';
-      }
-
-      function setSpeedMode(mode) {
-        state.speedMode = mode === 'deep' ? 'deep' : 'fast';
-        localStorage.setItem(LS_KEYS.speed, state.speedMode);
-        const isFast = state.speedMode === 'fast';
-        els.btnSpeedFast.classList.toggle('active', isFast);
-        els.btnSpeedFast.setAttribute('aria-selected', String(isFast));
-        els.btnSpeedDeep.classList.toggle('active', !isFast);
-        els.btnSpeedDeep.setAttribute('aria-selected', String(!isFast));
-        const modeLbl = isFast ? '⚡ झटपट मोड' : '🧠 सखोल Pro मोड';
-        els.bgModeHint.innerHTML = `🔄 <strong>बॅकग्राऊंड मोड (${modeLbl}):</strong> काम सुरू करून तुम्ही Suno/WhatsApp वापरू शकता — पूर्ण झाल्यावर अलर्ट येईल!`;
-      }
-
-      els.btnSpeedFast.addEventListener('click', () => setSpeedMode('fast'));
-      els.btnSpeedDeep.addEventListener('click', () => setSpeedMode('deep'));
 
       function updateApiDot() {
         const key = getActiveApiKey();
@@ -3384,16 +4631,22 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         localStorage.setItem(LS_KEYS.model, els.modelSelect.value);
         localStorage.setItem(LS_KEYS.customModel, els.customModelInput.value.trim());
         localStorage.setItem(LS_KEYS.lang, els.langSelect.value);
+        if (els.accountTierSelect) localStorage.setItem(LS_KEYS.accountTier, els.accountTierSelect.value);
         updateApiDot();
-        showToast('✅ सेटिंग्ज सुरक्षितपणे तुमच्या ब्राउझरमध्ये सेव्ह झाल्या!');
+        updateActiveModelChip();
+        updateEstimatedCostStrip();
+        showToast('✅ Gemini 4 सेटिंग्ज सुरक्षितपणे सेव्ह झाल्या!');
       }
 
-      els.btnToggleSettings.addEventListener('click', () => els.settingsPanel.classList.toggle('open'));
-      els.btnCloseSettings.addEventListener('click', () => els.settingsPanel.classList.remove('open'));
-      els.btnQuickApiOpen.addEventListener('click', () => {
+      const openSettingsSmooth = () => {
         els.settingsPanel.classList.add('open');
         els.settingsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+      };
+      els.btnToggleSettings.addEventListener('click', () => els.settingsPanel.classList.toggle('open'));
+      els.btnCloseSettings.addEventListener('click', () => els.settingsPanel.classList.remove('open'));
+      els.btnQuickApiOpen.addEventListener('click', openSettingsSmooth);
+      if (els.btnSwitchModelQuick) els.btnSwitchModelQuick.addEventListener('click', openSettingsSmooth);
+      if (els.activeModelChip) els.activeModelChip.addEventListener('click', openSettingsSmooth);
 
       els.btnShowKey.addEventListener('click', () => {
         const isPwd = els.apiKeyInput.type === 'password';
@@ -3403,9 +4656,20 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
 
       els.modelSelect.addEventListener('change', () => {
         els.customModelInput.style.display = els.modelSelect.value === 'custom' ? 'block' : 'none';
+        updateActiveModelChip();
+        updateEstimatedCostStrip();
       });
+      els.customModelInput.addEventListener('input', () => {
+        updateActiveModelChip();
+        updateEstimatedCostStrip();
+      });
+      els.langSelect.addEventListener('change', updateEstimatedCostStrip);
+      if (els.accountTierSelect) els.accountTierSelect.addEventListener('change', () => { updateActiveModelChip(); updateEstimatedCostStrip(); });
 
-      els.btnSaveSettings.addEventListener('click', saveSettings);
+      els.btnSaveSettings.addEventListener('click', () => {
+        saveSettings();
+        autoDiscoverFutureModels(true);
+      });
 
       els.btnClearKey.addEventListener('click', () => {
         localStorage.removeItem(LS_KEYS.apiKey);
@@ -3421,35 +4685,16 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
           els.keyTestResult.innerHTML = '<span style="color:#B91C1C; font-weight:600;">कृपया आधी Gemini API Key पेस्ट करा.</span>';
           return;
         }
-        els.keyTestResult.innerHTML = '<span style="color:#1D4ED8; font-weight:600;">किल्ली तपासत आहे...</span>';
+        els.keyTestResult.innerHTML = '<span style="color:#1D4ED8; font-weight:600;">किल्ली व भविष्यातील नवीन मॉडेल्स तपासत आहे...</span>';
         try {
           const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(key)}`);
           if (!res.ok) {
             const err = await res.json().catch(() => ({}));
             throw new Error(err?.error?.message || `HTTP ${res.status}`);
           }
-          const data = await res.json().catch(() => ({}));
-          const validModels = (data.models || [])
-            .filter((m) => (m.supportedGenerationMethods || []).includes('generateContent') && /gemini-(3|2\.5)/i.test(m.name || ''))
-            .map((m) => m.name.replace(/^models\//, ''));
-          if (validModels.length > 0) {
-            const currentVal = els.modelSelect.value;
-            const preferred = validModels.find((x) => x.includes('3.1-pro')) || validModels.find((x) => x.includes('pro')) || validModels[0];
-            // Add any discovered models not already in dropdown
-            validModels.slice(0, 8).forEach((mId) => {
-              if (![...els.modelSelect.options].some((o) => o.value === mId)) {
-                const opt = document.createElement('option');
-                opt.value = mId;
-                opt.textContent = mId + ' (तुमच्या खात्यात उपलब्ध)';
-                els.modelSelect.insertBefore(opt, els.modelSelect.lastElementChild);
-              }
-            });
-            if (!validModels.includes(currentVal) && currentVal !== 'custom') {
-              els.modelSelect.value = preferred;
-            }
-          }
+          const validModels = await autoDiscoverFutureModels(true);
           saveSettings();
-          els.keyTestResult.innerHTML = `<span style="color:#047857; font-weight:700;">✅ अभिनंदन! तुमची API Key १००% सक्रिय आहे. (निवडलेले मॉडेल: ${escapeHtml(getActiveModel())})</span>`;
+          els.keyTestResult.innerHTML = `<span style="color:#047857; font-weight:700;">✅ अभिनंदन! तुमची API Key १००% सक्रिय आहे. ${validModels.length} नवीन Gemini मॉडेल्स यादीत अपडेट झाली (निवडलेले: ${escapeHtml(getActiveModel())}).</span>`;
         } catch (e) {
           els.apiStatusDot.classList.remove('ok');
           els.apiStatusDot.classList.add('err');
@@ -4283,8 +5528,28 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         state.isScanning = true;
         state.wavInfo = null;
         els.b2Error.classList.remove('show');
-        els.reportBox.classList.remove('show');
-        if (els.scriptBox) els.scriptBox.classList.remove('show');
+        els.vaultRestoredBanner.classList.remove('show');
+
+        const incomingSongId = computeFileSongId(file);
+        const existingSaved = await getSongVaultRecord(incomingSongId);
+        const switchingFromAnotherSong = Boolean(state.activeSongId && state.activeSongId !== incomingSongId);
+
+        if (existingSaved) {
+          // Same song already saved in Vault -> KEEP & RESTORE ALL Free/Paid Model Runs!
+          state.activeSongId = incomingSongId;
+          state.activeSongMeta = { name: file.name, size: file.size, type: file.type || '' };
+          applyInputsToForm(existingSaved.inputs || {});
+          restoreRunsFromSongRecord(existingSaved);
+        } else {
+          // Brand new song -> hide previous song's Script & Jury boxes (only visible when generated!)
+          if (switchingFromAnotherSong) {
+            clearSongInputFields();
+          }
+          state.activeSongId = incomingSongId;
+          state.activeSongMeta = { name: file.name, size: file.size, type: file.type || '' };
+          state.b1AutoTips = [];
+          restoreRunsFromSongRecord(null);
+        }
         syncActionButtons();
 
         let audioCtx = null;
@@ -4500,10 +5765,16 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
           renderBrain1Dashboard(analysis);
           drawWaveCanvas(analysis.waveData, 0);
 
+          await persistActiveSongToVault(true);
           setB1Progress(100, '✅ मेंदू १ गणिती X-Ray १००% पूर्ण!');
           setTimeout(() => els.b1Progress.classList.remove('show'), 1200);
           els.btnRescan.style.display = 'inline-flex';
-          showToast('✅ ऑडिओ X-Ray पूर्ण! हिरवा/पिवळा/लाल रिपोर्ट पहा.');
+          if (els.btnPdfBrain1) els.btnPdfBrain1.style.display = 'inline-flex';
+          if (state.scriptData || state.juryData) {
+            showToast('💾 या गाण्याचा सेव्ह केलेला रिपोर्ट, स्क्रिप्ट व ज्युरी निकाल आपोआप लोड झाला — पुन्हा पैसे खर्च करू नका!', 4200);
+          } else {
+            showToast('✅ ऑडिओ X-Ray पूर्ण व लायब्ररीत सेव्ह झाले!');
+          }
         } catch (err) {
           console.error(err);
           els.b1Progress.classList.remove('show');
@@ -4751,7 +6022,7 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         };
       }
 
-      function renderBrain1Dashboard(a) {
+      function renderBrain1Dashboard(a, fromVault = false) {
         els.brain1Empty.style.display = 'none';
         els.brain1Results.style.display = 'block';
         els.waveWrap.style.display = 'block';
@@ -4833,8 +6104,12 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         if (tips.length === 0) {
           tips.push('✅ <strong>उत्तम!</strong> तुमचे सर्व तांत्रिक मीटर्स हिरवे आहेत — फक्त BandLab (<strong>Clarity</strong>) किंवा OBRA वर हलके फायनल चेक करून <strong>24-bit WAV</strong> सेव्ह करा.');
         }
+        state.b1AutoTips = tips;
         els.b1AutoPolishList.innerHTML = tips.map((t) => `<li>${t}</li>`).join('');
         els.b1AutoPolishCard.style.display = 'flex';
+        if (els.btnPdfBrain1) els.btnPdfBrain1.style.display = 'inline-flex';
+        updatePdfExportBar();
+        updateEstimatedCostStrip();
       }
 
       // Draw Interactive Studio Energy Wave Canvas
@@ -4962,11 +6237,15 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
       }
 
       function syncActionButtons() {
-        const ready = isCurrentSourceReady() && !state.isScanning && !state.isAuditing;
-        els.btnRunScript.disabled = !ready;
-        els.btnRunJury.disabled = !ready;
-        els.btnCopyScriptPrompt.disabled = !ready;
-        els.btnCopyJuryPrompt.disabled = !ready;
+        const apiReady = isCurrentSourceReady() && !state.isScanning && !state.isAuditing;
+        const promptReady = (Boolean(state.analysis) || Boolean(state.youtube && state.youtube.id)) && !state.isScanning && !state.isAuditing;
+        els.btnRunScript.disabled = !apiReady;
+        els.btnRunJury.disabled = !apiReady;
+        els.btnCopyScriptPrompt.disabled = !promptReady;
+        els.btnCopyJuryPrompt.disabled = !promptReady;
+        if (els.btnSaveSongNow) {
+          els.btnSaveSongNow.disabled = !state.activeSongId || state.isScanning;
+        }
       }
 
       function setSourceMode(mode) {
@@ -4988,6 +6267,7 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
           els.brain1Empty.style.display = 'none';
           els.brain1Results.style.display = 'none';
           els.btnRescan.style.display = 'none';
+          if (els.btnPdfBrain1) els.btnPdfBrain1.style.display = 'none';
         } else {
           els.sourceModeBadge.textContent = '100% ऑफलाईन स्कॅन';
           els.sourceModeBadge.className = 'step-badge green';
@@ -4996,10 +6276,12 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
             els.brain1Empty.style.display = 'none';
             els.brain1Results.style.display = 'block';
             els.btnRescan.style.display = 'inline-flex';
+            if (els.btnPdfBrain1) els.btnPdfBrain1.style.display = 'inline-flex';
           } else {
             els.brain1Empty.style.display = 'block';
             els.brain1Results.style.display = 'none';
             els.btnRescan.style.display = 'none';
+          if (els.btnPdfBrain1) els.btnPdfBrain1.style.display = 'none';
           }
         }
 
@@ -5047,12 +6329,35 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         els.ytPlayerFrame.src = `https://www.youtube.com/embed/${id}?enablejsapi=1&rel=0`;
         els.ytPreviewCard.classList.add('show');
         els.b2Error.classList.remove('show');
-        els.reportBox.classList.remove('show');
-        if (els.scriptBox) els.scriptBox.classList.remove('show');
+        els.vaultRestoredBanner.classList.remove('show');
 
-        setSourceMode('youtube');
-        syncActionButtons();
-        showToast('✅ YouTube गाणे लोड झाले! आता खाली "Suno स्क्रिप्ट बनवा" किंवा "International Jury" दाबा.', 3400);
+        const ytSongId = computeYouTubeSongId(id);
+        const existingYt = await getSongVaultRecord(ytSongId);
+        const switchingYt = Boolean(state.activeSongId && state.activeSongId !== ytSongId);
+        state.activeSongId = ytSongId;
+        state.activeSongMeta = null;
+
+        if (existingYt) {
+          if (existingYt.title) {
+            state.youtube.title = existingYt.title;
+            els.ytTitleDisplay.textContent = existingYt.title;
+          }
+          applyInputsToForm(existingYt.inputs || {});
+          restoreRunsFromSongRecord(existingYt);
+          setSourceMode('youtube');
+          syncActionButtons();
+          updatePdfExportBar();
+          await renderSongVaultList();
+          showToast('💾 या YouTube गाण्याचा सेव्ह केलेला रिपोर्ट आपोआप लोड झाला!', 3800);
+        } else {
+          if (switchingYt) clearSongInputFields();
+          restoreRunsFromSongRecord(null);
+          setSourceMode('youtube');
+          syncActionButtons();
+          updatePdfExportBar();
+          await persistActiveSongToVault(true);
+          showToast('✅ YouTube गाणे लोड व लायब्ररीत सेव्ह झाले!', 3400);
+        }
 
         // Best-effort non-blocking title fetch via public noembed endpoint
         try {
@@ -5066,6 +6371,7 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
               state.youtube.title = meta.title;
               state.youtube.author = meta.author_name || '';
               els.ytTitleDisplay.textContent = meta.author_name ? `${meta.title} — ${meta.author_name}` : meta.title;
+              persistActiveSongToVault(true);
             }
           }
         } catch (_) {}
@@ -5105,13 +6411,20 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         }, 60);
       });
       els.btnClearYouTube.addEventListener('click', () => {
+        state.activeSongId = null;
         state.youtube = null;
+        state.scriptData = null;
+        state.juryData = null;
+        state.rawScriptSummary = '';
+        state.rawJurySummary = '';
         els.youtubeUrlInput.value = '';
         els.ytPlayerFrame.src = 'about:blank';
         els.ytPreviewCard.classList.remove('show');
         els.reportBox.classList.remove('show');
         if (els.scriptBox) els.scriptBox.classList.remove('show');
+        updatePdfExportBar();
         syncActionButtons();
+        renderSongVaultList();
       });
 
       // =========================================================================
@@ -5205,8 +6518,9 @@ You embody the unified Peak IQ + Peak EQ 4-Hat Human Brain + 6 Studio Master Rol
         if (isJury) {
           const jurySchema = `
 CRITICAL OUTPUT FORMAT — RETURN STRICT VALID JSON ONLY (NO EXTRA PROSE BEFORE OR AFTER THE JSON OBJECT!):
-You are acting strictly as the 3-JUDGE INTERNATIONAL GRAMMY+ JURY PANEL evaluating this song under the GOD VOLUME (Vol 1 + Vol 2 + Vol 3 + GOD Manual).
-Write ALL human-facing text in ${langName} (short, crisp 1–2 lines per field).
+You are acting as the PRO DEEP 3-JUDGE INTERNATIONAL GRAMMY+ JURY PANEL evaluating this song thoroughly under the GOD VOLUME (Vol 1 + Vol 2 + Vol 3 + GOD Manual).
+THIS IS SERIOUS STUDIO WORK: Do NOT give vague, generic, or overly brief 1-line answers!
+Write ALL human-facing explanations, judge statements, problem descriptions, and step-by-step solutions in ${langName} — VERY EASY TO UNDERSTAND, CLEAR, PRACTICAL, AND DETAILED (avoid heavy jargon; explain clearly like a master mentor speaking to a dedicated artist). Keep exact technical terms (Hz, dB, LUFS, Suno tags/sliders) in clean English.
 
 RETURN THIS EXACT JSON STRUCTURE:
 {
@@ -5214,45 +6528,88 @@ RETURN THIS EXACT JSON STRUCTURE:
   "total_score": 84,
   "verdict": "5-Min Polish",
   "ai_suspicion_pct": 12,
-  "ai_suspicion_reason": "१ सोप्या ओळीत कारण (रोबोटिक/नाकातला/यांत्रिक किंवा जिवंत मानवी आवाजाबद्दल).",
-  "consensus_summary": "२ सोप्या ओळींत ३ ज्युरींचा एकत्रित अंतिम सल्ला: जगात भारी काय झाले आणि ९५+ Grammy पातळीसाठी मुख्य अडथळा कोणता.",
+  "ai_suspicion_reason": "२–३ स्पष्ट ओळींत सविस्तर कारण: आवाज नेमका कुठे मानवी वाटला आणि कोणत्या सेकंदाला रोबोटिक/नाकातला/यांत्रिक किंवा AI झंकार जाणवला.",
+  "consensus_summary": "३–४ सविस्तर पण सोप्या ओळींत ३ ज्युरींचा एकत्रित अंतिम निवाडा: गाण्यात जगात भारी काय झाले, सध्या ९५+ Grammy पातळी गाठण्यात नेमके कोणते मुख्य अडथळे आहेत, आणि पुढची अचूक दिशा काय असावी.",
   "red_flags": ["गाण्याची लांबी 4:00 पेक्षा जास्त"],
   "judges": [
     {
       "role": "जज १: जागतिक संगीत दिग्दर्शक",
-      "focus": "कल्पना, रचना, Vol 3 इफेक्ट्स, लाटा व अमरत्व",
+      "focus": "कल्पना, रचना, ताल-पॉकेट, Vol 3 इफेक्ट्स, ऊर्जेच्या लाटा व अमरत्व",
       "score": 86,
-      "statement": "१–२ सोप्या ओळींत स्पष्ट मत."
+      "statement": "३–५ सोप्या पण सखोल ओळींत या जजचे प्रामाणिक आणि सविस्तर मत.",
+      "strengths": [
+        "गाण्यात नेमके काय जबरदस्त आवडले (स्पष्ट उदाहरण व वेळेसह)",
+        "दुसरी मजबूत बाजू"
+      ],
+      "problems_found": [
+        "या जजने पकडलेली नेमकी समस्या १ (वेळेसह, उदा. 1:15–1:40)",
+        "या जजने पकडलेली नेमकी समस्या २"
+      ],
+      "easy_solution": [
+        "पायरी १: वरील समस्या सोडवण्यासाठी Suno किंवा गाण्याच्या रचनेत नेमका काय सोपा बदल करायचा ते सविस्तर सांगा.",
+        "पायरी २: पुढची सोपी व थेट अमलात आणता येणारी कृती.",
+        "पायरी ३: बदल केल्यावर नेमके काय तपासायचे."
+      ]
     },
     {
       "role": "जज २: गायन, भाव व भाषा तज्ज्ञ",
-      "focus": "०% AI आवाज, रोबोटिक/नाकातला चेक, लेगाटो व लिरिक्स",
+      "focus": "०% AI आवाज, रोबोटिक/नाकातला चेक, भावनिक अभिनय, लेगाटो व शुद्ध उच्चार",
       "score": 81,
-      "statement": "१–२ सोप्या ओळींत स्पष्ट मत."
+      "statement": "३–५ सोप्या पण सखोल ओळींत या जजचे प्रामाणिक आणि सविस्तर मत.",
+      "strengths": [
+        "गायनातील किंवा शब्दांतील उत्तम गोष्ट"
+      ],
+      "problems_found": [
+        "गायन / उच्चार / नाकातला सूर / शब्दांतील नेमकी समस्या"
+      ],
+      "easy_solution": [
+        "पायरी १: गायन, स्वर (आ/ओ/ए), मात्रा किंवा Style/Exclude Box मध्ये नेमके काय बदलायचे ते अतिशय सोप्या भाषेत.",
+        "पायरी २: अचूक पुढची पायरी."
+      ]
     },
     {
       "role": "जज ३: Grammy+ साऊंड व मास्टरिंग चीफ",
-      "focus": "४-मजली सजीव वाद्ये, ३D मिक्स, बेस व स्वच्छता",
+      "focus": "४-मजली सजीव वाद्ये, ३D मिक्स, बेस-गायक संतुलन, नॉईज व मास्टरिंग",
       "score": 85,
-      "statement": "१–२ सोप्या ओळींत स्पष्ट मत."
+      "statement": "३–५ सोप्या पण सखोल ओळींत या जजचे प्रामाणिक आणि सविस्तर मत.",
+      "strengths": [
+        "साऊंड मिक्स किंवा वाद्यांमधील उत्तम गोष्ट"
+      ],
+      "problems_found": [
+        "फ्रिक्वेन्सी / बेस / नॉईज / ग्लिच / प्लॅस्टिक वाद्यांची नेमकी समस्या"
+      ],
+      "easy_solution": [
+        "पायरी १: BandLab / OBRA / GarageBand किंवा Suno Cover मध्ये नेमके कोणते Hz/dB किंवा स्लाइडर बदलायचे ते सोप्या शब्दांत.",
+        "पायरी २: अंतिम तपासणी कशी करायची."
+      ]
     }
   ],
   "parameters": [
-    { "name": "कल्पना, विषय व नाविन्य (Idea & Concept)", "score": 13, "max": 15, "note": "१ सोपी ओळ" },
-    { "name": "०% AI शुद्धता — रोबोटिक/नाकातला/यांत्रिक आवाज बाद", "score": 16, "max": 20, "note": "१ सोपी ओळ" },
-    { "name": "गायन, भावनिक अभिनय व शुद्ध उच्चार (Vocals)", "score": 13, "max": 15, "note": "१ सोपी ओळ" },
-    { "name": "वाद्ये, ४-मजली नैसर्गिक पोत व सुसंवाद (Instruments)", "score": 13, "max": 15, "note": "१ सोपी ओळ" },
-    { "name": "चाल, शब्दरचना व भाषा-शुद्धता (Melody & Lyrics)", "score": 8, "max": 10, "note": "१ सोपी ओळ" },
-    { "name": "३D स्टुडिओ साऊंड, बेस व स्वच्छता (Mix)", "score": 8, "max": 10, "note": "१ सोपी ओळ" },
-    { "name": "ऊर्जेच्या लाटा, Vol 3 इफेक्ट्स व Goosebumps", "score": 9, "max": 10, "note": "१ सोपी ओळ" },
-    { "name": "अमरत्व, <4:00 वेळ व १००-लूप प्रसन्नता", "score": 4, "max": 5, "note": "१ सोपी ओळ" }
+    { "name": "कल्पना, विषय व नाविन्य (Idea & Concept)", "score": 13, "max": 15, "note": "२–३ ओळींत सविस्तर कारण: गुण का दिले व कुठे कापले.", "how_to_improve": "या विभागात पूर्ण गुण मिळवण्याचा सोपा व स्पष्ट उपाय." },
+    { "name": "०% AI शुद्धता — रोबोटिक/नाकातला/यांत्रिक आवाज बाद", "score": 16, "max": 20, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." },
+    { "name": "गायन, भावनिक अभिनय व शुद्ध उच्चार (Vocals)", "score": 13, "max": 15, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." },
+    { "name": "वाद्ये, ४-मजली नैसर्गिक पोत व सुसंवाद (Instruments)", "score": 13, "max": 15, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." },
+    { "name": "चाल, शब्दरचना व भाषा-शुद्धता (Melody & Lyrics)", "score": 8, "max": 10, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." },
+    { "name": "३D स्टुडिओ साऊंड, बेस व स्वच्छता (Mix)", "score": 8, "max": 10, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." },
+    { "name": "ऊर्जेच्या लाटा, Vol 3 इफेक्ट्स व Goosebumps", "score": 9, "max": 10, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." },
+    { "name": "अमरत्व, <4:00 वेळ व १००-लूप प्रसन्नता", "score": 4, "max": 5, "note": "२–३ ओळींत सविस्तर कारण.", "how_to_improve": "सोपा व स्पष्ट उपाय." }
   ],
-  "priorities": [
-    { "problem": "९५+ गाठण्यातला मुख्य अडथळा", "fix": "तो दूर करण्याचा सोपा उपाय" }
+  "detailed_solutions": [
+    {
+      "problem_title": "समस्या १ चे स्पष्ट नाव (उदा. कोरसमध्ये 1:20–1:45 दरम्यान बेस गायकाला दाबत आहे)",
+      "severity": "high",
+      "why_it_happens": "ही समस्या गाण्यात नेमकी का आली आहे आणि त्यामुळे श्रोत्याला काय त्रास होतो (अतिशय सोप्या भाषेत १–२ ओळी).",
+      "easy_steps": [
+        "पायरी १: (Suno Cover / Remix / Lyrics / BandLab यांपैकी योग्य टूलचे नाव घेऊन नेमके काय करायचे ते साध्या भाषेत).",
+        "पायरी २: अचूक शब्द, टॅग, स्लाइडर किंवा Hz/dB सेटिंग.",
+        "पायरी ३: ही पायरी पूर्ण झाल्यावर हेडफोनवर किंवा फोन स्पीकरवर नेमके काय तपासायचे."
+      ],
+      "expected_result": "हा उपाय केल्यावर गाण्यात नेमका कोणता मोठा व कानाला जाणवणारा सुधार होईल."
+    }
   ],
   "timeline": [
-    { "time": "0:18", "severity": "green", "note": "स्वच्छ सुरुवात व नैसर्गिक आवाज." },
-    { "time": "1:24", "severity": "red", "note": "कोरसमध्ये हलका नाकातला सूर / AI झंकार." }
+    { "time": "0:18", "severity": "green", "note": "सविस्तर निरीक्षण: स्वच्छ सुरुवात व नैसर्गिक मानवी श्वास.", "quick_fix": "" },
+    { "time": "1:24", "severity": "red", "note": "सविस्तर निरीक्षण: कोरसमध्ये हलका नाकातला सूर व 6–7 kHz झंकार जाणवतो.", "quick_fix": "BandLab Graphic EQ मध्ये 6–7.5 kHz वर -1.5 dB कमी करा किंवा Suno Cover (Audio 78%, Style 50%) वापरा." }
   ]
 }
 
@@ -5260,29 +6617,30 @@ STRICT RULES:
 - "verdict" MUST be one of: "Release Ready" | "5-Min Polish" | "Suno Cover" | "Regenerate".
 - Sum of the 8 "parameters" scores MUST equal "total_score" (0–100).
 - "red_flags" must be [] if no deal-breakers exist.
-- Provide 2–4 items in "priorities" and 4–7 key clickable moments in "timeline" (severity: "red" | "yellow" | "green").
+- EVERY single problem highlighted by ANY of the 3 judges MUST have a clear, detailed, easy-to-understand step-by-step solution inside both that judge's "easy_solution" AND inside "detailed_solutions" (provide 4–6 comprehensive cards in "detailed_solutions").
+- Provide 6–10 detailed clickable moments in "timeline" (severity: "red" | "yellow" | "green").
 `;
           return [
             includeConstitutionForChat ? compactGodSummary + '\n\n' : '',
-            `TASK: INTERNATIONAL JURY JUDGEMENT ONLY (3 Independent Grammy+ Judges -> 1 Consensus Rating).`,
+            `TASK: PRO DEEP INTERNATIONAL JURY JUDGEMENT + DETAILED EASY-TO-UNDERSTAND PROBLEM SOLUTIONS (3 Independent Grammy+ Judges -> 1 Master Consensus Rating).`,
             `TARGET GENRE / LEXICON WORLD: ${genre}`,
             langRule,
             '',
             forensic,
             '',
             stylePrompt ? `=== ORIGINAL SUNO STYLE BOX ===\n${stylePrompt}` : '',
-            lyrics ? `=== ORIGINAL SUNO LYRICS BOX ===\n${lyrics}` : `=== LYRICS ===\n(No text pasted — judge audible singing, diction, and flow directly from audio.)`,
+            lyrics ? `=== ORIGINAL SUNO LYRICS BOX ===\n${lyrics}` : `=== LYRICS ===\n(No text pasted — judge audible singing, diction, emotion, and flow directly from audio.)`,
             '',
             jurySchema
           ].filter(Boolean).join('\n');
         }
 
-        // SCRIPT DOCTOR MODE (Remix / Cover / Replace Ready-Made Suno Script + Desired Modifications!)
+        // SCRIPT DOCTOR MODE (PRO DEEP Remix / Cover / Replace Ready-Made Suno Script + Detailed Explanations!)
         const scriptSchema = `
 CRITICAL OUTPUT FORMAT — RETURN STRICT VALID JSON ONLY (NO EXTRA PROSE BEFORE OR AFTER THE JSON OBJECT!):
-You are acting strictly as the GOD VOLUME SUNO SCRIPT DOCTOR (Vol 1 + Vol 2 + Vol 3 + GOD Control Manual).
-Your job is to listen to the audio, diagnose technical/musical mistakes, and build a 100% READY-TO-COPY Suno AI Script + exact Engine Sliders + 5-Min Polish honoring the user's Desired Modification Box (Rhythm & Tune Lock %, Add Instruments, Remove Instruments, Main Prompt).
-Write ALL explanations, mistakes, and polish steps in ${langName} (short, crisp 1–2 lines). Keep Suno Style Box, Exclude Box, [Meta-Tags], and technical specs (Hz, dB, LUFS, dBTP) in exact English.
+You are acting strictly as the PRO DEEP GOD VOLUME SUNO SCRIPT DOCTOR (Vol 1 + Vol 2 + Vol 3 + GOD Control Manual).
+THIS IS SERIOUS STUDIO WORK: Listen carefully to the entire song, diagnose EVERY technical, rhythmic, melodic, vocal, emotional, glitch, and prompt flaw in detail, and build a 100% READY-TO-COPY Suno AI Script + exact Engine Sliders + Detailed 5-Min Polish honoring the user's Desired Modification Box (Rhythm & Tune Lock %, Add Instruments, Remove Instruments, Main Prompt).
+Write ALL explanations, mistakes, and polish steps in ${langName} — CLEAR, DETAILED, AND VERY EASY TO UNDERSTAND. Keep Suno Style Box, Exclude Box, [Meta-Tags], and technical specs (Hz, dB, LUFS, dBTP) in exact English.
 
 RETURN THIS EXACT JSON STRUCTURE:
 {
@@ -5290,7 +6648,7 @@ RETURN THIS EXACT JSON STRUCTURE:
   "suno_fix": {
     "mode": "Suno Cover",
     "rhythm_lock_pct": ${parseInt(els.rhythmLockSlider.value, 10)},
-    "reason": "२ सोप्या ओळींत हा Suno मोड व हे स्लाइडर्स का निवडले आणि तुमचे अपेक्षित बदल कसे बसवले आहेत.",
+    "reason": "३–४ सोप्या पण सविस्तर ओळींत हा Suno मोड व हे स्लाइडर्स का निवडले, तुमच्या अपेक्षित बदलांचा समावेश कसा केला आहे आणि गाण्यातील मुख्य दोष कसे दूर होतील.",
     "audio_influence": 78,
     "style_influence": 50,
     "weirdness": 20,
@@ -5298,20 +6656,34 @@ RETURN THIS EXACT JSON STRUCTURE:
     "style_box": "100% ready-to-copy English God Volume Style Box (front-loaded solo lead vocalist, BPM/groove pocket, 4-Floor organic live instruments including user's Added Instruments, ZERO negative words, ZERO Removed Instruments!)",
     "exclude_box": "100% ready-to-copy English Master Exclude Box (including all user's Removed Instruments + anti-robot/nasal/plastic MIDI/boomy bass shields!)",
     "lyrics_fix": "100% ready-to-copy improved Lyrics with Buttery Legato, Pingala Matra fit, open vowels on peaks, Genre-Lexicon purity, concise 2–5 word [Square Bracket] God Volume cues (e.g. Vocal Lift, Pause, Instrument Call-and-Response), and (...) backing only. If no lyrics were pasted and no audible lyric fixes are needed, provide a concise emotion-directed [Structure Blueprint] for Cover/Remix.",
-    "audio_seed_or_stem_tip": "जर ३ ट्रायमध्ये अचूक चाल/पॉज आला नाही, तर १५-सेकंद Audio-Seed किंवा 1-Min Stem Mute (BandLab/GarageBand) चा १ सोपा सल्ला."
+    "audio_seed_or_stem_tip": "जर ३ ट्रायमध्ये अचूक चाल, इफेक्ट किंवा पॉज आला नाही, तर १५-सेकंद Audio-Seed Upload किंवा 1-Min Stem Mute (BandLab/GarageBand) कसा करायचा याचा सोपा सविस्तर सल्ला."
   },
   "mistakes": [
-    { "problem": "गाण्यात किंवा मूळ प्रॉम्प्टमध्ये सापडलेली नेमकी चूक", "fix": "या स्क्रिप्टमध्ये ती कशी दुरुस्त केली आहे" }
+    {
+      "problem": "गाण्यात किंवा मूळ प्रॉम्प्टमध्ये सापडलेली नेमकी चूक (वेळेसह व स्पष्ट ओळखीसह)",
+      "why_problem": "ही चूक का झाली आणि त्यामुळे गाण्याचा दर्जा कसा कमी होतो (सोप्या भाषेत)",
+      "fix": "या नवीन स्क्रिप्टमध्ये किंवा पॉलिशमध्ये ही चूक पायरी-पायरीने कशी दुरुस्त केली आहे"
+    }
   ],
   "timeline": [
-    { "time": "0:18", "severity": "green", "note": "स्वच्छ सुरुवात." },
-    { "time": "1:22", "severity": "red", "note": "कोरसमध्ये बेसचा दबाव व झंकार — नवीन स्क्रिप्टमध्ये दुरुस्त." }
+    { "time": "0:18", "severity": "green", "note": "सविस्तर निरीक्षण: स्वच्छ सुरुवात.", "quick_fix": "" },
+    { "time": "1:22", "severity": "red", "note": "सविस्तर निरीक्षण: कोरसमध्ये बेसचा दबाव व झंकार.", "quick_fix": "नवीन Exclude Box मध्ये boomy bass टाकले आहे व BandLab मध्ये 60–90 Hz -1.5 dB करा." }
   ],
   "polish_5min": {
     "method": "Stereo WAV Polish",
-    "bandlab_steps": ["BandLab मध्ये FX -> Graphic EQ मध्ये नेमके कोणते Hz व किती dB कमी-जास्त करायचे (सोप्या मराठीत)", "Noise/Shimmer साठी Denoise/De-Esser किंवा Mastering मध्ये Clarity/Universal निवडा (Fire टाळा)"],
-    "obra_steps": ["obra.art वर Bass / Warmth / Brightness स्लाइडर कसे ठेवायचे (सोप्या मराठीत)", "LUFS (-14 किंवा -11) सेट करून WAV डाउनलोड करा"],
-    "garageband_steps": ["iPad GarageBand मध्ये Track Controls -> Plug-ins & EQ -> Visual EQ चे अचूक बदल", "आवश्यक असल्यास Noise Gate किंवा Split/Mute पायरी"],
+    "bandlab_steps": [
+      "पायरी १: BandLab मध्ये WAV फाईल Import करून FX -> Graphic EQ मध्ये नेमके कोणते Hz व किती dB कमी-जास्त करायचे (अतिशय सोप्या मराठीत)",
+      "पायरी २: Noise/Shimmer साठी Denoise किंवा De-Esser चे अचूक सेटिंग",
+      "पायरी ३: Mastering मध्ये Clarity/Universal/Tape निवडा (Fire टाळा) व WAV Export करा"
+    ],
+    "obra_steps": [
+      "पायरी १: obra.art वर WAV अपलोड करून Bass / Warmth / Brightness स्लाइडर नेमके कसे ठेवायचे",
+      "पायरी २: LUFS (-14 Streaming किंवा -11 स्पर्धा) सेट करून WAV डाउनलोड करा"
+    ],
+    "garageband_steps": [
+      "पायरी १: iPad GarageBand मध्ये Track Controls -> Plug-ins & EQ -> Visual EQ चे अचूक बदल",
+      "पायरी २: आवश्यक असल्यास Noise Gate किंवा Instrumental Split/Mute पायरी व Uncompressed WAV Export"
+    ],
     "export_spec": "Spotify/DistroKid: 24-bit / 44.1 kHz WAV • YouTube/Reels: 24-bit / 48 kHz WAV"
   }
 }
@@ -5320,12 +6692,12 @@ STRICT RULES:
 - Obey the user's Rhythm & Tune Lock % slider and Anti Tug-of-War Rule (never max both Audio & Style on Cover!).
 - NEVER put user's Removed Instruments inside "style_box" — put them ONLY inside "exclude_box"!
 - Include ALL user's Added Instruments organically inside "style_box" (following 4-Floor Sonic Building).
-- Provide 3–5 real items in "mistakes" and 4–6 clickable moments in "timeline".
+- Provide 4–6 detailed items in "mistakes" and 6–8 detailed clickable moments in "timeline".
 `;
 
         return [
           includeConstitutionForChat ? compactGodSummary + '\n\n' : '',
-          `TASK: GENERATE READY-MADE SUNO AI SCRIPT, SLIDERS & 5-MIN POLISH UNDER GOD VOLUME.`,
+          `TASK: PRO DEEP SUNO AI SCRIPT, SLIDERS, MISTAKE DIAGNOSIS & 5-MIN POLISH UNDER GOD VOLUME.`,
           `USER SELECTED MISSION / FIX MODE: ${missionInfo.label}`,
           `TARGET GENRE / LEXICON WORLD: ${genre}`,
           langRule,
@@ -5354,14 +6726,14 @@ STRICT RULES:
       // BRAIN 3: ZERO-API BACKUP COPY BUTTONS (SEPARATE FOR SCRIPT & JURY)
       // =========================================================================
       els.btnCopyScriptPrompt.addEventListener('click', async () => {
-        if (!isCurrentSourceReady()) return;
+        if (!state.analysis && !state.youtube?.id) return;
         const packet = buildPromptForMode('script', true);
         const ok = await copyTextSafe(packet);
         showToast(ok ? '📋 Suno स्क्रिप्ट प्रॉम्प्ट कॉपी झाला! Gemini चॅटमध्ये पेस्ट करा.' : 'कॉपी करता आले नाही.', 3800);
       });
 
       els.btnCopyJuryPrompt.addEventListener('click', async () => {
-        if (!isCurrentSourceReady()) return;
+        if (!state.analysis && !state.youtube?.id) return;
         const packet = buildPromptForMode('jury', true);
         const ok = await copyTextSafe(packet);
         showToast(ok ? '📋 International Jury प्रॉम्प्ट कॉपी झाला! Gemini चॅटमध्ये पेस्ट करा.' : 'कॉपी करता आले नाही.', 3800);
@@ -5464,20 +6836,547 @@ STRICT RULES:
         } catch (_) {}
       }
 
-      // IndexedDB Helpers (Stores latest_script & latest_jury independently!)
+      // IndexedDB Helpers (Version 2: 'jobs' + persistent per-song 'songs' Vault!)
       const JOB_DB_NAME = 'MaestroAuditorDB';
+      const JOB_DB_VERSION = 2;
       const JOB_DB_STORE = 'jobs';
+      const SONGS_DB_STORE = 'songs';
 
       function openLocalJobDB() {
         return new Promise((resolve, reject) => {
-          const req = indexedDB.open(JOB_DB_NAME, 1);
+          const req = indexedDB.open(JOB_DB_NAME, JOB_DB_VERSION);
           req.onupgradeneeded = () => {
             const db = req.result;
             if (!db.objectStoreNames.contains(JOB_DB_STORE)) db.createObjectStore(JOB_DB_STORE, { keyPath: 'id' });
+            if (!db.objectStoreNames.contains(SONGS_DB_STORE)) db.createObjectStore(SONGS_DB_STORE, { keyPath: 'id' });
           };
           req.onsuccess = () => resolve(req.result);
           req.onerror = () => reject(req.error);
         });
+      }
+
+      async function saveSongVaultRecord(record) {
+        if (!record || !record.id) return;
+        try {
+          const db = await openLocalJobDB();
+          await new Promise((resolve, reject) => {
+            const tx = db.transaction(SONGS_DB_STORE, 'readwrite');
+            tx.objectStore(SONGS_DB_STORE).put(record);
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+          });
+          db.close();
+        } catch (e) {
+          console.warn('Song vault save error:', e);
+        }
+      }
+
+      async function getSongVaultRecord(songId) {
+        if (!songId) return null;
+        try {
+          const db = await openLocalJobDB();
+          const rec = await new Promise((resolve, reject) => {
+            const tx = db.transaction(SONGS_DB_STORE, 'readonly');
+            const g = tx.objectStore(SONGS_DB_STORE).get(songId);
+            g.onsuccess = () => resolve(g.result || null);
+            g.onerror = () => reject(g.error);
+          });
+          db.close();
+          return rec;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      async function getAllSongVaultRecords() {
+        try {
+          const db = await openLocalJobDB();
+          const list = await new Promise((resolve, reject) => {
+            const tx = db.transaction(SONGS_DB_STORE, 'readonly');
+            const req = tx.objectStore(SONGS_DB_STORE).getAll();
+            req.onsuccess = () => resolve(req.result || []);
+            req.onerror = () => reject(req.error);
+          });
+          db.close();
+          return list.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        } catch (_) {
+          return [];
+        }
+      }
+
+      async function deleteSongVaultRecord(songId) {
+        if (!songId) return;
+        try {
+          const db = await openLocalJobDB();
+          await new Promise((resolve, reject) => {
+            const tx = db.transaction(SONGS_DB_STORE, 'readwrite');
+            tx.objectStore(SONGS_DB_STORE).delete(songId);
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+          });
+          db.close();
+        } catch (_) {}
+      }
+
+      function computeFileSongId(file) {
+        if (!file) return null;
+        const clean = String(file.name || 'song').trim().toLowerCase().replace(/\s+/g, '_');
+        return `file_${clean}_${file.size || 0}`;
+      }
+
+      function computeYouTubeSongId(ytId) {
+        return ytId ? `yt_${ytId}` : null;
+      }
+
+      function captureCurrentInputs() {
+        return {
+          mission: els.missionSelect.value || 'auto',
+          genre: els.genreSelect.value || 'Marathi Abhang / Sant-Sahitya / Pauranik',
+          stylePrompt: els.stylePromptInput.value || '',
+          excludePrompt: els.excludePromptInput.value || '',
+          lyrics: els.lyricsInput.value || '',
+          rhythmLock: els.rhythmLockSlider.value || '75',
+          addInstruments: els.addInstrumentsInput.value || '',
+          removeInstruments: els.removeInstrumentsInput.value || '',
+          desiredMod: els.desiredModInput.value || ''
+        };
+      }
+
+      function applyInputsToForm(inp) {
+        const d = inp || {};
+        els.missionSelect.value = d.mission || 'auto';
+        updateMissionHint();
+        if (d.genre && [...els.genreSelect.options].some((o) => o.value === d.genre)) {
+          els.genreSelect.value = d.genre;
+        }
+        els.stylePromptInput.value = d.stylePrompt || '';
+        els.excludePromptInput.value = d.excludePrompt || '';
+        els.lyricsInput.value = d.lyrics || '';
+        els.rhythmLockSlider.value = d.rhythmLock !== undefined ? String(d.rhythmLock) : '75';
+        updateRhythmLockUI();
+        els.addInstrumentsInput.value = d.addInstruments || '';
+        els.removeInstrumentsInput.value = d.removeInstruments || '';
+        els.desiredModInput.value = d.desiredMod || '';
+        checkStyleFirewall();
+        checkLyricsFirewall();
+      }
+
+      function clearSongInputFields() {
+        applyInputsToForm({
+          mission: 'auto',
+          genre: els.genreSelect.value,
+          stylePrompt: '',
+          excludePrompt: '',
+          lyrics: '',
+          rhythmLock: '75',
+          addInstruments: '',
+          removeInstruments: '',
+          desiredMod: ''
+        });
+      }
+
+      function serializeAnalysisForVault(a) {
+        if (!a) return null;
+        return {
+          ...a,
+          waveData: a.waveData ? Array.from(a.waveData) : []
+        };
+      }
+
+      let autoSaveFlashTimer = null;
+      function flashAutoSavedBadge() {
+        if (!els.autoSaveIndicator) return;
+        els.autoSaveIndicator.style.display = 'inline-flex';
+        clearTimeout(autoSaveFlashTimer);
+        autoSaveFlashTimer = setTimeout(() => {
+          if (els.autoSaveIndicator) els.autoSaveIndicator.style.display = 'none';
+        }, 2800);
+      }
+
+      async function persistActiveSongToVault(silent = true) {
+        const isYT = state.sourceMode === 'youtube' && Boolean(state.youtube?.id);
+        let songId = state.activeSongId;
+        if (!songId) {
+          if (isYT) songId = computeYouTubeSongId(state.youtube.id);
+          else if (state.file) songId = computeFileSongId(state.file);
+        }
+        if (!songId) return null;
+
+        state.activeSongId = songId;
+        const existing = await getSongVaultRecord(songId);
+        const now = Date.now();
+        const title = isYT
+          ? (state.youtube?.title || existing?.title || `YouTube (${state.youtube.id})`)
+          : (state.file?.name || state.analysis?.fileName || state.activeSongMeta?.name || existing?.title || 'Untitled Song');
+
+        const record = {
+          id: songId,
+          title,
+          sourceMode: isYT ? 'youtube' : 'file',
+          fileMeta: isYT ? null : (state.file
+            ? { name: state.file.name, size: state.file.size, type: state.file.type || '' }
+            : (state.activeSongMeta || existing?.fileMeta || null)),
+          youtube: isYT ? { ...state.youtube } : null,
+          analysis: state.analysis ? serializeAnalysisForVault(state.analysis) : (existing?.analysis || null),
+          b1AutoTips: state.b1AutoTips.length ? [...state.b1AutoTips] : (existing?.b1AutoTips || []),
+          inputs: captureCurrentInputs(),
+          // Store ALL saved Model+Tier runs independently (Free Tier & Paid Tier side-by-side!)
+          scriptRuns: Array.isArray(state.scriptRuns) ? state.scriptRuns : [],
+          activeScriptKey: state.activeScriptKey || null,
+          scriptData: state.scriptData || null,
+          scriptModel: state.scriptData ? (state.scriptModel || existing?.scriptModel || null) : null,
+          scriptTier: state.scriptData ? (state.scriptTier || resolveTierForModel(state.scriptModel)) : null,
+          scriptUsage: state.scriptData ? (state.scriptUsage || existing?.scriptUsage || null) : null,
+          rawScriptSummary: state.scriptData ? (state.rawScriptSummary || buildPlainScriptSummary(state.scriptData, state.scriptModel, state.scriptTier)) : '',
+          scriptGeneratedAt: state.scriptData ? (state.scriptGeneratedAt || existing?.scriptGeneratedAt || now) : null,
+          juryRuns: Array.isArray(state.juryRuns) ? state.juryRuns : [],
+          activeJuryKey: state.activeJuryKey || null,
+          juryData: state.juryData || null,
+          juryModel: state.juryData ? (state.juryModel || existing?.juryModel || null) : null,
+          juryTier: state.juryData ? (state.juryTier || resolveTierForModel(state.juryModel)) : null,
+          juryUsage: state.juryData ? (state.juryUsage || existing?.juryUsage || null) : null,
+          rawJurySummary: state.juryData ? (state.rawJurySummary || buildPlainJurySummary(state.juryData, state.juryModel, state.juryTier)) : '',
+          juryGeneratedAt: state.juryData ? (state.juryGeneratedAt || existing?.juryGeneratedAt || now) : null,
+          createdAt: existing?.createdAt || now,
+          updatedAt: now
+        };
+
+        await saveSongVaultRecord(record);
+        flashAutoSavedBadge();
+        await renderSongVaultList();
+        syncActionButtons();
+        if (!silent) showToast(`💾 "${title}" ची संपूर्ण माहिती सेव्ह झाली!`);
+        return record;
+      }
+
+      let inputDebounceTimer = null;
+      function scheduleAutoSaveInputs() {
+        if (!state.activeSongId) return;
+        clearTimeout(inputDebounceTimer);
+        inputDebounceTimer = setTimeout(() => {
+          persistActiveSongToVault(true);
+        }, 550);
+      }
+
+      // Attach debounced auto-save to ALL song input fields
+      [
+        els.missionSelect, els.genreSelect, els.stylePromptInput, els.excludePromptInput,
+        els.lyricsInput, els.rhythmLockSlider, els.addInstrumentsInput,
+        els.removeInstrumentsInput, els.desiredModInput
+      ].forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', scheduleAutoSaveInputs);
+        el.addEventListener('change', scheduleAutoSaveInputs);
+      });
+
+      function formatVaultDate(ts) {
+        if (!ts) return '';
+        try {
+          return new Date(ts).toLocaleString('mr-IN', {
+            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+          });
+        } catch (_) {
+          return '';
+        }
+      }
+
+      async function renderSongVaultList() {
+        const all = await getAllSongVaultRecords();
+        state.vaultSongs = all;
+        const cnt = all.length;
+        if (els.vaultCountBadge) els.vaultCountBadge.textContent = String(cnt);
+        if (els.hdrVaultCount) els.hdrVaultCount.textContent = String(cnt);
+        if (els.vaultSearchWrap) els.vaultSearchWrap.classList.toggle('show', cnt >= 4);
+
+        const q = (els.vaultSearchInput?.value || '').trim().toLowerCase();
+        const filtered = q
+          ? all.filter((s) => String(s.title || '').toLowerCase().includes(q) || String(s.inputs?.stylePrompt || '').toLowerCase().includes(q))
+          : all;
+
+        if (!filtered.length) {
+          els.songVaultList.innerHTML = cnt === 0
+            ? '<div class="empty-state" style="padding:16px;">अजून कोणतेही गाणे सेव्ह नाही. खाली गाणे निवडून तपासताच ते येथे आपोआप सेव्ह होईल!</div>'
+            : '<div class="empty-state" style="padding:14px;">या नावाचे सेव्ह केलेले गाणे सापडले नाही.</div>';
+          return;
+        }
+
+        els.songVaultList.innerHTML = filtered.map((s) => {
+          const isActive = state.activeSongId && s.id === state.activeSongId;
+          const isYT = s.sourceMode === 'youtube';
+          const chips = [];
+          if (s.analysis && s.analysis.techScore !== undefined) {
+            chips.push(`<span class="chip">🔬 X-Ray ${s.analysis.techScore}/100</span>`);
+          }
+          const jRuns = normalizeRunsFromRecord(s, 'jury');
+          const sRuns = normalizeRunsFromRecord(s, 'script');
+
+          jRuns.forEach((r) => {
+            const jsc = r.data?.total_score ?? '—';
+            const cls = r.tier === 'Paid Tier' ? 'paid-tier' : 'free-tier';
+            const tLbl = r.tier === 'Paid Tier' ? 'Paid' : (r.tier === 'Chat Import' ? 'Chat' : 'Free');
+            chips.push(`<span class="chip ${cls}">🏆 ${jsc}/100 • ${escapeHtml(formatShortModelTag(r.model))} (${tLbl})</span>`);
+          });
+          sRuns.forEach((r) => {
+            const cls = r.tier === 'Paid Tier' ? 'paid-tier' : 'free-tier';
+            const tLbl = r.tier === 'Paid Tier' ? 'Paid' : (r.tier === 'Chat Import' ? 'Chat' : 'Free');
+            chips.push(`<span class="chip ${cls}">🛠️ स्क्रिप्ट • ${escapeHtml(formatShortModelTag(r.model))} (${tLbl})</span>`);
+          });
+
+          const hasPrompts = Boolean(s.inputs && (s.inputs.stylePrompt?.trim() || s.inputs.lyrics?.trim() || s.inputs.desiredMod?.trim()));
+          if (hasPrompts) {
+            chips.push(`<span class="chip">📝 प्रॉम्प्ट्स</span>`);
+          }
+          let totPaid = 0, hasFreeRun = false;
+          [...jRuns, ...sRuns].forEach((r) => {
+            if (r.tier === 'Paid Tier' && r.usage) {
+              const ci = calculateExactCostINR(r.model, r.usage);
+              if (ci) totPaid += ci.inr;
+            } else if (r.tier === 'Free Tier') {
+              hasFreeRun = true;
+            }
+          });
+          if (totPaid > 0) chips.push(`<span class="chip paid-tier">💰 Paid ~₹${totPaid.toFixed(2)}</span>`);
+          else if (hasFreeRun) chips.push(`<span class="chip free-tier">💰 Free ₹0</span>`);
+          return `
+            <div class="vault-item ${isActive ? 'active' : ''}" data-open-song="${escapeHtml(s.id)}">
+              <div class="vault-item-top">
+                <div style="min-width:0;">
+                  <div class="vault-item-title">${isYT ? '▶️' : '🎵'} ${escapeHtml(s.title || 'Untitled Song')}</div>
+                  <div class="vault-item-date">${formatVaultDate(s.updatedAt)}${isActive ? ' • <strong>सध्या उघडलेले ✓</strong>' : ''}</div>
+                </div>
+                ${isActive ? '<span class="status-tag green">सक्रिय</span>' : ''}
+              </div>
+              <div class="vault-item-chips">${chips.join('')}</div>
+              <div class="vault-item-actions">
+                <button type="button" class="btn btn-gold btn-sm" data-open-btn="${escapeHtml(s.id)}" style="min-height:34px; padding:4px 12px; font-size:0.78rem;">📂 उघडा</button>
+                <button type="button" class="btn btn-danger btn-sm" data-del-song="${escapeHtml(s.id)}" style="min-height:34px; padding:4px 10px; font-size:0.78rem;" title="लायब्ररीतून हटवा">🗑️</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Wire click handlers
+        els.songVaultList.querySelectorAll('[data-open-song]').forEach((card) => {
+          card.addEventListener('click', (e) => {
+            if (e.target.closest('[data-del-song]')) return;
+            openSongFromVault(card.dataset.openSong);
+          });
+        });
+        els.songVaultList.querySelectorAll('[data-del-song]').forEach((btn) => {
+          btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const id = btn.dataset.delSong;
+            const target = state.vaultSongs.find((x) => x.id === id);
+            if (!confirm(`"${target?.title || 'हे गाणे'}" लायब्ररीतून कायमचे हटवायचे का?`)) return;
+            await deleteSongVaultRecord(id);
+            if (state.activeSongId === id) {
+              resetWorkspaceForNewSong(true);
+            }
+            await renderSongVaultList();
+            showToast('🗑️ गाणे लायब्ररीतून हटवले.');
+          });
+        });
+      }
+
+      function restoreRunsFromSongRecord(rec) {
+        const sRuns = normalizeRunsFromRecord(rec, 'script');
+        const jRuns = normalizeRunsFromRecord(rec, 'jury');
+        state.scriptRuns = sRuns;
+        state.juryRuns = jRuns;
+
+        // CRITICAL: Refined Script ONLY visible if generated for this song!
+        if (sRuns.length > 0) {
+          const pickedS = sRuns.find((r) => r.key === rec?.activeScriptKey) || sRuns[0];
+          state.activeScriptKey = pickedS.key;
+          state.scriptData = pickedS.data;
+          state.scriptModel = pickedS.model;
+          state.scriptTier = pickedS.tier;
+          state.scriptUsage = pickedS.usage || null;
+          state.scriptGeneratedAt = pickedS.generatedAt || null;
+          state.rawScriptSummary = pickedS.rawSummary || buildPlainScriptSummary(pickedS.data, pickedS.model, pickedS.tier);
+          renderScriptDashboard(pickedS.data, true);
+          renderBadgeCost(els.scriptCostBadge, state.scriptModel, state.scriptUsage, state.scriptTier);
+          renderProvenanceAndVersions('script');
+        } else {
+          state.activeScriptKey = null;
+          state.scriptData = null;
+          state.scriptModel = null;
+          state.scriptTier = null;
+          state.scriptUsage = null;
+          state.scriptGeneratedAt = null;
+          state.rawScriptSummary = '';
+          renderBadgeCost(els.scriptCostBadge, null, null);
+          if (els.scriptProvenanceStrip) els.scriptProvenanceStrip.classList.remove('show');
+          els.scriptBox.classList.remove('show');
+        }
+
+        // International Jury ONLY visible if generated for this song!
+        if (jRuns.length > 0) {
+          const pickedJ = jRuns.find((r) => r.key === rec?.activeJuryKey) || jRuns[0];
+          state.activeJuryKey = pickedJ.key;
+          state.juryData = pickedJ.data;
+          state.juryModel = pickedJ.model;
+          state.juryTier = pickedJ.tier;
+          state.juryUsage = pickedJ.usage || null;
+          state.juryGeneratedAt = pickedJ.generatedAt || null;
+          state.rawJurySummary = pickedJ.rawSummary || buildPlainJurySummary(pickedJ.data, pickedJ.model, pickedJ.tier);
+          renderJuryDashboard(pickedJ.data, true);
+          renderBadgeCost(els.juryCostBadge, state.juryModel, state.juryUsage, state.juryTier);
+          renderProvenanceAndVersions('jury');
+        } else {
+          state.activeJuryKey = null;
+          state.juryData = null;
+          state.juryModel = null;
+          state.juryTier = null;
+          state.juryUsage = null;
+          state.juryGeneratedAt = null;
+          state.rawJurySummary = '';
+          renderBadgeCost(els.juryCostBadge, null, null);
+          if (els.juryProvenanceStrip) els.juryProvenanceStrip.classList.remove('show');
+          els.reportBox.classList.remove('show');
+        }
+      }
+
+      async function openSongFromVault(songId, silent = false) {
+        const rec = await getSongVaultRecord(songId);
+        if (!rec) {
+          showToast('❌ हे सेव्ह केलेले गाणे सापडले नाही.');
+          return;
+        }
+
+        // Clear transient errors/progress
+        els.b2Error.classList.remove('show');
+        els.b2Progress.classList.remove('show');
+
+        state.activeSongId = rec.id;
+        state.activeSongMeta = rec.fileMeta || null;
+        state.b1AutoTips = Array.isArray(rec.b1AutoTips) ? [...rec.b1AutoTips] : [];
+
+        // Restore Source Mode + Media / Brain 1 X-Ray
+        if (rec.sourceMode === 'youtube' && rec.youtube?.id) {
+          state.file = null;
+          state.wavInfo = null;
+          state.analysis = null;
+          state.youtube = { ...rec.youtube };
+          els.youtubeUrlInput.value = rec.youtube.canonicalUrl || '';
+          els.ytTitleDisplay.textContent = rec.youtube.author ? `${rec.youtube.title} — ${rec.youtube.author}` : (rec.youtube.title || rec.title);
+          els.ytIdChip.textContent = `ID: ${rec.youtube.id}`;
+          els.ytExternalLink.href = rec.youtube.canonicalUrl || '#';
+          els.ytPlayerFrame.src = `https://www.youtube.com/embed/${rec.youtube.id}?enablejsapi=1&rel=0`;
+          els.ytPreviewCard.classList.add('show');
+          els.vaultRestoredBanner.classList.remove('show');
+          setSourceMode('youtube');
+        } else {
+          // Local file record: keep current file ONLY if it's the exact same file already loaded in memory
+          const sameFileLoaded = state.file && computeFileSongId(state.file) === rec.id;
+          if (!sameFileLoaded) {
+            state.file = null;
+            state.wavInfo = null;
+            if (state.objectUrl) { URL.revokeObjectURL(state.objectUrl); state.objectUrl = null; }
+            els.audioPlayer.removeAttribute('src');
+            els.audioPlayer.load();
+            els.fileBar.classList.remove('show');
+          }
+          state.youtube = null;
+          els.ytPreviewCard.classList.remove('show');
+
+          if (rec.analysis) {
+            const restoredAnalysis = {
+              ...rec.analysis,
+              waveData: new Float32Array(rec.analysis.waveData || [])
+            };
+            state.analysis = restoredAnalysis;
+            setSourceMode('file');
+            renderBrain1Dashboard(restoredAnalysis, true);
+            if (restoredAnalysis.waveData.length > 0) {
+              els.fileNameDisplay.textContent = rec.title || restoredAnalysis.fileName || 'Saved Song';
+              els.fileMetaChips.innerHTML = `
+                <span class="chip">${restoredAnalysis.fileSizeMB} MB</span>
+                <span class="chip">${(restoredAnalysis.sampleRate / 1000).toFixed(1)} kHz</span>
+                <span class="chip">${formatTime(restoredAnalysis.duration)}</span>
+                <span class="chip ok">लायब्ररीतून लोड ✓</span>
+              `;
+              els.fileBar.classList.add('show');
+              drawWaveCanvas(restoredAnalysis.waveData, 0);
+            }
+          } else {
+            state.analysis = null;
+            setSourceMode('file');
+          }
+
+          if (!sameFileLoaded) {
+            els.vaultRestoredBanner.innerHTML = `📂 <strong>सेव्ह केलेले गाणे लोड झाले: ${escapeHtml(rec.title)}</strong> — तुमचे मूळ प्रॉम्प्ट्स, X-Ray${rec.scriptData ? ', तयार Suno स्क्रिप्ट' : ''}${rec.juryData ? ' व ज्युरी निकाल' : ''} सर्व खाली तयार आहेत!<br/><span style="font-size:0.78rem; opacity:0.9;">(गाणे प्ले करण्यासाठी किंवा नवीन Pro विश्लेषण चालवण्यासाठीच वरती ती ऑडिओ फाईल पुन्हा निवडा — जुना डेटा सुरक्षित राहील.)</span>`;
+            els.vaultRestoredBanner.classList.add('show');
+          } else {
+            els.vaultRestoredBanner.classList.remove('show');
+          }
+        }
+
+        // Restore ALL saved song inputs (Original Style Box, Exclude, Lyrics, Mission, Genre, Desired Mods)
+        applyInputsToForm(rec.inputs || {});
+
+        restoreRunsFromSongRecord(rec);
+        updateEstimatedCostStrip();
+
+        updatePdfExportBar();
+        syncActionButtons();
+        await renderSongVaultList();
+
+        if (!silent) {
+          const parts = [];
+          if (rec.analysis) parts.push('X-Ray');
+          if (rec.scriptData) parts.push('Refined Script');
+          if (rec.juryData) parts.push('Jury Judgement');
+          showToast(`📂 "${rec.title}" लोड झाले! (${parts.length ? parts.join(' + ') : 'प्रॉम्प्ट्स'})`, 3400);
+        }
+      }
+
+      function resetWorkspaceForNewSong(silent = false) {
+        state.activeSongId = null;
+        state.activeSongMeta = null;
+        state.file = null;
+        state.wavInfo = null;
+        state.analysis = null;
+        state.youtube = null;
+        state.b1AutoTips = [];
+        restoreRunsFromSongRecord(null);
+        if (state.objectUrl) { URL.revokeObjectURL(state.objectUrl); state.objectUrl = null; }
+        els.audioFileInput.value = '';
+        els.audioPlayer.removeAttribute('src');
+        els.audioPlayer.load();
+        els.fileBar.classList.remove('show');
+        els.vaultRestoredBanner.classList.remove('show');
+        els.brain1Empty.style.display = 'block';
+        els.brain1Results.style.display = 'none';
+        els.btnRescan.style.display = 'none';
+        if (els.btnPdfBrain1) els.btnPdfBrain1.style.display = 'none';
+        els.youtubeUrlInput.value = '';
+        els.ytPlayerFrame.src = 'about:blank';
+        els.ytPreviewCard.classList.remove('show');
+        els.scriptBox.classList.remove('show');
+        els.reportBox.classList.remove('show');
+        els.b2Error.classList.remove('show');
+        clearSongInputFields();
+        setSourceMode('file');
+        updatePdfExportBar();
+        syncActionButtons();
+        renderSongVaultList();
+        if (!silent) showToast('✨ नवीन गाण्यासाठी स्क्रीन स्वच्छ झाली!');
+      }
+
+      if (els.btnJumpVault) {
+        els.btnJumpVault.addEventListener('click', () => {
+          els.songVaultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+      if (els.btnSaveSongNow) {
+        els.btnSaveSongNow.addEventListener('click', () => persistActiveSongToVault(false));
+      }
+      if (els.btnNewSongBlank) {
+        els.btnNewSongBlank.addEventListener('click', () => resetWorkspaceForNewSong(false));
+      }
+      if (els.vaultSearchInput) {
+        els.vaultSearchInput.addEventListener('input', () => renderSongVaultList());
       }
 
       async function saveLocalJobRecord(record) {
@@ -5586,19 +7485,49 @@ STRICT RULES:
       }
       els.btnCancelAudit.addEventListener('click', cancelCurrentAudit);
 
-      function finishJobSuccess(jobType, reportText, songTitle, activeModel, elapsedSec) {
+      function finishJobSuccess(jobType, reportText, songTitle, activeModel, elapsedSec, usageMetadata = null, explicitTier = null) {
         stopElapsedTimer();
         releaseWakeLock();
         state.isAuditing = false;
         state.activeJobId = null;
-        renderSmartOutput(reportText, jobType);
+
+        const usedModel = activeModel || getActiveModel();
+        const usedTier = resolveTierForModel(usedModel, explicitTier);
+        const nowTs = Date.now();
+        const runKey = makeRunKey(usedModel, usedTier);
+
+        if (jobType === 'jury') {
+          state.juryModel = usedModel;
+          state.juryTier = usedTier;
+          state.juryUsage = usageMetadata || null;
+          state.juryGeneratedAt = nowTs;
+          state.activeJuryKey = runKey;
+        } else {
+          state.scriptModel = usedModel;
+          state.scriptTier = usedTier;
+          state.scriptUsage = usageMetadata || null;
+          state.scriptGeneratedAt = nowTs;
+          state.activeScriptKey = runKey;
+        }
+
+        renderSmartOutput(reportText, jobType, usedModel, usedTier, usageMetadata, nowTs);
+
+        if (usageMetadata) {
+          showExactCostInStrip(usedModel, usageMetadata, usedTier);
+        }
+
+        const costInfo = calculateExactCostINR(usedModel, usageMetadata);
+        const costToast = usedTier === 'Free Tier'
+          ? ' • 🟢 Free ₹0'
+          : (costInfo ? ` • 💳 Paid ~₹${costInfo.inr.toFixed(2)}` : ` • ${tierIconLabel(usedTier)}`);
         const titleDone = jobType === 'jury' ? '🏆 ज्युरी निकाल तयार!' : '🛠️ Suno स्क्रिप्ट तयार!';
-        setB2Progress(100, `✅ ${titleDone} (${elapsedSec ? elapsedSec + ' सेकंदात पूर्ण' : 'पूर्ण'})`);
-        setTimeout(() => els.b2Progress.classList.remove('show'), 1800);
+        const mdlTag = ` • ${formatShortModelTag(usedModel)}`;
+        setB2Progress(100, `✅ ${titleDone} (${elapsedSec ? elapsedSec + 's' : 'पूर्ण'}${mdlTag}${costToast})`);
+        setTimeout(() => els.b2Progress.classList.remove('show'), 2600);
         syncActionButtons();
         const scrollEl = jobType === 'jury' ? els.reportBox : els.scriptBox;
         scrollEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        showToast(`${titleDone}${elapsedSec ? ' (' + elapsedSec + 's)' : ''}`);
+        showToast(`${titleDone}${mdlTag}${costToast}`, 4400);
         refreshSavedResultBanner();
       }
 
@@ -5609,9 +7538,42 @@ STRICT RULES:
         state.activeJobId = null;
         els.b2Progress.classList.remove('show');
         if (els.backupDrawer) els.backupDrawer.open = true;
-        showB2Error(
-          `❌ <strong>प्रक्रिया अयशस्वी:</strong> ${escapeHtml(errMsg)}<br/><br/>💡 <strong>तातडीचा उपाय:</strong> "⚡ झटपट मोड (Fast)" निवडून पुन्हा प्रयत्न करा — किंवा वरच्या <strong>⚙️ Backup</strong> मधून प्रॉम्प्ट कॉपी करून थेट Gemini चॅटमध्ये पेस्ट करा.`
-        );
+
+        const isProFreeQuota = String(errMsg || '').startsWith('PRO_FREE_TIER_QUOTA::');
+        const cleanMsg = String(errMsg || '').replace('PRO_FREE_TIER_QUOTA::', '');
+
+        if (isProFreeQuota) {
+          const curKind = state.activeJobType || 'jury';
+          showB2Error(
+            `🔒 <strong>Google Free Tier वर Pro मॉडेलचा कोटा शून्य (limit: 0) आहे:</strong> ${escapeHtml(cleanMsg)}<br/><br/>` +
+            `<strong>तुमच्याकडे ३ सोपे व खात्रीचे पर्याय आहेत:</strong><br/>` +
+            `१. <strong>आत्ताच ₹0 मध्ये मोफत चालवण्यासाठी:</strong> खालील बटणाने नवीन <code>gemini-4-hydrogen</code> (मोफत Free Tier) वर चालवा.<br/>` +
+            `२. <strong>अ‍ॅपमध्येच Paid Neon / Carbon चालवण्यासाठी:</strong> Google AI Studio मध्ये Prepay (₹500 रिचार्ज, Auto-reload बंद) जोडा.<br/>` +
+            `३. <strong>किंवा मोफत Gemini App साठी:</strong> खालील बटणाने प्रॉम्प्ट कॉपी करून पेस्ट करा:<br/><br/>` +
+            `<div class="btn-row">` +
+            `<button type="button" class="btn btn-gold btn-sm" id="btnErrRunDeepFlash">⚡ मोफत Gemini 4 Hydrogen वर आत्ता चालवा</button>` +
+            `<button type="button" class="btn btn-cyan btn-sm" id="btnErrCopyProPrompt">📋 Pro प्रॉम्प्ट कॉपी (Gemini App साठी)</button>` +
+            `</div>`
+          );
+          setTimeout(() => {
+            const bCopy = $('btnErrCopyProPrompt');
+            const bFlash = $('btnErrRunDeepFlash');
+            if (bCopy) {
+              bCopy.addEventListener('click', async () => {
+                const pkt = buildPromptForMode(curKind, true);
+                const ok = await copyTextSafe(pkt);
+                showToast(ok ? '📋 सविस्तर Pro प्रॉम्प्ट कॉपी झाला! Gemini Pro चॅटमध्ये पेस्ट करा.' : 'कॉपी करता आले नाही.', 3800);
+              });
+            }
+            if (bFlash) {
+              bFlash.addEventListener('click', () => runEngineJob(curKind, 'gemini-4-hydrogen'));
+            }
+          }, 30);
+        } else {
+          showB2Error(
+            `❌ <strong>प्रक्रिया अयशस्वी:</strong> ${escapeHtml(cleanMsg)}<br/><br/>💡 <strong>तातडीचा उपाय:</strong> पुन्हा प्रयत्न करा किंवा वरच्या <strong>⚙️ Backup</strong> मधून प्रॉम्प्ट कॉपी करून थेट Gemini Pro चॅटमध्ये पेस्ट करा.`
+          );
+        }
         syncActionButtons();
       }
 
@@ -5630,7 +7592,7 @@ STRICT RULES:
 
       els.btnShowSavedScript.addEventListener('click', () => {
         if (state.lastSavedScript?.reportText) {
-          renderSmartOutput(state.lastSavedScript.reportText, 'script');
+          renderSmartOutput(state.lastSavedScript.reportText, 'script', state.lastSavedScript.activeModel, state.lastSavedScript.tierLabel, state.lastSavedScript.usageMetadata || null, state.lastSavedScript.finishedAt || Date.now());
           els.scriptBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
           showToast('🛠️ सेव्ह केलेली Suno स्क्रिप्ट उघडली!');
         }
@@ -5638,7 +7600,7 @@ STRICT RULES:
 
       els.btnShowSavedJury.addEventListener('click', () => {
         if (state.lastSavedJury?.reportText) {
-          renderSmartOutput(state.lastSavedJury.reportText, 'jury');
+          renderSmartOutput(state.lastSavedJury.reportText, 'jury', state.lastSavedJury.activeModel, state.lastSavedJury.tierLabel, state.lastSavedJury.usageMetadata || null, state.lastSavedJury.finishedAt || Date.now());
           els.reportBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
           showToast('🏆 सेव्ह केलेला ज्युरी निकाल उघडला!');
         }
@@ -5651,7 +7613,7 @@ STRICT RULES:
         if (state.activeJobId && rec && rec.jobId === state.activeJobId) {
           if (rec.status === 'done' && rec.reportText) {
             const elapsed = rec.finishedAt && rec.startedAt ? Math.round((rec.finishedAt - rec.startedAt) / 1000) : null;
-            finishJobSuccess(rec.jobType || state.activeJobType, rec.reportText, rec.songTitle, rec.activeModel, elapsed);
+            finishJobSuccess(rec.jobType || state.activeJobType, rec.reportText, rec.songTitle, rec.activeModel, elapsed, rec.usageMetadata || null, rec.tierLabel || null);
             return;
           }
           if (rec.status === 'error') {
@@ -5660,10 +7622,10 @@ STRICT RULES:
           }
           if (rec.status === 'running') {
             const staleSec = (Date.now() - (rec.updatedAt || rec.startedAt || 0)) / 1000;
-            if (staleSec < 25) {
+            if (staleSec < 30) {
               state.lastHeartbeatAt = Date.now();
-            } else if (fromWatchdog || staleSec > 45) {
-              finishJobError('Android बॅटरी सेव्हरने बॅकग्राऊंड प्रोसेस थांबवली. कृपया "⚡ झटपट मोड (Fast)" वापरून पुन्हा दाबा.');
+            } else if (fromWatchdog || staleSec > 55) {
+              finishJobError('Android बॅटरी सेव्हरने बॅकग्राऊंड प्रोसेस थांबवली. कृपया पुन्हा प्रयत्न करा.');
               return;
             }
           }
@@ -5683,17 +7645,17 @@ STRICT RULES:
             state.lastHeartbeatAt = Date.now();
           } else if (msg.type === 'BG_AUDIT_PROGRESS' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
             state.lastHeartbeatAt = Date.now();
-            setB2Progress(msg.pct || 70, msg.text || 'बॅकग्राऊंडमध्ये काम सुरू आहे...');
+            setB2Progress(msg.pct || 70, msg.text || 'Pro सखोल काम बॅकग्राऊंडमध्ये सुरू आहे...');
           } else if (msg.type === 'BG_AUDIT_DONE' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
-            finishJobSuccess(msg.jobType || state.activeJobType, msg.reportText, msg.songTitle, msg.activeModel, msg.elapsedSec);
+            finishJobSuccess(msg.jobType || state.activeJobType, msg.reportText, msg.songTitle, msg.activeModel, msg.elapsedSec, msg.usageMetadata || null, msg.tierLabel || null);
           } else if (msg.type === 'BG_AUDIT_ERROR' && (!state.activeJobId || msg.jobId === state.activeJobId)) {
             finishJobError(msg.error || 'अज्ञात त्रुटी');
           }
         });
       }
 
-      // Unified Crash-Free Runner for BOTH separate buttons ('script' | 'jury')
-      async function runEngineJob(jobType) {
+      // Unified Always-Pro Deep Studio Runner for BOTH separate buttons ('script' | 'jury')
+      async function runEngineJob(jobType, overrideModel = null) {
         if (state.isAuditing || !isCurrentSourceReady()) return;
 
         const apiKey = getActiveApiKey();
@@ -5707,12 +7669,31 @@ STRICT RULES:
         }
 
         const kind = jobType === 'jury' ? 'jury' : 'script';
+        const model = overrideModel || getActiveModel();
+        const plannedTier = resolveTierForModel(model);
+        const plannedKey = makeRunKey(model, plannedTier);
+
+        // Smart Per-Model + Per-Tier Cost Guard:
+        // Only warn if the EXACT SAME model & tier is already saved! Upgrading to a higher model (e.g. Hydrogen Free -> Carbon Paid) saves BOTH side-by-side!
+        if (!overrideModel) {
+          const existingRuns = kind === 'jury' ? state.juryRuns : state.scriptRuns;
+          const dup = existingRuns.find((r) => r.key === plannedKey);
+          if (dup) {
+            const lbl = kind === 'jury' ? 'International Jury निकाल' : 'Refined Suno स्क्रिप्ट';
+            const ok = confirm(`💾 या गाण्यासाठी "${formatFriendlyModelName(model)} (${plannedTier})" चा ${lbl} आधीच सेव्ह आहे.\n\nपुन्हा याच मॉडेलवर नवीन निकाल काढायचा आहे का?`);
+            if (!ok) return;
+          }
+        }
+
+        // Save latest edited prompts into Song Vault BEFORE starting API call
+        await persistActiveSongToVault(true);
+
         const isYT = state.sourceMode === 'youtube';
-        const isFast = state.speedMode === 'fast';
-        const model = getAuditModelForSpeed();
         const songTitle = isYT ? (state.youtube?.title || 'YouTube Song') : (state.file?.name || 'Audio Track');
         const jobId = `${kind}_${Date.now()}`;
-        const labelNow = kind === 'jury' ? 'आंतरराष्ट्रीय ज्युरी तपासत आहेत' : 'God Volume Suno स्क्रिप्ट तयार होत आहे';
+        const labelNow = kind === 'jury'
+          ? 'Pro सखोल आंतरराष्ट्रीय ज्युरी व उपाय तयार होत आहेत'
+          : 'Pro सखोल God Volume Suno स्क्रिप्ट तयार होत आहे';
 
         state.isAuditing = true;
         state.activeJobId = jobId;
@@ -5731,18 +7712,18 @@ STRICT RULES:
             mediaPart = { fileData: { fileUri: state.youtube.canonicalUrl } };
           } else {
             let fileToUpload = state.file;
-            let uploadLabel = `मूळ फाईल (${(state.file.size / (1024 * 1024)).toFixed(1)} MB)`;
+            let uploadLabel = `मूळ उच्च-दर्जाची फाईल (${(state.file.size / (1024 * 1024)).toFixed(1)} MB)`;
 
-            if (state.wavInfo && state.file.size > 8 * 1024 * 1024) {
-              const targetHz = isFast ? 16000 : 24000;
-              setB2Progress(5, '1/3 झटपट अपलोडसाठी हलकी ऑडिओ कॉपी तयार होत आहे...');
+            // Always use high-clarity 24 kHz WAV copy only when file is huge (> 12 MB) to prevent mobile RAM crash
+            if (state.wavInfo && state.file.size > 12 * 1024 * 1024) {
+              setB2Progress(5, '1/3 उच्च-दर्जाची Pro ऑडिओ कॉपी (24 kHz) तयार होत आहे...');
               await yieldUI();
-              const built = await buildFastWavStreaming(state.file, state.wavInfo, targetHz, (p) => {
-                setB2Progress(5 + p * 0.12, `1/3 झटपट ऑडिओ कॉपी तयार... (${Math.round(p)}%)`);
+              const built = await buildFastWavStreaming(state.file, state.wavInfo, 24000, (p) => {
+                setB2Progress(5 + p * 0.12, `1/3 उच्च-दर्जाची Pro ऑडिओ कॉपी तयार... (${Math.round(p)}%)`);
               });
               if (built && built.blob && built.blob.size < state.file.size * 0.85) {
-                fileToUpload = new File([built.blob], state.file.name.replace(/\.[^/.]+$/, '') + '_fast.wav', { type: 'audio/wav' });
-                uploadLabel = `⚡ झटपट कॉपी (${(fileToUpload.size / (1024 * 1024)).toFixed(1)} MB)`;
+                fileToUpload = new File([built.blob], state.file.name.replace(/\.[^/.]+$/, '') + '_pro24k.wav', { type: 'audio/wav' });
+                uploadLabel = `Pro 24 kHz ऑडिओ (${(fileToUpload.size / (1024 * 1024)).toFixed(1)} MB)`;
               }
             }
 
@@ -5760,14 +7741,12 @@ STRICT RULES:
             mediaPart = { fileData: { mimeType: uploaded.mimeType, fileUri: uploaded.uri } };
           }
 
+          // Always full deep reasoning & 16,384 output tokens for detailed reports & easy solutions
           const genCfg = {
-            temperature: kind === 'script' ? 0.4 : 0.25,
-            maxOutputTokens: 8192,
+            temperature: kind === 'script' ? 0.35 : 0.22,
+            maxOutputTokens: 16384,
             responseMimeType: 'application/json'
           };
-          if (isFast && /2\.5-flash/i.test(model)) {
-            genCfg.thinkingConfig = { thinkingBudget: 0 };
-          }
 
           const payload = {
             systemInstruction: { parts: [{ text: STRICT_GURU_CONSTITUTION }] },
@@ -5775,9 +7754,10 @@ STRICT RULES:
             generationConfig: genCfg
           };
 
-          const fallbackModels = isFast
-            ? ['gemini-2.5-flash', 'gemini-3-flash-preview', 'gemini-3.1-pro-preview']
-            : ['gemini-3.1-pro-preview', 'gemini-2.5-flash', 'gemini-3-flash-preview'];
+          // Smart same-tier fallback on 404/503 (never silently downgrade Paid Frontier to weak models)
+          const fallbackModels = /(neon|carbon|pro)/i.test(model)
+            ? ['gemini-4-neon', 'gemini-4-carbon', 'gemini-3.1-pro-preview'].filter((m) => m !== model)
+            : ['gemini-4-hydrogen', 'gemini-3.8-flash'].filter((m) => m !== model);
 
           // Offload to Service Worker for background survival & notification
           const swController = ('serviceWorker' in navigator) ? navigator.serviceWorker.controller : null;
@@ -5788,6 +7768,8 @@ STRICT RULES:
               type: 'START_BG_AUDIT',
               jobId,
               jobType: kind,
+              songId: state.activeSongId || null,
+              tierLabel: plannedTier,
               apiKey,
               model,
               fallbackModels,
@@ -5805,14 +7787,14 @@ STRICT RULES:
           startElapsedTimer(`2/3 ${labelNow}`);
 
           let activeModel = model;
-          const callDirect = async (mdl) => {
+          const callDirect = async (mdl, bodyObj) => {
             const ctrl = new AbortController();
-            const tid = setTimeout(() => ctrl.abort(), 115000);
+            const tid = setTimeout(() => ctrl.abort(), 155000);
             try {
               const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(mdl)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
+                body: JSON.stringify(bodyObj),
                 signal: ctrl.signal
               });
               const json = await res.json().catch(() => ({}));
@@ -5820,50 +7802,57 @@ STRICT RULES:
             } finally { clearTimeout(tid); }
           };
 
-          let { res: genRes, json: genJson } = await callDirect(activeModel);
-          if (!genRes.ok && genRes.status === 400 && payload.generationConfig.thinkingConfig && /thinking/i.test(genJson?.error?.message || '')) {
-            delete payload.generationConfig.thinkingConfig;
-            ({ res: genRes, json: genJson } = await callDirect(activeModel));
-          }
-          if (!genRes.ok && (genRes.status === 404 || /no longer available|not found/i.test(genJson?.error?.message || ''))) {
+          let { res: genRes, json: genJson } = await callDirect(activeModel, payload);
+          const directErrMsg = genJson?.error?.message || '';
+          if (!genRes.ok && (genRes.status === 404 || genRes.status === 503 || /no longer available|not found|overloaded/i.test(directErrMsg))) {
             for (const fb of fallbackModels) {
-              if (fb === activeModel) continue;
-              if (!/2\.5-flash/i.test(fb) && payload.generationConfig.thinkingConfig) delete payload.generationConfig.thinkingConfig;
-              ({ res: genRes, json: genJson } = await callDirect(fb));
+              setB2Progress(70, `2/3 ${fb} वर Pro सखोल विश्लेषण सुरू आहे...`);
+              ({ res: genRes, json: genJson } = await callDirect(fb, payload));
               if (genRes.ok) { activeModel = fb; break; }
             }
           }
           if (!genRes.ok && isYT && genRes.status === 400 && /mime/i.test(genJson?.error?.message || '')) {
             payload.contents[0].parts[0].fileData.mimeType = 'video/mp4';
-            ({ res: genRes, json: genJson } = await callDirect(activeModel));
+            ({ res: genRes, json: genJson } = await callDirect(activeModel, payload));
           }
-          if (!genRes.ok) throw new Error(genJson?.error?.message || `HTTP ${genRes.status}`);
+          if (!genRes.ok) {
+            const rawMsg = genJson?.error?.message || `HTTP ${genRes.status}`;
+            if (genRes.status === 429 && /(pro|neon|carbon)/i.test(activeModel)) {
+              throw new Error(`PRO_FREE_TIER_QUOTA::${activeModel} साठी तुमच्या Google Free Tier API चा कोटा शून्य (limit: 0) किंवा संपलेला आहे (${rawMsg.slice(0, 140)}).`);
+            }
+            throw new Error(rawMsg);
+          }
 
           const cand = genJson?.candidates?.[0];
           const reportText = (cand?.content?.parts || []).map((p) => p.text || '').join('\n').trim();
           if (!reportText) throw new Error(`निकाल तयार झाला नाही (कारण: ${cand?.finishReason || 'EMPTY'}).`);
 
           const elapsedSec = Math.round((Date.now() - t0) / 1000);
+          const usageMetadata = genJson?.usageMetadata || null;
+          const finalTier = resolveTierForModel(activeModel, plannedTier);
           await saveLocalJobRecord({
             id: `latest_${kind}`,
             jobId,
             jobType: kind,
+            songId: state.activeSongId || null,
             status: 'done',
             songTitle,
             activeModel,
+            tierLabel: finalTier,
+            usageMetadata,
             reportText,
             startedAt: t0,
             finishedAt: Date.now(),
             updatedAt: Date.now()
           });
           if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
-          if (state.activeJobId === jobId) finishJobSuccess(kind, reportText, songTitle, activeModel, elapsedSec);
+          if (state.activeJobId === jobId) finishJobSuccess(kind, reportText, songTitle, activeModel, elapsedSec, usageMetadata, finalTier);
         } catch (err) {
           console.error(err);
           if (uploaded?.name) deleteGeminiFileQuietly(uploaded.name, apiKey);
           if (state.activeJobId === jobId) {
             const msg = err?.name === 'AbortError'
-              ? 'वेळ मर्यादा संपली (Timeout). कृपया "⚡ झटपट मोड (Fast)" वापरून पुन्हा दाबा.'
+              ? 'Pro सर्व्हर प्रतिसादास खूप वेळ लागला (Timeout). कृपया इंटरनेट तपासून पुन्हा प्रयत्न करा.'
               : (err?.message || 'अज्ञात त्रुटी');
             finishJobError(msg);
           }
@@ -5929,11 +7918,11 @@ STRICT RULES:
 
       function switchJuryTab(paneId) {
         document.querySelectorAll('[data-jtab]').forEach((b) => b.classList.toggle('active', b.dataset.jtab === paneId));
-        ['jpaneJudges', 'jpaneJuryXray'].forEach((id) => $(id).classList.toggle('active', id === paneId));
+        ['jpaneJudges', 'jpaneSolutions', 'jpaneJuryXray'].forEach((id) => $(id).classList.toggle('active', id === paneId));
       }
       document.querySelectorAll('[data-jtab]').forEach((btn) => btn.addEventListener('click', () => switchJuryTab(btn.dataset.jtab)));
 
-      function renderSmartOutput(rawOutput, expectedKind = null) {
+      function renderSmartOutput(rawOutput, expectedKind = null, usedModel = null, usedTier = null, usageMetadata = null, generatedAt = null) {
         const data = parseJsonSafe(rawOutput);
         if (!data) {
           state.rawJurySummary = rawOutput;
@@ -5945,19 +7934,60 @@ STRICT RULES:
           || (expectedKind === 'jury' && !data.suno_fix)
           || (Array.isArray(data.judges) && data.judges.length > 0 && !data.suno_fix);
 
+        const mdl = usedModel || (isJury ? state.juryModel : state.scriptModel) || getActiveModel();
+        const tier = resolveTierForModel(mdl, usedTier || (isJury ? state.juryTier : state.scriptTier));
+        const ts = generatedAt || Date.now();
+        const rKey = makeRunKey(mdl, tier);
+
         if (isJury) {
-          state.rawJurySummary = buildPlainJurySummary(data);
+          const summary = buildPlainJurySummary(data, mdl, tier);
+          state.juryModel = mdl;
+          state.juryTier = tier;
+          state.juryUsage = usageMetadata !== undefined ? usageMetadata : state.juryUsage;
+          state.juryGeneratedAt = ts;
+          state.activeJuryKey = rKey;
+          state.rawJurySummary = summary;
+          state.juryRuns = upsertRunInList(state.juryRuns, {
+            key: rKey,
+            model: mdl,
+            tier,
+            data,
+            usage: state.juryUsage || null,
+            rawSummary: summary,
+            generatedAt: ts
+          });
           renderJuryDashboard(data);
+          renderBadgeCost(els.juryCostBadge, state.juryModel, state.juryUsage, state.juryTier);
+          renderProvenanceAndVersions('jury');
         } else {
-          state.rawScriptSummary = buildPlainScriptSummary(data);
+          const summary = buildPlainScriptSummary(data, mdl, tier);
+          state.scriptModel = mdl;
+          state.scriptTier = tier;
+          state.scriptUsage = usageMetadata !== undefined ? usageMetadata : state.scriptUsage;
+          state.scriptGeneratedAt = ts;
+          state.activeScriptKey = rKey;
+          state.rawScriptSummary = summary;
+          state.scriptRuns = upsertRunInList(state.scriptRuns, {
+            key: rKey,
+            model: mdl,
+            tier,
+            data,
+            usage: state.scriptUsage || null,
+            rawSummary: summary,
+            generatedAt: ts
+          });
           renderScriptDashboard(data);
+          renderBadgeCost(els.scriptCostBadge, state.scriptModel, state.scriptUsage, state.scriptTier);
+          renderProvenanceAndVersions('script');
         }
       }
 
-      function buildPlainScriptSummary(d) {
+      function buildPlainScriptSummary(d, modelId = null, tier = null) {
         const sf = d.suno_fix || {};
+        const mTag = modelId ? `${formatFriendlyModelName(modelId)} (${resolveTierForModel(modelId, tier)})` : '';
         const out = [
-          `MAESTRO AUDITOR (GOD VOLUME) — READY-MADE SUNO SCRIPT`,
+          `MAESTRO AUDITOR PRO (GOD VOLUME) — READY-MADE SUNO SCRIPT`,
+          ...(mTag ? [`Model & Tier: ${mTag}`] : []),
           `Mode: ${sf.mode || 'Suno Cover'} | Rhythm Lock: ${sf.rhythm_lock_pct ?? els.rhythmLockSlider.value}%`,
           `Sliders: Audio ${sf.audio_influence ?? 78}% | Style ${sf.style_influence ?? 50}% | Weirdness ${sf.weirdness ?? 20}% | Variety ${sf.variety ?? 0}%`
         ];
@@ -5966,31 +7996,60 @@ STRICT RULES:
         if (sf.exclude_box) out.push(`\n=== EXCLUDE BOX ===\n${sf.exclude_box}`);
         if (sf.lyrics_fix) out.push(`\n=== LYRICS / STRUCTURE SCRIPT ===\n${sf.lyrics_fix}`);
         if (Array.isArray(d.mistakes) && d.mistakes.length) {
-          out.push(`\n=== MISTAKES & FIXES ===`);
-          d.mistakes.forEach((m, i) => out.push(`${i + 1}. ${m.problem} -> ${m.fix}`));
+          out.push(`\n=== DETAILED MISTAKES & FIXES ===`);
+          d.mistakes.forEach((m, i) => {
+            out.push(`${i + 1}. चूक: ${m.problem}`);
+            if (m.why_problem) out.push(`   कारण: ${m.why_problem}`);
+            out.push(`   उपाय: ${m.fix}`);
+          });
         }
         return out.join('\n');
       }
 
-      function buildPlainJurySummary(d) {
+      function buildPlainJurySummary(d, modelId = null, tier = null) {
+        const mTag = modelId ? `${formatFriendlyModelName(modelId)} (${resolveTierForModel(modelId, tier)})` : '';
         const out = [
-          `MAESTRO AUDITOR (GOD VOLUME) — INTERNATIONAL JURY JUDGEMENT`,
+          `MAESTRO AUDITOR PRO (GOD VOLUME) — DETAILED INTERNATIONAL JURY REPORT`,
+          ...(mTag ? [`Model & Tier: ${mTag}`] : []),
           `एकूण गुण: ${d.total_score ?? '—'}/100 | निवाडा: ${d.verdict || '—'} | AI संशय: ${d.ai_suspicion_pct ?? '—'}%`
         ];
         if (d.consensus_summary) out.push(`एकत्रित सल्ला: ${d.consensus_summary}`);
         if (Array.isArray(d.judges)) {
-          out.push(`\n--- ३ आंतरराष्ट्रीय ज्युरी ---`);
-          d.judges.forEach((j) => out.push(`• ${j.role} (${j.score}/100): ${j.statement}`));
+          out.push(`\n=== ३ आंतरराष्ट्रीय ज्युरी व त्यांचे सविस्तर उपाय ===`);
+          d.judges.forEach((j) => {
+            out.push(`\n• ${j.role} (${j.score}/100)\n  मत: ${j.statement || ''}`);
+            if (Array.isArray(j.problems_found) && j.problems_found.length) {
+              out.push(`  शोधलेल्या समस्या: ${j.problems_found.join(' | ')}`);
+            }
+            if (Array.isArray(j.easy_solution) && j.easy_solution.length) {
+              out.push(`  सोपा उपाय:`);
+              j.easy_solution.forEach((st, k) => out.push(`    ${k + 1}) ${st}`));
+            } else if (typeof j.easy_solution === 'string' && j.easy_solution.trim()) {
+              out.push(`  सोपा उपाय: ${j.easy_solution}`);
+            }
+          });
+        }
+        const sols = Array.isArray(d.detailed_solutions) ? d.detailed_solutions : [];
+        if (sols.length) {
+          out.push(`\n=== सर्व समस्यांचे सविस्तर व सोपे उपाय (STEP-BY-STEP) ===`);
+          sols.forEach((s, i) => {
+            out.push(`\n${i + 1}. ${s.problem_title || s.problem || ''}`);
+            if (s.why_it_happens) out.push(`   का होते: ${s.why_it_happens}`);
+            if (Array.isArray(s.easy_steps)) s.easy_steps.forEach((st, k) => out.push(`   ${k + 1}) ${st}`));
+            else if (s.fix) out.push(`   उपाय: ${s.fix}`);
+            if (s.expected_result) out.push(`   परिणाम: ${s.expected_result}`);
+          });
         }
         if (Array.isArray(d.parameters)) {
-          out.push(`\n--- ८-निकष गुणपत्रक ---`);
-          d.parameters.forEach((p) => out.push(`• ${p.name}: ${p.score}/${p.max} — ${p.note}`));
+          out.push(`\n=== ८-निकष गुणपत्रक ===`);
+          d.parameters.forEach((p) => out.push(`• ${p.name}: ${p.score}/${p.max} — ${p.note}${p.how_to_improve ? ' | सुधारणा: ' + p.how_to_improve : ''}`));
         }
         return out.join('\n');
       }
 
       // RENDER PANEL A: SUNO SCRIPT DOCTOR DASHBOARD
-      function renderScriptDashboard(d) {
+      function renderScriptDashboard(d, fromVault = false) {
+        state.scriptData = d;
         const sf = d.suno_fix || {};
         const lockVal = sf.rhythm_lock_pct ?? parseInt(els.rhythmLockSlider.value, 10);
 
@@ -6044,13 +8103,16 @@ STRICT RULES:
           els.sunoExtraTip.style.display = 'none';
         }
 
-        // Tab 2: Mistakes & Timeline
+        // Tab 2: Detailed Mistakes & Timeline
         const mistakes = Array.isArray(d.mistakes) ? d.mistakes : [];
         els.mistakesCardsGrid.innerHTML = mistakes.length
           ? mistakes.map((m, idx) => `
               <div class="ms-card">
                 <div class="ms-problem">❌ चूक ${idx + 1}: ${escapeHtml(m.problem || '')}</div>
-                <div class="ms-solution">✅ <strong>दुरुस्ती:</strong> ${escapeHtml(m.fix || '')}</div>
+                <div class="ms-solution">
+                  ${m.why_problem ? `<div style="margin-bottom:6px; color:var(--text-muted); font-size:0.83rem;"><strong>का होते:</strong> ${escapeHtml(m.why_problem)}</div>` : ''}
+                  <div>✅ <strong>सविस्तर दुरुस्ती:</strong> ${escapeHtml(m.fix || '')}</div>
+                </div>
               </div>
             `).join('')
           : '<div class="empty-state">🎉 कोणतीही मोठी चूक आढळली नाही!</div>';
@@ -6063,7 +8125,10 @@ STRICT RULES:
               return `
                 <div class="tl-row ${sev}">
                   <button type="button" class="ts-pill" data-sec="${timeStrToSec(t.time)}" title="या सेकंदावर गाणे ऐका">▶ ${escapeHtml(t.time || '0:00')}</button>
-                  <div class="tl-text"><span class="status-tag ${sev}" style="margin-right:6px;">${badgeTxt}</span>${escapeHtml(t.note || '')}</div>
+                  <div class="tl-text">
+                    <div><span class="status-tag ${sev}" style="margin-right:6px;">${badgeTxt}</span>${escapeHtml(t.note || '')}</div>
+                    ${t.quick_fix ? `<div class="tl-fix">🔧 <strong>सोपा उपाय:</strong> ${escapeHtml(t.quick_fix)}</div>` : ''}
+                  </div>
                 </div>
               `;
             }).join('')
@@ -6087,6 +8152,8 @@ STRICT RULES:
 
         els.scriptBox.classList.add('show');
         switchScriptTab('spanePrompts');
+        updatePdfExportBar();
+        if (!fromVault && state.activeSongId) persistActiveSongToVault(true);
         wireTimelinePills(els.scriptTimelineList);
 
         els.sunoPromptsStack.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
@@ -6099,7 +8166,8 @@ STRICT RULES:
       }
 
       // RENDER PANEL B: INTERNATIONAL JURY JUDGEMENT DASHBOARD
-      function renderJuryDashboard(d) {
+      function renderJuryDashboard(d, fromVault = false) {
+        state.juryData = d;
         const params = Array.isArray(d.parameters) ? d.parameters : [];
         let totalScore = Number.isFinite(Number(d.total_score)) ? Math.round(Number(d.total_score)) : null;
         if (totalScore === null && params.length) totalScore = params.reduce((acc, p) => acc + (Number(p.score) || 0), 0);
@@ -6168,11 +8236,15 @@ STRICT RULES:
           els.redFlagsStrip.innerHTML = `✅ <strong>कोणताही थेट बाद करणारा (Disqualifying) दोष आढळला नाही!</strong>`;
         }
 
+        const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
         const judgeIcons = ['🎬', '🎤', '🎚️'];
         const judges = Array.isArray(d.judges) ? d.judges : [];
         els.judgesCardsGrid.innerHTML = judges.map((j, idx) => {
           const sc = Number.isFinite(Number(j.score)) ? Math.round(Number(j.score)) : 0;
           const cls = sc >= 85 ? 'green' : (sc >= 70 ? 'yellow' : 'red');
+          const strengths = toArr(j.strengths);
+          const problems = toArr(j.problems_found);
+          const solutions = toArr(j.easy_solution);
           return `
             <div class="judge-card ${cls}">
               <div class="judge-card-head">
@@ -6183,6 +8255,24 @@ STRICT RULES:
                 <span class="judge-score-pill">${sc} / 100</span>
               </div>
               <p class="judge-card-quote">${escapeHtml(j.statement || '')}</p>
+              ${strengths.length ? `
+                <div class="judge-subblock good">
+                  <strong>🟢 उत्तम बाजू (Strengths):</strong>
+                  <ul>${strengths.map((s) => `<li>${escapeHtml(s)}</li>`).join('')}</ul>
+                </div>
+              ` : ''}
+              ${problems.length ? `
+                <div class="judge-subblock bad">
+                  <strong>🔴 या जजने शोधलेल्या समस्या (Highlighted Problems):</strong>
+                  <ul>${problems.map((p) => `<li>${escapeHtml(p)}</li>`).join('')}</ul>
+                </div>
+              ` : ''}
+              ${solutions.length ? `
+                <div class="judge-subblock sol">
+                  <strong>🛠️ या समस्यांचा सविस्तर व सोपा उपाय (Easy Solution):</strong>
+                  <ol>${solutions.map((st) => `<li>${escapeHtml(st)}</li>`).join('')}</ol>
+                </div>
+              ` : ''}
             </div>
           `;
         }).join('') || '<div class="empty-state">ज्युरींचे मत उपलब्ध नाही.</div>';
@@ -6200,20 +8290,41 @@ STRICT RULES:
               </div>
               <div class="meter-track"><div class="meter-bar ${cls}" style="width:${pct.toFixed(1)}%"></div></div>
               <div class="param-note">${escapeHtml(p.note || '')}</div>
+              ${p.how_to_improve ? `<div class="param-improve">💡 <strong>पूर्ण गुण कसे मिळवायचे:</strong> ${escapeHtml(p.how_to_improve)}</div>` : ''}
             </div>
           `;
         }).join('') || '<div class="empty-state">८-निकष गुणपत्रक उपलब्ध नाही.</div>';
 
-        const priorities = Array.isArray(d.priorities) ? d.priorities : (Array.isArray(d.mistakes) ? d.mistakes : []);
-        els.juryPrioritiesGrid.innerHTML = priorities.length
-          ? priorities.map((p, idx) => `
-              <div class="ms-card">
-                <div class="ms-problem">🎯 प्राधान्य ${idx + 1}: ${escapeHtml(p.problem || '')}</div>
-                <div class="ms-solution">✅ <strong>९५+ सल्ला:</strong> ${escapeHtml(p.fix || '')}</div>
-              </div>
-            `).join('')
+        // Tab 2: Detailed Problem-by-Problem Step-by-Step Easy Solutions
+        const rawSolutions = Array.isArray(d.detailed_solutions) && d.detailed_solutions.length
+          ? d.detailed_solutions
+          : (Array.isArray(d.priorities) ? d.priorities : (Array.isArray(d.mistakes) ? d.mistakes : []));
+
+        els.jurySolutionsGrid.innerHTML = rawSolutions.length
+          ? rawSolutions.map((s, idx) => {
+              const title = s.problem_title || s.problem || `समस्या ${idx + 1}`;
+              const isMed = String(s.severity || '').toLowerCase() === 'medium';
+              const steps = toArr(s.easy_steps).length ? toArr(s.easy_steps) : toArr(s.fix);
+              return `
+                <div class="solution-card">
+                  <div class="solution-card-head ${isMed ? 'medium' : ''}">
+                    <div class="solution-card-title">🚨 समस्या ${idx + 1}: ${escapeHtml(title)}</div>
+                    <span class="status-tag ${isMed ? 'yellow' : 'red'}">${isMed ? 'सुधारणा' : 'मुख्य दोष'}</span>
+                  </div>
+                  <div class="solution-card-body">
+                    ${s.why_it_happens ? `<div class="solution-why"><strong>🔍 ही समस्या का येते (सोप्या भाषेत):</strong> ${escapeHtml(s.why_it_happens)}</div>` : ''}
+                    <div>
+                      <strong style="display:block; margin-bottom:5px; color:#111318;">✅ पायरी-पायरीने सोपा उपाय:</strong>
+                      <ol class="solution-steps">${steps.map((st) => `<li>${escapeHtml(st)}</li>`).join('')}</ol>
+                    </div>
+                    ${s.expected_result ? `<div class="solution-result">✨ बदल केल्यावर काय फरक पडेल: ${escapeHtml(s.expected_result)}</div>` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')
           : '<div class="empty-state">🏆 हे गाणे आधीच जागतिक दर्जाच्या जवळ आहे!</div>';
 
+        // Tab 3: Detailed Clickable Timeline with Quick Fixes
         const timeline = Array.isArray(d.timeline) ? d.timeline : [];
         els.juryTimelineList.innerHTML = timeline.length
           ? timeline.map((t) => {
@@ -6222,7 +8333,10 @@ STRICT RULES:
               return `
                 <div class="tl-row ${sev}">
                   <button type="button" class="ts-pill" data-sec="${timeStrToSec(t.time)}" title="या सेकंदावर गाणे ऐका">▶ ${escapeHtml(t.time || '0:00')}</button>
-                  <div class="tl-text"><span class="status-tag ${sev}" style="margin-right:6px;">${badgeTxt}</span>${escapeHtml(t.note || '')}</div>
+                  <div class="tl-text">
+                    <div><span class="status-tag ${sev}" style="margin-right:6px;">${badgeTxt}</span>${escapeHtml(t.note || '')}</div>
+                    ${t.quick_fix ? `<div class="tl-fix">🔧 <strong>सोपा उपाय:</strong> ${escapeHtml(t.quick_fix)}</div>` : ''}
+                  </div>
                 </div>
               `;
             }).join('')
@@ -6233,6 +8347,8 @@ STRICT RULES:
         els.reportBody.classList.remove('show');
         els.reportBox.classList.add('show');
         switchJuryTab('jpaneJudges');
+        updatePdfExportBar();
+        if (!fromVault && state.activeSongId) persistActiveSongToVault(true);
         wireTimelinePills(els.juryTimelineList);
       }
 
@@ -6256,7 +8372,7 @@ STRICT RULES:
       els.btnApplyPasteImport.addEventListener('click', () => {
         const pasted = (els.pasteImportInput.value || '').trim();
         if (!pasted) { showToast('कृपया आधी Gemini चॅटचा निकाल येथे पेस्ट करा.'); return; }
-        renderSmartOutput(pasted);
+        renderSmartOutput(pasted, null, 'chat-import', 'Chat Import', null, Date.now());
         els.pasteImportPanel.classList.remove('open');
         showToast('✨ निकाल अ‍ॅप डॅशबोर्डवर लोड झाला!');
       });
@@ -6287,6 +8403,414 @@ STRICT RULES:
         downloadTextFile(`Maestro_Jury_${safe}.txt`, state.rawJurySummary);
         showToast('💾 ज्युरी सारांश सेव्ह झाला!');
       });
+
+      // =========================================================================
+      // CLEAN STUDIO A4 PDF REPORT ENGINE (MARATHI + ENGLISH NATIVE VECTOR PDF)
+      // =========================================================================
+      function updatePdfExportBar() {
+        const hasB1 = state.sourceMode === 'file' && Boolean(state.analysis);
+        const hasJury = Boolean(state.juryData);
+        const hasScript = Boolean(state.scriptData);
+
+        if (!hasB1 && !hasJury && !hasScript) {
+          els.allInOnePdfBar.classList.remove('show');
+          return;
+        }
+        els.allInOnePdfBar.classList.add('show');
+        const chips = [];
+        if (hasB1) chips.push(`<span class="chip ok">✓ ऑडिओ X-Ray (${state.analysis.techScore}/100)</span>`);
+        if (hasJury) {
+          const jsc = state.juryData.total_score ?? '—';
+          chips.push(`<span class="chip ok">✓ ज्युरी व उपाय (${jsc}/100)</span>`);
+        }
+        if (hasScript) chips.push(`<span class="chip ok">✓ Suno स्क्रिप्ट व पॉलिश</span>`);
+        els.pdfIncludedChips.innerHTML = chips.join('');
+      }
+
+      function getCurrentSongMeta() {
+        const isYT = state.sourceMode === 'youtube' && Boolean(state.youtube);
+        const title = isYT
+          ? (state.youtube.title || `YouTube (${state.youtube.id})`)
+          : (state.analysis?.fileName || state.file?.name || 'Untitled Song');
+        const safeName = title.replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9_\u0900-\u097F-]+/g, '_').slice(0, 48) || 'Song';
+        const nowStr = new Date().toLocaleString('mr-IN', {
+          year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        const sourceLine = isYT
+          ? `स्रोत: YouTube (${state.youtube.canonicalUrl})`
+          : (state.analysis
+              ? `फाईल: ${state.analysis.formatExt} • ${state.analysis.fileSizeMB} MB • ${(state.analysis.sampleRate / 1000).toFixed(1)} kHz • ${state.analysis.channels > 1 ? 'Stereo' : 'Mono'} • लांबी: ${formatTime(state.analysis.duration)}`
+              : 'ऑडिओ ट्रॅक');
+        return { title, safeName, nowStr, sourceLine, genre: els.genreSelect.value || '' };
+      }
+
+      // scope: 'all' | 'jury' | 'script' | 'brain1'
+      function buildCleanPdfHtml(scope = 'all') {
+        const meta = getCurrentSongMeta();
+        const incB1 = (scope === 'all' || scope === 'brain1') && state.sourceMode === 'file' && Boolean(state.analysis);
+        const incJury = (scope === 'all' || scope === 'jury') && Boolean(state.juryData);
+        const incScript = (scope === 'all' || scope === 'script') && Boolean(state.scriptData);
+
+        const toArr = (v) => Array.isArray(v) ? v.filter((x) => x && String(x).trim()) : (typeof v === 'string' && v.trim() ? [v.trim()] : []);
+        const statusLabel = { green: '🟢 उत्तम', yellow: '🟡 लक्ष द्या', red: '🔴 दोष' };
+
+        const a = state.analysis;
+        const j = state.juryData;
+        const s = state.scriptData;
+
+        // Top Summary KPIs
+        const kpis = [];
+        if (incJury && j) {
+          kpis.push({ lbl: '🏆 ज्युरी अंतिम गुण', val: `${j.total_score ?? '—'} / 100` });
+          kpis.push({ lbl: '🎯 अंतिम निवाडा', val: j.verdict || '—' });
+          kpis.push({ lbl: '🤖 AI / रोबोटिक संशय', val: `${j.ai_suspicion_pct ?? '—'}%` });
+        }
+        if (incB1 && a) {
+          kpis.push({ lbl: '🔬 तांत्रिक X-Ray गुण', val: `${a.techScore} / 100` });
+        }
+        if (incScript && s?.suno_fix && kpis.length < 4) {
+          kpis.push({ lbl: '🛠️ Suno दुरुस्ती मोड', val: s.suno_fix.mode || 'Suno Cover' });
+        }
+        if (incB1 && a && kpis.length < 4) {
+          kpis.push({ lbl: '⏱️ गाण्याची लांबी', val: formatTime(a.duration) });
+          kpis.push({ lbl: '🔊 लाऊडनेस (LUFS)', val: `${a.integratedLUFS.toFixed(1)} LUFS` });
+        }
+
+        const sections = [];
+
+        // COVER HEADER
+        sections.push(`
+          <div class="pdf-cover">
+            <div class="pdf-brand-row">
+              <span class="pdf-brand-name">👑 MAESTRO AUDITOR PRO • GOD VOLUME STUDIO REPORT</span>
+              <span class="pdf-date">${escapeHtml(meta.nowStr)}</span>
+            </div>
+            <h1 class="pdf-song-title">🎵 ${escapeHtml(meta.title)}</h1>
+            <p class="pdf-meta-line">${escapeHtml(meta.sourceLine)}${meta.genre ? ' • शैली: ' + escapeHtml(meta.genre) : ''}</p>
+            ${kpis.length ? `
+              <div class="pdf-kpi-grid">
+                ${kpis.slice(0, 4).map((k) => `
+                  <div class="pdf-kpi">
+                    <span class="pdf-kpi-lbl">${k.lbl}</span>
+                    <span class="pdf-kpi-val">${escapeHtml(k.val)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+        `);
+
+        // SECTION 1: INTERNATIONAL JURY JUDGEMENT + DETAILED EASY SOLUTIONS
+        if (incJury && j) {
+          const totalScore = Number.isFinite(Number(j.total_score)) ? Math.round(Number(j.total_score)) : null;
+          let tierTxt = 'Grammy+ Evaluation';
+          if (totalScore !== null) {
+            if (totalScore >= 95) tierTxt = '🏆 Grammy / Global Masterpiece (95–100)';
+            else if (totalScore >= 90) tierTxt = '🥇 International Competition Finalist (90–94)';
+            else if (totalScore >= 80) tierTxt = '🥈 Strong Studio Track — Needs Polish (80–89)';
+            else if (totalScore >= 65) tierTxt = '🥉 Demo / Draft Level — Suno Cover (65–79)';
+            else tierTxt = '🚫 Jury Disqualified — Rebuild (<65)';
+          }
+          const aiPct = Number.isFinite(Number(j.ai_suspicion_pct)) ? Math.round(Number(j.ai_suspicion_pct)) : 0;
+          const aiCls = aiPct > 20 ? 'red' : (aiPct > 5 ? 'yellow' : 'green');
+          const flags = Array.isArray(j.red_flags) ? j.red_flags.filter((f) => f && !/^(none|नाही|0)$/i.test(String(f).trim())) : [];
+
+          const judgesHtml = (Array.isArray(j.judges) ? j.judges : []).map((jd, idx) => {
+            const sc = Number.isFinite(Number(jd.score)) ? Math.round(Number(jd.score)) : 0;
+            const cls = sc >= 85 ? 'green' : (sc >= 70 ? 'yellow' : 'red');
+            const strengths = toArr(jd.strengths);
+            const probs = toArr(jd.problems_found);
+            const sols = toArr(jd.easy_solution);
+            return `
+              <div class="pdf-card ${cls}">
+                <div class="pdf-card-head">
+                  <div>
+                    <div class="pdf-card-title">${escapeHtml(jd.role || `जज ${idx + 1}`)}</div>
+                    ${jd.focus ? `<div style="font-size:11px; color:#64748B;">${escapeHtml(jd.focus)}</div>` : ''}
+                  </div>
+                  <span class="pdf-pill ${cls}">${sc} / 100 गुण</span>
+                </div>
+                <p style="margin:4px 0 8px;">${escapeHtml(jd.statement || '')}</p>
+                ${strengths.length ? `<div><strong style="color:#047857;">🟢 उत्तम बाजू:</strong><ul class="pdf-list">${strengths.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul></div>` : ''}
+                ${probs.length ? `<div><strong style="color:#B91C1C;">🔴 शोधलेल्या समस्या:</strong><ul class="pdf-list">${probs.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul></div>` : ''}
+                ${sols.length ? `<div><strong style="color:#0F172A;">🛠️ सोपा व सविस्तर उपाय:</strong><ol class="pdf-list">${sols.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol></div>` : ''}
+              </div>
+            `;
+          }).join('');
+
+          const rawSols = Array.isArray(j.detailed_solutions) && j.detailed_solutions.length
+            ? j.detailed_solutions
+            : (Array.isArray(j.priorities) ? j.priorities : (Array.isArray(j.mistakes) ? j.mistakes : []));
+
+          const solsHtml = rawSols.map((sol, idx) => {
+            const title = sol.problem_title || sol.problem || `समस्या ${idx + 1}`;
+            const isMed = String(sol.severity || '').toLowerCase() === 'medium';
+            const steps = toArr(sol.easy_steps).length ? toArr(sol.easy_steps) : toArr(sol.fix);
+            return `
+              <div class="pdf-card ${isMed ? 'yellow' : 'red'}">
+                <div class="pdf-card-head">
+                  <div class="pdf-card-title">🚨 समस्या ${idx + 1}: ${escapeHtml(title)}</div>
+                  <span class="pdf-pill ${isMed ? 'yellow' : 'red'}">${isMed ? 'सुधारणा' : 'मुख्य दोष'}</span>
+                </div>
+                ${sol.why_it_happens ? `<p style="margin:4px 0 6px; color:#475569;"><strong>🔍 का होते:</strong> ${escapeHtml(sol.why_it_happens)}</p>` : ''}
+                <div><strong>✅ पायरी-पायरीने सोपा उपाय:</strong><ol class="pdf-list">${steps.map((st) => `<li>${escapeHtml(st)}</li>`).join('')}</ol></div>
+                ${sol.expected_result ? `<p style="margin:5px 0 0; color:#047857;"><strong>✨ बदल केल्यावर फरक:</strong> ${escapeHtml(sol.expected_result)}</p>` : ''}
+              </div>
+            `;
+          }).join('');
+
+          const paramsHtml = (Array.isArray(j.parameters) ? j.parameters : []).map((p) => {
+            const sc = Number(p.score) || 0, mx = Math.max(1, Number(p.max) || 10);
+            const cls = (sc / mx) >= 0.85 ? 'green' : ((sc / mx) >= 0.65 ? 'yellow' : 'red');
+            return `
+              <tr>
+                <td><strong>${escapeHtml(p.name || '')}</strong></td>
+                <td style="white-space:nowrap;"><span class="pdf-pill ${cls}">${sc} / ${mx}</span></td>
+                <td>
+                  <div>${escapeHtml(p.note || '')}</div>
+                  ${p.how_to_improve ? `<div style="margin-top:3px; color:#1D4ED8;"><strong>💡 सुधारणा:</strong> ${escapeHtml(p.how_to_improve)}</div>` : ''}
+                </td>
+              </tr>
+            `;
+          }).join('');
+
+          const jTlHtml = (Array.isArray(j.timeline) ? j.timeline : []).map((t) => {
+            const sev = ['red', 'yellow', 'green'].includes(String(t.severity || '').toLowerCase()) ? String(t.severity).toLowerCase() : 'yellow';
+            return `
+              <tr>
+                <td style="white-space:nowrap; font-weight:800;">${escapeHtml(t.time || '0:00')}</td>
+                <td style="white-space:nowrap;"><span class="pdf-pill ${sev}">${statusLabel[sev]}</span></td>
+                <td>
+                  <div>${escapeHtml(t.note || '')}</div>
+                  ${t.quick_fix ? `<div style="margin-top:3px; color:#0F172A;"><strong>🔧 उपाय:</strong> ${escapeHtml(t.quick_fix)}</div>` : ''}
+                </td>
+              </tr>
+            `;
+          }).join('');
+
+          sections.push(`
+            <div class="pdf-sec">
+              <h2 class="pdf-sec-title">🏆 भाग १: आंतरराष्ट्रीय ज्युरी सविस्तर निकाल व सोपे उपाय (International Jury)</h2>
+              ${state.juryModel ? `<div class="pdf-callout ${resolveTierForModel(state.juryModel, state.juryTier) === 'Free Tier' ? 'green' : 'yellow'}"><strong>🤖 वापरलेले मॉडेल व टियर:</strong> ${escapeHtml(formatFriendlyModelName(state.juryModel))} &nbsp;|&nbsp; <strong>${tierIconLabel(resolveTierForModel(state.juryModel, state.juryTier))}</strong>${state.juryGeneratedAt ? ' &nbsp;|&nbsp; सेव्ह वेळ: ' + escapeHtml(formatVaultDate(state.juryGeneratedAt)) : ''}</div>` : ''}
+              <div class="pdf-callout">
+                <strong>🏅 Award Tier:</strong> ${escapeHtml(tierTxt)} &nbsp;|&nbsp; <strong>अंतिम निवाडा:</strong> ${escapeHtml(j.verdict || '—')}
+                ${j.consensus_summary ? `<div style="margin-top:6px;"><strong>🎯 ३ ज्युरींचा एकत्रित सल्ला:</strong> ${escapeHtml(j.consensus_summary)}</div>` : ''}
+              </div>
+              <div class="pdf-callout ${aiCls}">
+                <strong>🤖 AI / यांत्रिक / रोबोटिक संशय: ${aiPct}%</strong>
+                ${j.ai_suspicion_reason ? ` — ${escapeHtml(j.ai_suspicion_reason)}` : ''}
+              </div>
+              <div class="pdf-callout ${flags.length ? 'red' : 'green'}">
+                ${flags.length
+                  ? `<strong>⚡ थेट बाद करणारे दोष (Red Flags):</strong> ${flags.map((f) => escapeHtml(f)).join(' • ')}`
+                  : `✅ <strong>कोणताही थेट बाद करणारा (Disqualifying) दोष आढळला नाही!</strong>`}
+              </div>
+
+              <h3 class="pdf-subhead">⚖️ ३ आंतरराष्ट्रीय ज्युरींचे स्वतंत्र मत व उपाय</h3>
+              ${judgesHtml}
+
+              ${solsHtml ? `<h3 class="pdf-subhead">🛠️ सर्व समस्यांचे सविस्तर व सोपे उपाय (Step-by-Step Guide)</h3>${solsHtml}` : ''}
+
+              ${paramsHtml ? `
+                <h3 class="pdf-subhead">📊 ८-निकष जागतिक गुणपत्रक (एकूण ${j.total_score ?? '—'}/100 गुण)</h3>
+                <table class="pdf-table">
+                  <thead><tr><th style="width:28%;">निकष</th><th style="width:12%;">गुण</th><th>सविस्तर कारण व सुधारणा उपाय</th></tr></thead>
+                  <tbody>${paramsHtml}</tbody>
+                </table>
+              ` : ''}
+
+              ${jTlHtml ? `
+                <h3 class="pdf-subhead">⏱️ सेकंद-दर-सेकंद ज्युरी X-Ray</h3>
+                <table class="pdf-table">
+                  <thead><tr><th style="width:11%;">वेळ</th><th style="width:15%;">स्थिती</th><th>निरीक्षण व सोपा उपाय</th></tr></thead>
+                  <tbody>${jTlHtml}</tbody>
+                </table>
+              ` : ''}
+            </div>
+          `);
+        }
+
+        // SECTION 2: SUNO SCRIPT DOCTOR (READY-MADE SCRIPT, SLIDERS, MISTAKES & 5-MIN POLISH)
+        if (incScript && s) {
+          const sf = s.suno_fix || {};
+          const lockPct = sf.rhythm_lock_pct ?? els.rhythmLockSlider.value;
+          const mistakesHtml = (Array.isArray(s.mistakes) ? s.mistakes : []).map((m, idx) => `
+            <div class="pdf-card red">
+              <div class="pdf-card-title">❌ चूक ${idx + 1}: ${escapeHtml(m.problem || '')}</div>
+              ${m.why_problem ? `<p style="margin:4px 0; color:#475569;"><strong>का होते:</strong> ${escapeHtml(m.why_problem)}</p>` : ''}
+              <p style="margin:4px 0 0;"><strong>✅ सविस्तर दुरुस्ती:</strong> ${escapeHtml(m.fix || '')}</p>
+            </div>
+          `).join('');
+
+          const pol = s.polish_5min || {};
+          const bandlabSteps = toArr(pol.bandlab_steps);
+          const obraSteps = toArr(pol.obra_steps);
+          const gbSteps = toArr(pol.garageband_steps).length ? toArr(pol.garageband_steps) : toArr(pol.audacity_steps);
+
+          sections.push(`
+            <div class="pdf-sec">
+              <h2 class="pdf-sec-title">🛠️ भाग ${incJury ? '२' : '१'}: Suno AI तयार स्क्रिप्ट, स्लाइडर्स व ५-मिनिटे पॉलिश</h2>
+              ${state.scriptModel ? `<div class="pdf-callout ${resolveTierForModel(state.scriptModel, state.scriptTier) === 'Free Tier' ? 'green' : 'yellow'}"><strong>🤖 वापरलेले मॉडेल व टियर:</strong> ${escapeHtml(formatFriendlyModelName(state.scriptModel))} &nbsp;|&nbsp; <strong>${tierIconLabel(resolveTierForModel(state.scriptModel, state.scriptTier))}</strong>${state.scriptGeneratedAt ? ' &nbsp;|&nbsp; सेव्ह वेळ: ' + escapeHtml(formatVaultDate(state.scriptGeneratedAt)) : ''}</div>` : ''}
+              <div class="pdf-callout">
+                <strong>🎛️ शिफारस केलेला मोड:</strong> ${escapeHtml(sf.mode || 'Suno Cover')} &nbsp;|&nbsp; <strong>Rhythm &amp; Tune Lock:</strong> ${escapeHtml(lockPct)}%
+                ${sf.reason ? `<div style="margin-top:5px;">${escapeHtml(sf.reason)}</div>` : ''}
+              </div>
+
+              <table class="pdf-table">
+                <thead><tr><th>Audio Influence</th><th>Style Influence</th><th>Weirdness</th><th>Variety (Locked)</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><strong>${sf.audio_influence ?? 78}%</strong></td>
+                    <td><strong>${sf.style_influence ?? 50}%</strong></td>
+                    <td><strong>${sf.weirdness ?? 20}%</strong></td>
+                    <td><strong>${sf.variety ?? 0}%</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              ${sf.style_box ? `<h3 class="pdf-subhead">🎹 तयार Suno Style Box</h3><div class="pdf-code">${escapeHtml(sf.style_box)}</div>` : ''}
+              ${sf.exclude_box ? `<h3 class="pdf-subhead">🚫 तयार Suno Exclude Box</h3><div class="pdf-code">${escapeHtml(sf.exclude_box)}</div>` : ''}
+              ${sf.lyrics_fix ? `<h3 class="pdf-subhead">📝 सुधारित Suno Lyrics &amp; [Meta-Tags] स्क्रिप्ट</h3><div class="pdf-code">${escapeHtml(sf.lyrics_fix)}</div>` : ''}
+              ${sf.audio_seed_or_stem_tip ? `<div class="pdf-callout yellow"><strong>💡 Vol 3 (३-अटेम्प्ट) प्रो टिप:</strong> ${escapeHtml(sf.audio_seed_or_stem_tip)}</div>` : ''}
+
+              ${mistakesHtml ? `<h3 class="pdf-subhead">🚨 शोधलेल्या चुका आणि त्यांचे उपाय</h3>${mistakesHtml}` : ''}
+
+              <h3 class="pdf-subhead">✨ ५-मिनिटे स्टुडिओ पॉलिश (${escapeHtml(pol.method || 'Stereo WAV Polish')})</h3>
+              ${bandlabSteps.length ? `<div class="pdf-card"><strong>📱 BandLab (Android — EQ व Noise):</strong><ol class="pdf-list">${bandlabSteps.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol></div>` : ''}
+              ${obraSteps.length ? `<div class="pdf-card"><strong>🌐 OBRA Audio (obra.art — २ मिनिटे पॉलिश):</strong><ol class="pdf-list">${obraSteps.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol></div>` : ''}
+              ${gbSteps.length ? `<div class="pdf-card"><strong>📱 GarageBand (iPad) / Audacity:</strong><ol class="pdf-list">${gbSteps.map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol></div>` : ''}
+              <div class="pdf-callout green"><strong>💾 Export नियम:</strong> ${escapeHtml(pol.export_spec || 'Spotify/DistroKid: 24-bit / 44.1 kHz WAV • YouTube/Reels: 24-bit / 48 kHz WAV')}</div>
+            </div>
+          `);
+        }
+
+        // SECTION 3: BRAIN 1 OFFLINE MATHEMATICAL AUDIO X-RAY
+        if (incB1 && a) {
+          const partNum = (incJury ? 1 : 0) + (incScript ? 1 : 0) + 1;
+          const eqRows = a.eqItems.map((it) => `
+            <tr>
+              <td><strong>${escapeHtml(it.name)}</strong> <span style="color:#64748B;">(${escapeHtml(it.range)})</span></td>
+              <td style="white-space:nowrap; font-weight:800;">${escapeHtml(it.value)}</td>
+              <td style="white-space:nowrap;"><span class="pdf-pill ${it.status}">${statusLabel[it.status]}</span></td>
+              <td>${escapeHtml(it.note)}</td>
+            </tr>
+          `).join('');
+
+          const coreRows = a.coreItems.map((it) => `
+            <tr>
+              <td><strong>${escapeHtml(it.label)}</strong></td>
+              <td style="white-space:nowrap; font-weight:800;">${escapeHtml(it.value)}</td>
+              <td style="white-space:nowrap;"><span class="pdf-pill ${it.status}">${statusLabel[it.status]}</span></td>
+              <td>${escapeHtml(it.desc)}</td>
+            </tr>
+          `).join('');
+
+          sections.push(`
+            <div class="pdf-sec">
+              <h2 class="pdf-sec-title">🔬 भाग ${partNum}: मेंदू १ — गणिती ऑडिओ X-Ray (${a.techScore}/100 गुण)</h2>
+              <div class="pdf-callout ${a.techGradeStatus}">
+                <strong>तांत्रिक दर्जा: ${escapeHtml(a.techGradeLabel)}</strong> (🟢 ${a.counts.green} उत्तम • 🟡 ${a.counts.yellow} लक्ष द्या • 🔴 ${a.counts.red} दोष)<br/>
+                ${escapeHtml(a.techGradeNote)}
+              </div>
+
+              <h3 class="pdf-subhead">📊 ६-बँड फ्रिक्वेन्सी बॅलन्स (FFT स्पेक्ट्रम)</h3>
+              <table class="pdf-table">
+                <thead><tr><th style="width:24%;">फ्रिक्वेन्सी बँड</th><th style="width:13%;">मोजमाप</th><th style="width:14%;">स्थिती</th><th>सोपा अर्थ व उपाय</th></tr></thead>
+                <tbody>${eqRows}</tbody>
+              </table>
+
+              <h3 class="pdf-subhead">🎛️ ८ स्टुडिओ मास्टरिंग व डायनॅमिक्स मीटर्स</h3>
+              <table class="pdf-table">
+                <thead><tr><th style="width:24%;">मीटर</th><th style="width:15%;">मोजमाप</th><th style="width:14%;">स्थिती</th><th>सोपा अर्थ व उपाय</th></tr></thead>
+                <tbody>${coreRows}</tbody>
+              </table>
+
+              ${state.b1AutoTips.length ? `
+                <div class="pdf-card">
+                  <strong>🎛️ झटपट BandLab / OBRA / GarageBand EQ उपाय:</strong>
+                  <ul class="pdf-list">${state.b1AutoTips.map((t) => `<li>${t}</li>`).join('')}</ul>
+                </div>
+              ` : ''}
+            </div>
+          `);
+        }
+
+        sections.push(`
+          <div class="pdf-footer">
+            MAESTRO AUDITOR v20 (GEMINI 4 PRO) • GOD VOLUME (Vol 1 + Vol 2 + Vol 3 + GOD Control Manual) • तयार केल्याची वेळ: ${escapeHtml(meta.nowStr)}
+          </div>
+        `);
+
+        return `<div class="pdf-doc">${sections.join('')}</div>`;
+      }
+
+      let currentPdfScope = 'all';
+
+      function openPdfPreview(scope = 'all') {
+        currentPdfScope = scope;
+        const docHtml = buildCleanPdfHtml(scope);
+        els.pdfPreviewBody.innerHTML = docHtml;
+        els.pdfPrintSheet.innerHTML = docHtml;
+        els.pdfPreviewModal.classList.add('open');
+      }
+
+      function triggerPdfSave(scope = 'all') {
+        currentPdfScope = scope;
+        const meta = getCurrentSongMeta();
+        const suffix = scope === 'jury' ? 'Jury' : (scope === 'script' ? 'SunoScript' : (scope === 'brain1' ? 'XRay' : 'FullReport'));
+        const docHtml = buildCleanPdfHtml(scope);
+        els.pdfPrintSheet.innerHTML = docHtml;
+
+        const prevTitle = document.title;
+        document.title = `Maestro_${suffix}_${meta.safeName}`;
+
+        const restoreTitle = () => {
+          document.title = prevTitle;
+          window.removeEventListener('afterprint', restoreTitle);
+        };
+        window.addEventListener('afterprint', restoreTitle);
+
+        showToast('📄 Print स्क्रीनवर "Save as PDF" निवडा आणि सेव्ह करा!', 3800);
+        setTimeout(() => {
+          try {
+            window.print();
+          } catch (e) {
+            showToast('⚠️ थेट Print उघडता आले नाही — प्रिव्ह्यूमधील "HTML कॉपी" सेव्ह करून Chrome मध्ये Print → Save as PDF करा.', 4500);
+          }
+          setTimeout(restoreTitle, 3000);
+        }, 180);
+      }
+
+      function downloadStandaloneHtmlReport(scope = 'all') {
+        const meta = getCurrentSongMeta();
+        const docHtml = buildCleanPdfHtml(scope);
+        const styleBlock = document.querySelector('style')?.innerHTML || '';
+        const fullHtml = `<!DOCTYPE html><html lang="mr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>Maestro_Report_${escapeHtml(meta.safeName)}</title><style>body{margin:0;padding:18px;background:#FFFFFF;}${styleBlock}#pdfPrintSheet{display:block!important;}</style></head><body><div style="max-width:860px;margin:0 auto;">${docHtml}</div></body></html>`;
+        const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Maestro_Report_${meta.safeName}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        showToast('💾 स्वच्छ HTML रिपोर्ट सेव्ह झाला (Chrome मध्ये उघडून कधीही PDF बनवता येतो)!');
+      }
+
+      if (els.btnPdfBrain1) els.btnPdfBrain1.addEventListener('click', () => triggerPdfSave('brain1'));
+      if (els.btnPdfScript) els.btnPdfScript.addEventListener('click', () => triggerPdfSave('script'));
+      if (els.btnPdfJury) els.btnPdfJury.addEventListener('click', () => triggerPdfSave('jury'));
+      if (els.btnExportFullPdf) els.btnExportFullPdf.addEventListener('click', () => triggerPdfSave('all'));
+      if (els.btnPreviewFullPdf) els.btnPreviewFullPdf.addEventListener('click', () => openPdfPreview('all'));
+      if (els.btnPrintFromPreview) els.btnPrintFromPreview.addEventListener('click', () => triggerPdfSave(currentPdfScope));
+      if (els.btnDownloadHtmlReport) els.btnDownloadHtmlReport.addEventListener('click', () => downloadStandaloneHtmlReport(currentPdfScope));
+      if (els.btnClosePdfPreview) els.btnClosePdfPreview.addEventListener('click', () => els.pdfPreviewModal.classList.remove('open'));
+      if (els.pdfPreviewModal) {
+        els.pdfPreviewModal.addEventListener('click', (e) => {
+          if (e.target === els.pdfPreviewModal) els.pdfPreviewModal.classList.remove('open');
+        });
+      }
 
       // =========================================================================
       // PWA FULL-SCREEN INSTALL & OFFLINE SERVICE WORKER REGISTRATION
@@ -6339,9 +8863,11 @@ STRICT RULES:
         }
       });
 
-      // Initialize app on load & recover any completed background audit
+      // Initialize app on load, load Song Vault Library & recover any completed background audit
       loadSettings();
       syncBackgroundJobState();
+      renderSongVaultList();
+      autoDiscoverFutureModels(true);
     })();
   </script>
 </body>
